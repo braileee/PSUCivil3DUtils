@@ -16,6 +16,7 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using ControlzEx.Standard;
+using System.Windows;
 
 namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 {
@@ -42,6 +43,12 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set
             {
                 isStartStationCheckboxChecked = value;
+
+                if (isStartStationCheckboxChecked && SelectedAlignment != null)
+                {
+                    StartStation = SelectedAlignment.StartingStation;
+                }
+
                 IsStartStationTextboxEnabled = !isStartStationCheckboxChecked;
                 RaisePropertyChanged();
             }
@@ -91,6 +98,12 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set
             {
                 isEndStationCheckboxChecked = value;
+
+                if (isEndStationCheckboxChecked && SelectedAlignment != null)
+                {
+                    EndStation = SelectedAlignment.EndingStation;
+                }
+
                 IsEndStationTextboxEnabled = !isEndStationCheckboxChecked;
                 RaisePropertyChanged();
             }
@@ -258,7 +271,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             CreateTableCommand = new DelegateCommand(OnCreateTableCommand);
 
             TableStyles = TableUtils.GetAllTableStyles(Acad.OpenMode.ForRead);
-            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name.Contains("Standard"));
+            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name.Contains("Alignment Stations"));
 
             if (SelectedTableStyle == null)
             {
@@ -282,15 +295,28 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             }
 
             IsPointLeftSide = true;
+
+            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
+            documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
+        }
+
+        private void DocumentCollectionDocumentActivated(object sender, DocumentCollectionEventArgs e)
+        {
+            RaiseCloseRequest();
         }
 
         private void OnCreateTableCommand()
         {
+            if (SelectedAlignment == null)
+            {
+                MessageBox.Show("No such an alignment", "Error");
+                return;
+            }
+
             List<double> stations = GetStationList();
 
             // add header
             int rowsCount = stations.Count + 1;
-
 
             Document document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             Database database = document.Database;
@@ -409,17 +435,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
                     centerPoint = new Point3d(pointStart.X - 1, pointStart.Y, 0);
                 }
 
-                // LineUtils.DrawLine(pointStart, pointEnd);
-                // LineUtils.DrawLine(pointStart, centerPoint);
-
-                /* Vector3d vector1 = pointStart - pointEnd;
-                 Vector3d vector2 = pointStart - centerPoint;
-
-                 Vector2d vector2d1 = new Vector2d(vector1.X, vector1.Y);
-                 Vector2d vector2d2 = new Vector2d(vector2.X, vector2.Y);
-
-                 double angle = vector2d2.GetAngleTo(vector2d1);*/
-
                 double angle = AngleFrom3PointsInDegrees(centerPoint.X, centerPoint.Y, pointStart.X, pointStart.Y, pointEnd.X, pointEnd.Y);
 
                 if (IsPointLeftSide)
@@ -481,6 +496,8 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
         {
             List<double> stations = new List<double>();
 
+            // Get stations by interval
+
             double currentStation = StartStation;
             stations.Add(currentStation);
 
@@ -498,7 +515,20 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
                 }
             }
 
-            return stations;
+            // Get stations at PI points
+            List<Station> piStationSet = SelectedAlignment.GetStationSet(StationTypes.PIPoint).ToList();
+            List<double> piStations = piStationSet.Select(station => station.RawStation).ToList();
+
+            // Excude already added stations
+            piStations = piStations.Where(piStation => !stations.Contains(piStation)).ToList();
+
+            List<double> allStations = new List<double>();
+            allStations.AddRange(stations);
+            allStations.AddRange(piStations);
+
+            // Order stations
+            allStations = allStations.OrderBy(station => station).ToList();
+            return allStations;
         }
 
         protected void RaiseCloseRequest()
