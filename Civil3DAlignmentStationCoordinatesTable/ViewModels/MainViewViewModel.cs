@@ -8,14 +8,11 @@ using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
-using ControlzEx.Standard;
 using System.Windows;
 
 namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
@@ -460,10 +457,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             double atanA = Math.Atan2(a, b);
             double atanB = Math.Atan2(c, d);
 
-            // return (atanA - atanB) * (-180 / Math.PI);
             return (atanA - atanB);
-            // if Second line is counterclockwise from 1st line angle is 
-            // positive, else negative
         }
 
         private int AddStationDataToTableRow(Acad.Table table, string pointName, int rowIndex, int pointIndexStart, double station, double northing, double easting)
