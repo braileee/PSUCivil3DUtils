@@ -107,11 +107,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DoubleConverter.cs" />
+    <Compile Include="DocumentExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup\Bootstrapper.cs" />
     <Compile Include="TableExtensions.cs" />
     <Compile Include="Utils\AlignmentUtils.cs" />
+    <Compile Include="Utils\BlockUtils.cs" />
     <Compile Include="Utils\LineUtils.cs" />
     <Compile Include="Utils\PointUtils.cs" />
     <Compile Include="Utils\TableUtils.cs" />
@@ -129,10 +131,14 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Files\Marked Pnt.dwg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Civil3D2019 xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I
+    <PostBuildEvent>if $(ConfigurationName) == Civil3D2019 xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
 </PostBuildEvent>
   </PropertyGroup>
 </Project>

@@ -14,12 +14,13 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using System.Windows;
+using System.IO;
 
 namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 {
     public class MainViewViewModel : BindableBase
     {
-        private readonly IEventAggregator eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
         private bool isStartStationCheckboxChecked;
         private double startStation;
         private Civil.Alignment selectedAlignment;
@@ -30,7 +31,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
         private double interval;
         private List<Acad.TableStyle> tableStyles;
 
-        public List<Civil.Alignment> Alignments { get; } = new List<Civil.Alignment>();
+        public List<Civil.Alignment> Alignments { get; private set; } = new List<Civil.Alignment>();
         public bool IsStartStationCheckboxChecked
         {
             get
@@ -155,7 +156,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             }
         }
 
-        public List<PointStyle> PointStyles { get; } = new List<PointStyle>();
+        public List<PointStyle> PointStyles { get; private set; } = new List<PointStyle>();
         public PointStyle SelectedPointStyle
         {
             get
@@ -213,7 +214,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set { pointIndexStart = value; }
         }
 
-        public List<LabelStyle> PointLabelStyles { get; } = new List<LabelStyle>();
+        public List<LabelStyle> PointLabelStyles { get; private set; } = new List<LabelStyle>();
 
         private LabelStyle selectedPointLabelStyle;
         private PointStyle selectedPointStyle;
@@ -259,23 +260,71 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             }
         }
 
+        private Acad.TableStyle selectedTableStyle;
+
+        public Acad.TableStyle SelectedTableStyle
+        {
+            get { return selectedTableStyle; }
+            set { selectedTableStyle = value; }
+        }
+
+
         public MainViewViewModel(IEventAggregator eventAggregator)
         {
-            this.eventAggregator = eventAggregator;
-            Alignments = AlignmentUtils.GetAlignments(Acad.OpenMode.ForRead);
-            SelectedAlignment = Alignments.FirstOrDefault();
+            _eventAggregator = eventAggregator;
             CreateTableCommand = new DelegateCommand(OnCreateTableCommand);
 
+            LoadAlignments();
+            LoadPointStyles();
+            LoadTableStyles();
+
+            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
+            documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
+        }
+
+        private void LoadAlignments()
+        {
+            Alignments = AlignmentUtils.GetAlignments(Acad.OpenMode.ForRead);
+            SelectedAlignment = Alignments.FirstOrDefault();
+        }
+
+        private void LoadPointStyles()
+        {
             PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
-            SelectedPointStyle = PointStyles.FirstOrDefault(pointStyle => pointStyle.Name == "Station Marked Point");
+
+            string pointStyleName = "Station Marked Point";
+            SelectedPointStyle = PointStyles.FirstOrDefault(pointStyle => pointStyle.Name == pointStyleName);
+            string assemblyLocation = System.Reflection.Assembly.GetAssembly(typeof(MainViewViewModel)).Location;
+            string assemblyFolder = Path.GetDirectoryName(assemblyLocation);
+
+            string blockName = "Marker Pnt";
+            string blockFilePath = Path.Combine(assemblyFolder, "Files", "Marked Pnt.dwg");
 
             if (SelectedPointStyle == null)
             {
-                SelectedPointStyle = PointStyles.FirstOrDefault();
+                if (File.Exists(blockFilePath))
+                {
+                    BlockUtils.TryLoadBlocksFromAnotherFile(blockFilePath, blockName);
+                }
+
+                PointUtils.ImportStyles(blockFilePath, pointStyleName);
+
+                PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
+
+                SelectedPointStyle = PointStyles.FirstOrDefault(item => item.Name == pointStyleName);
+
+                if (SelectedPointStyle == null)
+                {
+                    SelectedPointStyle = PointStyles.FirstOrDefault();
+                }
             }
 
+            string labelStyleName1 = "Point Name With Underline [Left]";
+            string labelStyleName2 = "Point Name With Underline [Right]";
+            PointUtils.ImportLabelStyles(blockFilePath, labelStyleName1, labelStyleName2);
+
             PointLabelStyles = PointUtils.GetPointLabelStyles(Acad.OpenMode.ForRead);
-            SelectedPointLabelStyle = PointLabelStyles.FirstOrDefault(labelStyle => labelStyle.Name == "Point Name With Underline [Left]");
+            SelectedPointLabelStyle = PointLabelStyles.FirstOrDefault(labelStyle => labelStyle.Name == labelStyleName1);
 
             if (SelectedPointLabelStyle == null)
             {
@@ -283,9 +332,19 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             }
 
             IsPointLeftSide = true;
+        }
 
-            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
-            documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
+        private void LoadTableStyles()
+        {
+            const string tableStyleName = "Alignment Stations";
+            Acad.TableStyle defaultTableStyle = TableUtils.CreateOrGetTableStyle(OpenMode.ForRead, tableStyleName, horizontalCellMargin: 0.06, verticalCellMargin: 0.06, textHeight: 2.5);
+            TableStyles = TableUtils.GetAllTableStyles(OpenMode.ForRead);
+            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name == tableStyleName);
+
+            if (SelectedTableStyle == null)
+            {
+                SelectedTableStyle = TableStyles.FirstOrDefault();
+            }
         }
 
         private void DocumentCollectionDocumentActivated(object sender, DocumentCollectionEventArgs e)
@@ -295,39 +354,43 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
         private void OnCreateTableCommand()
         {
-            if (SelectedAlignment == null)
+            try
             {
-                MessageBox.Show("No such an alignment", "Error");
-                return;
-            }
-
-            List<double> stations = GetStationList();
-
-            // add header
-            int rowsCount = stations.Count + 1;
-
-            Document document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
-            Database database = document.Database;
-
-            using (document.LockDocument())
-            {
-                Acad.TableStyle tableStyle = TableUtils.CreateOrGetTableStyle(OpenMode.ForRead, "Alignment Stations", horizontalCellMargin: 0.06, verticalCellMargin: 0.06, textHeight: 2.5);
-
-                using (Transaction transaction = database.TransactionManager.StartTransaction())
+                if (SelectedAlignment == null)
                 {
-                    Acad.Table table = TableUtils.CreateTable(tableStyle, "Select table insertion point", rowHeight: 8, columnWidth: 20, rowsCount, columnCount: 4);
-                    
-                    if (table == null)
-                    {
-                        transaction.Abort();
-                        return;
-                    }
+                    MessageBox.Show("No such an alignment", "Error");
+                    return;
+                }
 
-                    table = CreateStationsTable(stations, rowsCount, table, transaction);
-                    transaction.Commit();
+                List<double> stations = GetStationList();
+
+                // add header
+                int rowsCount = stations.Count + 1;
+
+                Document document = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
+                Database database = document.Database;
+
+                using (document.LockDocument())
+                {
+                    using (Transaction transaction = database.TransactionManager.StartTransaction())
+                    {
+                        Acad.Table table = TableUtils.CreateTable(SelectedTableStyle, "Select table insertion point", rowHeight: 8, columnWidth: 20, rowsCount, columnCount: 4);
+
+                        if (table == null)
+                        {
+                            transaction.Abort();
+                            return;
+                        }
+
+                        table = CreateStationsTable(stations, rowsCount, table, transaction);
+                        transaction.Commit();
+                    }
                 }
             }
-
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
+            }
         }
 
         private Acad.Table CreateStationsTable(List<double> stations, int rowsCount, Acad.Table table, Transaction transaction)
