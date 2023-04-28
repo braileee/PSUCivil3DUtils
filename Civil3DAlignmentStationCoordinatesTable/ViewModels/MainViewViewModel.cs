@@ -155,7 +155,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             }
         }
 
-        public Acad.TableStyle SelectedTableStyle { get; set; }
         public List<PointStyle> PointStyles { get; } = new List<PointStyle>();
         public PointStyle SelectedPointStyle
         {
@@ -267,14 +266,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             SelectedAlignment = Alignments.FirstOrDefault();
             CreateTableCommand = new DelegateCommand(OnCreateTableCommand);
 
-            TableStyles = TableUtils.GetAllTableStyles(Acad.OpenMode.ForRead);
-            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name.Contains("Alignment Stations"));
-
-            if (SelectedTableStyle == null)
-            {
-                SelectedTableStyle = TableStyles.FirstOrDefault();
-            }
-
             PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
             SelectedPointStyle = PointStyles.FirstOrDefault(pointStyle => pointStyle.Name == "Station Marked Point");
 
@@ -320,9 +311,12 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
             using (document.LockDocument())
             {
+                Acad.TableStyle tableStyle = TableUtils.CreateOrGetTableStyle(OpenMode.ForRead, "Alignment Stations", horizontalCellMargin: 0.06, verticalCellMargin: 0.06, textHeight: 2.5);
+
                 using (Transaction transaction = database.TransactionManager.StartTransaction())
                 {
-                    Acad.Table table = TableUtils.CreateTable(SelectedTableStyle, "Select table insertion point", rowHeight: 8, columnWidth: 20, rowsCount, columnCount: 4);
+                    Acad.Table table = TableUtils.CreateTable(tableStyle, "Select table insertion point", rowHeight: 8, columnWidth: 20, rowsCount, columnCount: 4);
+                    
                     if (table == null)
                     {
                         transaction.Abort();
@@ -342,6 +336,8 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
             TableUtils.SetWidthToTableColumns(table, 0, new int[] { 30, 30, 30, 30 });
             TableUtils.SetHeightToTableRows(table, 0, Enumerable.Repeat(6, rowsCount).ToArray());
+
+            table.Rows[0].Style = "Data";
 
             table.TrySetValue(rowIndex: 0, columnIndex: 0, "PUNKT", textHeight: 2.5, CellAlignment.MiddleCenter);
             table.TrySetValue(rowIndex: 0, columnIndex: 1, "STATION", textHeight: 2.5, CellAlignment.MiddleCenter);

@@ -101,16 +101,15 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     {
                         tb = new Table();
                         tb.TableStyle = tableStyle.Id;
+
                         //set common table width
                         tb.Width = columnWidth * columnCount;
                         tb.SetRowHeight(rowHeight);
                         tb.SetColumnWidth(columnWidth);
                         tb.Position = pr.Value;
-                        var bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId,
-                            OpenMode.ForRead);
-                        var btr = (BlockTableRecord)ts.GetObject(
-                            bt[BlockTableRecord.ModelSpace],
-                            OpenMode.ForWrite, true, true);
+                        BlockTable bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId, OpenMode.ForRead);
+                        BlockTableRecord btr = (BlockTableRecord)ts.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, true, true);
+
                         //set size
                         tb.SetSize(rowCount, columnCount);
                         btr.AppendEntity(tb);
@@ -119,7 +118,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     ts.Commit();
                 }
             }
-            
+
             return tb;
         }
 
@@ -359,6 +358,50 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             }
 
             return oTableStyles;
+        }
+
+        public static TableStyle CreateOrGetTableStyle(OpenMode openMode, string styleName, double horizontalCellMargin, double verticalCellMargin, double textHeight)
+        {
+            Document doc = Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            TableStyle tableStyle = null;
+
+            using (Transaction transaction = db.TransactionManager.StartTransaction())
+            {
+                DBDictionary tableStyleDictionary = (DBDictionary)transaction.GetObject(db.TableStyleDictionaryId, openMode);
+
+                if (!tableStyleDictionary.Contains(styleName))
+                {
+                    tableStyle = new TableStyle();
+
+                    tableStyleDictionary.UpgradeOpen();
+                    tableStyleDictionary.SetAt(styleName, tableStyle);
+                    transaction.AddNewlyCreatedDBObject(tableStyle, true);
+
+                    tableStyle.Name = styleName;
+                    tableStyle.HorizontalCellMargin = horizontalCellMargin;
+                    tableStyle.VerticalCellMargin = verticalCellMargin;
+
+                    tableStyle.IsHeaderSuppressed = true;
+                    tableStyle.IsTitleSuppressed = true;
+
+                    tableStyleDictionary.DowngradeOpen();
+                }
+                else
+                {
+                    ObjectId? tableStyleId = tableStyleDictionary[styleName] as ObjectId?;
+
+                    if (tableStyleId.HasValue)
+                    {
+                        tableStyle = transaction.GetObject(tableStyleId.Value, openMode, false, true) as TableStyle;
+                    }
+                }
+
+                transaction.Commit();
+            }
+
+            return tableStyle;
         }
     }
 }

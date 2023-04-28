@@ -127,12 +127,6 @@
             </StackPanel>
         </GroupBox>
 
-        <GroupBox Header="Table Style">
-            <ComboBox ItemsSource="{Binding TableStyles}"
-                      SelectedItem="{Binding SelectedTableStyle}"
-                      DisplayMemberPath="Name"/>
-        </GroupBox>
-
         <Button Content="Create Table"
                 Command="{Binding CreateTableCommand}"
                 Margin="5"/>
