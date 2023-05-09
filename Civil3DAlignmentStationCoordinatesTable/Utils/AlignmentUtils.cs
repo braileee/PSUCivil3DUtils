@@ -32,7 +32,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                 transaction.Commit();
             }
 
-            return oAlignmentList;
+            return oAlignmentList.OrderBy(item => item.Name).ToList();
         }
     }
 }

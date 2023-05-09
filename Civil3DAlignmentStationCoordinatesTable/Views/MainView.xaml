@@ -57,6 +57,9 @@
                           ItemsSource="{Binding Alignments}"
                           SelectedItem="{Binding SelectedAlignment}"
                           DisplayMemberPath="Name"/>
+                <Button Content="Select From Model"
+                        Command="{Binding SelectAlingmentFromModel}"
+                        Margin="2"/>
             </StackPanel>
         </GroupBox>
 

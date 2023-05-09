@@ -1,5 +1,5 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
+using Acad = Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.Civil.ApplicationServices;
 using System;
@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.Civil.DatabaseServices.Styles;
+using Autodesk.AutoCAD.DatabaseServices;
 
 namespace Civil3DAlignmentStationCoordinatesTable.Utils
 {
     public class TableUtils
     {
-        public static Table CreateTable(
+        public static Acad.Table CreateTable(
             string promptInsertionPointsMessage,
             double rowHeight, double columnWidth)
         {
@@ -21,20 +23,20 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             var db = adoc.Database;
             var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
-            Table table = null;
-            using (Transaction ts = db.TransactionManager.StartTransaction())
+            Acad.Table table = null;
+            using (Acad.Transaction ts = db.TransactionManager.StartTransaction())
             {
                 var pr = ed.GetPoint(promptInsertionPointsMessage);
                 if (pr.Status == PromptStatus.OK)
                 {
-                    table = new Table();
+                    table = new Acad.Table();
                     table.TableStyle = db.Tablestyle;
                     table.SetRowHeight(rowHeight);
                     table.SetColumnWidth(columnWidth);
                     table.Position = pr.Value;
-                    var bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId,
-                        OpenMode.ForRead);
-                    var btr = (BlockTableRecord)ts.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, true, true);
+                    var bt = (Acad.BlockTable)ts.GetObject(adoc.Database.BlockTableId,
+                        Acad.OpenMode.ForRead);
+                    var btr = (Acad.BlockTableRecord)ts.GetObject(bt[Acad.BlockTableRecord.ModelSpace], Acad.OpenMode.ForWrite, true, true);
                     btr.AppendEntity(table);
                     ts.AddNewlyCreatedDBObject(table, true);
                 }
@@ -43,7 +45,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return table;
         }
 
-        public static Table CreateTable(
+        public static Acad.Table CreateTable(
             string promptInsertionPointsMessage,
             double rowHeight, double columnWidth,
             int rowCount, int columnCount)
@@ -52,24 +54,25 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             var db = adoc.Database;
             var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
-            Table tb = null;
-            using (Transaction ts = db.TransactionManager.StartTransaction())
+            Acad.Table tb = null;
+
+            using (Acad.Transaction ts = db.TransactionManager.StartTransaction())
             {
                 var pr = ed.GetPoint(promptInsertionPointsMessage);
                 if (pr.Status == PromptStatus.OK)
                 {
-                    tb = new Table();
+                    tb = new Acad.Table();
                     tb.TableStyle = db.Tablestyle;
                     //set common table width
                     tb.Width = columnWidth * columnCount;
                     tb.SetRowHeight(rowHeight);
                     tb.SetColumnWidth(columnWidth);
                     tb.Position = pr.Value;
-                    var bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId,
-                        OpenMode.ForRead);
-                    var btr = (BlockTableRecord)ts.GetObject(
-                        bt[BlockTableRecord.ModelSpace],
-                        OpenMode.ForWrite, true, true);
+                    var bt = (Acad.BlockTable)ts.GetObject(adoc.Database.BlockTableId,
+                        Acad.OpenMode.ForRead);
+                    var btr = (Acad.BlockTableRecord)ts.GetObject(
+                        bt[Acad.BlockTableRecord.ModelSpace],
+                        Acad.OpenMode.ForWrite, true, true);
                     //set size
                     tb.SetSize(rowCount, columnCount);
                     btr.AppendEntity(tb);
@@ -80,8 +83,8 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return tb;
         }
 
-        public static Table CreateTable(
-            TableStyle tableStyle,
+        public static Acad.Table CreateTable(
+            Acad.TableStyle tableStyle,
            string promptInsertionPointsMessage,
            double rowHeight, double columnWidth,
            int rowCount, int columnCount)
@@ -90,16 +93,16 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             var db = adoc.Database;
             var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
-            Table tb = null;
+            Acad.Table tb = null;
 
             using (adoc.LockDocument())
             {
-                using (Transaction ts = db.TransactionManager.StartTransaction())
+                using (Acad.Transaction ts = db.TransactionManager.StartTransaction())
                 {
                     var pr = ed.GetPoint(promptInsertionPointsMessage);
                     if (pr.Status == PromptStatus.OK)
                     {
-                        tb = new Table();
+                        tb = new Acad.Table();
                         tb.TableStyle = tableStyle.Id;
 
                         //set common table width
@@ -107,8 +110,8 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                         tb.SetRowHeight(rowHeight);
                         tb.SetColumnWidth(columnWidth);
                         tb.Position = pr.Value;
-                        BlockTable bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId, OpenMode.ForRead);
-                        BlockTableRecord btr = (BlockTableRecord)ts.GetObject(bt[BlockTableRecord.ModelSpace], OpenMode.ForWrite, true, true);
+                        Acad.BlockTable bt = (Acad.BlockTable)ts.GetObject(adoc.Database.BlockTableId, Acad.OpenMode.ForRead);
+                        Acad.BlockTableRecord btr = (Acad.BlockTableRecord)ts.GetObject(bt[Acad.BlockTableRecord.ModelSpace], Acad.OpenMode.ForWrite, true, true);
 
                         //set size
                         tb.SetSize(rowCount, columnCount);
@@ -123,7 +126,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
         public static void AddCellToTheTable(
-            Table oTable, int rowHeight, int insertColumnNumber,
+            Acad.Table oTable, int rowHeight, int insertColumnNumber,
             string textValue)
         {
             int lastRow = oTable.Rows.Count - 1;
@@ -132,29 +135,29 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
 
-        public static Table CreateTable(
+        public static Acad.Table CreateTable(
             string promptInsertionPointsMessage,
             int rowsCount, int columnsCount)
         {
             var adoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var db = adoc.Database;
             var ed = adoc.Editor;
-            Table tb = null;
+            Acad.Table tb = null;
             using (var ts = db.TransactionManager.StartTransaction())
             {
                 var pr = ed.GetPoint(promptInsertionPointsMessage);
                 if (pr.Status == PromptStatus.OK)
                 {
-                    tb = new Table
+                    tb = new Acad.Table
                     {
                         TableStyle = db.Tablestyle,
                         Position = pr.Value
                     };
-                    var bt = (BlockTable)ts.GetObject(adoc.Database.BlockTableId,
-                        OpenMode.ForRead);
-                    var btr = (BlockTableRecord)ts.GetObject(
-                        bt[BlockTableRecord.ModelSpace],
-                        OpenMode.ForWrite, true, true);
+                    var bt = (Acad.BlockTable)ts.GetObject(adoc.Database.BlockTableId,
+                        Acad.OpenMode.ForRead);
+                    var btr = (Acad.BlockTableRecord)ts.GetObject(
+                        bt[Acad.BlockTableRecord.ModelSpace],
+                        Acad.OpenMode.ForWrite, true, true);
                     //set size
                     btr.AppendEntity(tb);
                     ts.AddNewlyCreatedDBObject(tb, true);
@@ -169,7 +172,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
         public static void SetWidthToTableColumns(
-            Table oTable,
+            Acad.Table oTable,
             int startColumnNumber,
             params int[] columnWidths)
         {
@@ -182,7 +185,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             }
         }
         public static void SetHeightToTableRows(
-            Table oTable,
+            Acad.Table oTable,
             int startRowNumber,
             params int[] rowsHeight)
         {
@@ -196,7 +199,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
         public static void FillTheTableByColumnNumber(
-            Table oTable,
+            Acad.Table oTable,
             int startRowNumber,
             int columnNumber,
             params string[] textForRowsToFill)
@@ -209,7 +212,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
         public static void FillTheTableByRowNumber(
-            Table oTable,
+            Acad.Table oTable,
             int rowNumber,
             int startColumnNumber,
             params string[] textForRowsToFill)
@@ -221,7 +224,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             }
         }
 
-        public static void MergeCellsIfStringsAreEquals(Table oTable, int columnNumber)
+        public static void MergeCellsIfStringsAreEquals(Acad.Table oTable, int columnNumber)
         {
             for (int i = 0; i < oTable.Rows.Count; i++)
             {
@@ -236,13 +239,13 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     if (oTable.Cells[i, columnNumber].TextString.Count() > 1)
                     {
                         oTable.MergeCells(
-                       CellRange.Create(oTable, i, columnNumber, i + 1, columnNumber));
+                       Acad.CellRange.Create(oTable, i, columnNumber, i + 1, columnNumber));
                     }
                 }
             }
         }
 
-        public static void DeleteRowsIfCellIsEmpty(Table oTable, int columnNumber, int excludeRowNumber)
+        public static void DeleteRowsIfCellIsEmpty(Acad.Table oTable, int columnNumber, int excludeRowNumber)
         {
             List<int> rowsToDelete = new List<int>();
             for (int i = 0; i < oTable.Rows.Count; i++)
@@ -263,7 +266,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
 
         }
 
-        public static double GetCommonRowHeight(Table oTable, int startRowNumber, int endRowNumber, int columnNumber)
+        public static double GetCommonRowHeight(Acad.Table oTable, int startRowNumber, int endRowNumber, int columnNumber)
         {
             double commonHeight = 0;
             for (int i = startRowNumber; i < endRowNumber + 1; i++)
@@ -273,7 +276,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return commonHeight;
         }
 
-        public static double GetCommonColumnWidth(Table oTable, int startColumnNumber, int endColumnNumber, int rowNumber)
+        public static double GetCommonColumnWidth(Acad.Table oTable, int startColumnNumber, int endColumnNumber, int rowNumber)
         {
             double commonWidth = 0;
             for (int i = startColumnNumber; i < endColumnNumber + 1; i++)
@@ -284,7 +287,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         }
 
         public static Point3d GetMiddlePointCellCoordinates(
-            Table oTable,
+            Acad.Table oTable,
             int rowNumber,
             int columnNumber)
         {
@@ -300,13 +303,13 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return insertionPoint;
         }
 
-        public static void MoveBlockFromPointToPoint(BlockReference oBlockRef, Point3d pointFrom, Point3d pointTo)
+        public static void MoveBlockFromPointToPoint(Acad.BlockReference oBlockRef, Point3d pointFrom, Point3d pointTo)
         {
             Vector3d v3d = pointFrom.GetVectorTo(pointTo);
             oBlockRef.TransformBy(Matrix3d.Displacement(v3d));
         }
 
-        public static Point3d GetCenterCoordinatesOfBlocks(BlockReference oBlockRef)
+        public static Point3d GetCenterCoordinatesOfBlocks(Acad.BlockReference oBlockRef)
         {
             var maxPoint = oBlockRef.Bounds.Value.MaxPoint;
             var minPoint = oBlockRef.Bounds.Value.MinPoint;
@@ -316,42 +319,42 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     (maxPoint.Z + minPoint.Z) / 2);
         }
 
-        public static TableStyle GetTableStyleByName(string styleName, OpenMode openMode)
+        public static Acad.TableStyle GetTableStyleByName(string styleName, Acad.OpenMode openMode)
         {
             if (string.IsNullOrEmpty(styleName))
                 return null;
             Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
+            Acad.Database db = doc.Database;
 
-            TableStyle oTableStyle = null;
-            ObjectId tableStyleId = ObjectId.Null;
+            Acad.TableStyle oTableStyle = null;
+            Acad.ObjectId tableStyleId = Acad.ObjectId.Null;
 
             using (var ts = db.TransactionManager.StartTransaction())
             {
-                DBDictionary tableStyleDbDict = (DBDictionary)ts.GetObject(db.TableStyleDictionaryId, OpenMode.ForRead);
+                Acad.DBDictionary tableStyleDbDict = (Acad.DBDictionary)ts.GetObject(db.TableStyleDictionaryId, Acad.OpenMode.ForRead);
                 tableStyleId = tableStyleDbDict.GetAt(styleName);
-                oTableStyle = ts.GetObject(tableStyleId, openMode) as TableStyle;
+                oTableStyle = ts.GetObject(tableStyleId, openMode) as Acad.TableStyle;
                 ts.Commit();
             }
 
             return oTableStyle;
         }
 
-        public static List<TableStyle> GetAllTableStyles(OpenMode openMode)
+        public static List<Acad.TableStyle> GetAllTableStyles(Acad.OpenMode openMode)
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
+            Acad.Database db = doc.Database;
 
-            List<TableStyle> oTableStyles = new List<TableStyle>();
+            List<Acad.TableStyle> oTableStyles = new List<Acad.TableStyle>();
 
             using (var ts = db.TransactionManager.StartTransaction())
             {
-                DBDictionary tableStyleDbDict = (DBDictionary)ts.GetObject(db.TableStyleDictionaryId, OpenMode.ForRead);
-                foreach (DBDictionaryEntry tableStyleDbDictEntry in tableStyleDbDict)
+                Acad.DBDictionary tableStyleDbDict = (Acad.DBDictionary)ts.GetObject(db.TableStyleDictionaryId, Acad.OpenMode.ForRead);
+                foreach (Acad.DBDictionaryEntry tableStyleDbDictEntry in tableStyleDbDict)
                 {
                     if (tableStyleDbDictEntry.Value.IsNull)
                         continue;
-                    TableStyle oTableStyle = ts.GetObject(tableStyleDbDictEntry.Value, openMode) as TableStyle;
+                    Acad.TableStyle oTableStyle = ts.GetObject(tableStyleDbDictEntry.Value, openMode) as Acad.TableStyle;
                     oTableStyles.Add(oTableStyle);
                 }
                 ts.Commit();
@@ -360,20 +363,44 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return oTableStyles;
         }
 
-        public static TableStyle CreateOrGetTableStyle(OpenMode openMode, string styleName, double horizontalCellMargin, double verticalCellMargin, double textHeight)
+        public static List<Acad.TableStyle> GetAllTableStyles(Acad.OpenMode openMode, Database database)
+        {
+            List<Acad.TableStyle> oTableStyles = new List<Acad.TableStyle>();
+
+            using (Transaction transaction = database.TransactionManager.StartTransaction())
+            {
+                Acad.DBDictionary tableStyleDbDict = (Acad.DBDictionary)transaction.GetObject(database.TableStyleDictionaryId, Acad.OpenMode.ForRead);
+
+                foreach (Acad.DBDictionaryEntry tableStyleDbDictEntry in tableStyleDbDict)
+                {
+                    if (tableStyleDbDictEntry.Value.IsNull)
+                    {
+                        continue;
+                    }
+
+                    Acad.TableStyle oTableStyle = transaction.GetObject(tableStyleDbDictEntry.Value, openMode) as Acad.TableStyle;
+                    oTableStyles.Add(oTableStyle);
+                }
+                transaction.Commit();
+            }
+
+            return oTableStyles;
+        }
+
+        public static Acad.TableStyle CreateOrGetTableStyle(Acad.OpenMode openMode, string styleName, double horizontalCellMargin, double verticalCellMargin, double textHeight)
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;
-            Database db = doc.Database;
+            Acad.Database db = doc.Database;
 
-            TableStyle tableStyle = null;
+            Acad.TableStyle tableStyle = null;
 
-            using (Transaction transaction = db.TransactionManager.StartTransaction())
+            using (Acad.Transaction transaction = db.TransactionManager.StartTransaction())
             {
-                DBDictionary tableStyleDictionary = (DBDictionary)transaction.GetObject(db.TableStyleDictionaryId, openMode);
+                Acad.DBDictionary tableStyleDictionary = (Acad.DBDictionary)transaction.GetObject(db.TableStyleDictionaryId, openMode);
 
                 if (!tableStyleDictionary.Contains(styleName))
                 {
-                    tableStyle = new TableStyle();
+                    tableStyle = new Acad.TableStyle();
 
                     tableStyleDictionary.UpgradeOpen();
                     tableStyleDictionary.SetAt(styleName, tableStyle);
@@ -390,11 +417,11 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                 }
                 else
                 {
-                    ObjectId? tableStyleId = tableStyleDictionary[styleName] as ObjectId?;
+                    Acad.ObjectId? tableStyleId = tableStyleDictionary[styleName] as Acad.ObjectId?;
 
                     if (tableStyleId.HasValue)
                     {
-                        tableStyle = transaction.GetObject(tableStyleId.Value, openMode, false, true) as TableStyle;
+                        tableStyle = transaction.GetObject(tableStyleId.Value, openMode, false, true) as Acad.TableStyle;
                     }
                 }
 
@@ -402,6 +429,51 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             }
 
             return tableStyle;
+        }
+
+        internal static void ImportTableStyle(string filePath, string tableStyleName)
+        {
+            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
+            Document destinationDocument = documentCollection.MdiActiveDocument;
+
+            Editor ed = destinationDocument.Editor;
+            Acad.Database destinationDatabase = documentCollection.MdiActiveDocument.Database;
+            Acad.Database sourceDatabase = new Acad.Database(false, true);
+
+            try
+            {
+                // Read the DWG into a side database
+                sourceDatabase.ReadDwgFile(filePath, System.IO.FileShare.Read, true, "");
+
+                // Create a variable to store the list of block identifiers
+                Acad.ObjectIdCollection elementIds = new Acad.ObjectIdCollection();
+
+                Autodesk.AutoCAD.DatabaseServices.TransactionManager transactionManager = sourceDatabase.TransactionManager;
+
+                using (Acad.Transaction transaction = transactionManager.StartTransaction())
+                {
+                    List<Acad.TableStyle> tableStyles = GetAllTableStyles(OpenMode.ForRead, sourceDatabase);
+
+                    foreach (Acad.TableStyle tableStyle in tableStyles)
+                    {
+                        if (tableStyle.Name.Equals(tableStyleName, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            elementIds.Add(tableStyle.Id);
+                        }
+                    }
+                }
+
+                using (DocumentLock documentLock = destinationDocument.LockDocument())
+                {
+                    Acad.IdMapping mapping = new Acad.IdMapping();
+                    sourceDatabase.WblockCloneObjects(elementIds, destinationDatabase.TableStyleDictionaryId, mapping, Acad.DuplicateRecordCloning.Replace, false);
+                }
+            }
+            catch (Autodesk.AutoCAD.Runtime.Exception ex)
+            {
+                ed.WriteMessage("\nError during copy: " + ex.Message);
+            }
+            sourceDatabase.Dispose();
         }
     }
 }

@@ -2,16 +2,10 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.Civil.ApplicationServices;
-using Civil = Autodesk.Civil.DatabaseServices;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Autodesk.Civil.DatabaseServices.Styles;
-using System.Windows;
 using Autodesk.AutoCAD.Geometry;
-using System.Xml.Linq;
 
 namespace Civil3DAlignmentStationCoordinatesTable.Utils
 {
@@ -38,7 +32,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                 transaction.Commit();
             }
 
-            return pointStyles;
+            return pointStyles.OrderBy(style => style.Name).ToList();
         }
 
         public static List<LabelStyle> GetPointLabelStyles(OpenMode openMode)
@@ -62,7 +56,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                 transaction.Commit();
             }
 
-            return labelStyles;
+            return labelStyles.OrderBy(item => item.Name).ToList();
         }
 
         public static PointStyle CreatePointStyle(string blockName, string pointStyleName)
@@ -112,7 +106,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                 sourceDatabase.ReadDwgFile(filePath, System.IO.FileShare.Read, true, "");
 
                 // Create a variable to store the list of block identifiers
-                ObjectIdCollection elementIds = new ObjectIdCollection();
+                List<LabelStyle> labelStyles = new List<LabelStyle>();
 
                 Autodesk.AutoCAD.DatabaseServices.TransactionManager transactionManager = sourceDatabase.TransactionManager;
 
@@ -124,15 +118,20 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     {
                         if (pointLabelStyles.Contains(labelStyleName))
                         {
-                            elementIds.Add(pointLabelStyles[labelStyleName]);
+                            LabelStyle labelStyle = transaction.GetObject(pointLabelStyles[labelStyleName], OpenMode.ForWrite, false, true) as LabelStyle;
+                            labelStyles.Add(labelStyle);
                         }
                     }
+
+                    transaction.Commit();
                 }
 
                 using (DocumentLock documentLock = currentDocument.LockDocument())
                 {
-                    IdMapping mapping = new IdMapping();
-                    sourceDatabase.WblockCloneObjects(elementIds, destinationDatabase.BlockTableId, mapping, DuplicateRecordCloning.Replace, false);
+                    foreach (LabelStyle labelStyle in labelStyles)
+                    {
+                        labelStyle.ExportTo(destinationDatabase, Autodesk.Civil.StyleConflictResolverType.Override);
+                    }
                 }
             }
             catch (Autodesk.AutoCAD.Runtime.Exception ex)
@@ -142,7 +141,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             sourceDatabase.Dispose();
         }
 
-        public static void ImportStyles(string blockFilePath, params string[] styleNames)
+        public static void ImportStyles(string filePath, params string[] labelStyleNames)
         {
             DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
             Document currentDocument = documentCollection.MdiActiveDocument;
@@ -151,34 +150,38 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             Database destinationDatabase = documentCollection.MdiActiveDocument.Database;
             Database sourceDatabase = new Database(false, true);
             CivilDocument sourceCivilDocument = CivilDocument.GetCivilDocument(sourceDatabase);
+            CivilDocument destinationCivilDocument = CivilDocument.GetCivilDocument(destinationDatabase);
 
             try
             {
                 // Read the DWG into a side database
-                sourceDatabase.ReadDwgFile(blockFilePath, System.IO.FileShare.Read, true, "");
+                sourceDatabase.ReadDwgFile(filePath, System.IO.FileShare.Read, true, "");
 
                 // Create a variable to store the list of block identifiers
-                ObjectIdCollection elementIds = new ObjectIdCollection();
+                List<PointStyle> pointStyles = new List<PointStyle>();
 
-                Autodesk.AutoCAD.DatabaseServices.TransactionManager transactionManager = sourceDatabase.TransactionManager;
+                PointStyleCollection sourceLabelStyles = sourceCivilDocument.Styles.PointStyles;
 
-                using (Transaction transaction = transactionManager.StartTransaction())
+                using (Transaction transaction = sourceDatabase.TransactionManager.StartTransaction())
                 {
-                    PointStyleCollection pointLabelStyles = sourceCivilDocument.Styles.PointStyles;
-
-                    foreach (string styleName in styleNames)
+                    foreach (string labelStyleName in labelStyleNames)
                     {
-                        if (pointLabelStyles.Contains(styleName))
+                        if (sourceLabelStyles.Contains(labelStyleName))
                         {
-                            elementIds.Add(pointLabelStyles[styleName]);
+                            PointStyle pointStyle = transaction.GetObject(sourceLabelStyles[labelStyleName], OpenMode.ForWrite, false, true) as PointStyle;
+                            pointStyles.Add(pointStyle);
                         }
                     }
+
+                    transaction.Commit();
                 }
 
                 using (DocumentLock documentLock = currentDocument.LockDocument())
                 {
-                    IdMapping mapping = new IdMapping();
-                    sourceDatabase.WblockCloneObjects(elementIds, destinationDatabase.BlockTableId, mapping, DuplicateRecordCloning.Replace, false);
+                    foreach (PointStyle pointStyle in pointStyles)
+                    {
+                        pointStyle.ExportTo(destinationDatabase, Autodesk.Civil.StyleConflictResolverType.Override);
+                    }
                 }
             }
             catch (Autodesk.AutoCAD.Runtime.Exception ex)
@@ -187,10 +190,5 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             }
             sourceDatabase.Dispose();
         }
-
-        /*public static PointStyle CreatePointStyle(string blockName)
-        {
-
-        }*/
     }
 }

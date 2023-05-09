@@ -15,6 +15,7 @@ using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using System.Windows;
 using System.IO;
+using System.Collections.ObjectModel;
 
 namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 {
@@ -31,7 +32,40 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
         private double interval;
         private List<Acad.TableStyle> tableStyles;
 
-        public List<Civil.Alignment> Alignments { get; private set; } = new List<Civil.Alignment>();
+
+        public MainViewViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+            CreateTableCommand = new DelegateCommand(OnCreateTableCommand);
+
+            string assemblyLocation = System.Reflection.Assembly.GetAssembly(typeof(MainViewViewModel)).Location;
+            string assemblyFolder = Path.GetDirectoryName(assemblyLocation);
+            StylesFilePath = Path.Combine(assemblyFolder, "Files", "Styles.dwg");
+
+            LoadDefaultValues();
+
+            LoadAlignments();
+            LoadPointStyles();
+            LoadTableStyles();
+
+            SelectAlingmentFromModel = new DelegateCommand(OnSelectAlingmentFromModel);
+
+            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
+            documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
+        }
+
+        private void LoadDefaultValues()
+        {
+            Interval = Properties.Settings.Default.Interval == 0 ? 50 : Properties.Settings.Default.Interval;
+
+            PointIndexName = string.IsNullOrEmpty(Properties.Settings.Default.PointIndexName) ? "ASS-" : Properties.Settings.Default.PointIndexName;
+
+            StationPrefix = string.IsNullOrEmpty(Properties.Settings.Default.StationPrefix) ? "SS" : Properties.Settings.Default.StationPrefix;
+
+            PointIndexStart = Properties.Settings.Default.PointIndexStart == 0 ? 1 : Properties.Settings.Default.PointIndexStart;
+        }
+
+        public ObservableCollection<Civil.Alignment> Alignments { get; set; } = new ObservableCollection<Civil.Alignment>();
         public bool IsStartStationCheckboxChecked
         {
             get
@@ -128,6 +162,10 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set
             {
                 interval = value;
+
+                Properties.Settings.Default.Interval = interval;
+                Properties.Settings.Default.Save();
+
                 RaisePropertyChanged();
             }
         }
@@ -145,12 +183,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
                 IsEndStationCheckboxChecked = true;
                 EndStation = SelectedAlignment == null ? 0 : SelectedAlignment.EndingStation;
 
-                Interval = 50;
-
-                PointIndexStart = 1;
-                PointIndexName = "ASS-";
-
-                StationPrefix = "SS";
+                LoadDefaultValues();
 
                 RaisePropertyChanged();
             }
@@ -189,7 +222,15 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
         public string PointIndexName
         {
             get { return pointIndexName; }
-            set { pointIndexName = value; }
+            set
+            {
+                pointIndexName = value;
+
+                Properties.Settings.Default.PointIndexName = value;
+                Properties.Settings.Default.Save();
+
+                RaisePropertyChanged();
+            }
         }
 
         public string StationPrefix
@@ -201,6 +242,10 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set
             {
                 stationPrefix = value;
+
+                Properties.Settings.Default.StationPrefix = value;
+                Properties.Settings.Default.Save();
+
                 RaisePropertyChanged();
             }
         }
@@ -211,7 +256,15 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
         public int PointIndexStart
         {
             get { return pointIndexStart; }
-            set { pointIndexStart = value; }
+            set
+            {
+                pointIndexStart = value;
+
+                Properties.Settings.Default.PointIndexStart = value;
+                Properties.Settings.Default.Save();
+
+                RaisePropertyChanged();
+            }
         }
 
         public List<LabelStyle> PointLabelStyles { get; private set; } = new List<LabelStyle>();
@@ -268,23 +321,29 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             set { selectedTableStyle = value; }
         }
 
+        public string StylesFilePath { get; }
+        public DelegateCommand SelectAlingmentFromModel { get; }
 
-        public MainViewViewModel(IEventAggregator eventAggregator)
+        private void OnSelectAlingmentFromModel()
         {
-            _eventAggregator = eventAggregator;
-            CreateTableCommand = new DelegateCommand(OnCreateTableCommand);
+            Alignment selectedAlignment = SelectionUtils.GetElement<Alignment>("Select an alignment");
 
-            LoadAlignments();
-            LoadPointStyles();
-            LoadTableStyles();
+            if (selectedAlignment == null)
+            {
+                return;
+            }
 
-            DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
-            documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
+            if (!Alignments.Any(alignment => alignment.Id == selectedAlignment.Id))
+            {
+                Alignments.Add(selectedAlignment);
+            }
+
+            SelectedAlignment = Alignments.FirstOrDefault(alignment => alignment.Id == selectedAlignment.Id);
         }
 
         private void LoadAlignments()
         {
-            Alignments = AlignmentUtils.GetAlignments(Acad.OpenMode.ForRead);
+            Alignments = new ObservableCollection<Alignment>(AlignmentUtils.GetAlignments(Acad.OpenMode.ForRead));
             SelectedAlignment = Alignments.FirstOrDefault();
         }
 
@@ -294,23 +353,11 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
             string pointStyleName = "Station Marked Point";
             SelectedPointStyle = PointStyles.FirstOrDefault(pointStyle => pointStyle.Name == pointStyleName);
-            string assemblyLocation = System.Reflection.Assembly.GetAssembly(typeof(MainViewViewModel)).Location;
-            string assemblyFolder = Path.GetDirectoryName(assemblyLocation);
-
-            string blockName = "Marker Pnt";
-            string blockFilePath = Path.Combine(assemblyFolder, "Files", "Marked Pnt.dwg");
 
             if (SelectedPointStyle == null)
             {
-                if (File.Exists(blockFilePath))
-                {
-                    BlockUtils.TryLoadBlocksFromAnotherFile(blockFilePath, blockName);
-                }
-
-                PointUtils.ImportStyles(blockFilePath, pointStyleName);
-
+                PointUtils.ImportStyles(StylesFilePath, pointStyleName);
                 PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
-
                 SelectedPointStyle = PointStyles.FirstOrDefault(item => item.Name == pointStyleName);
 
                 if (SelectedPointStyle == null)
@@ -321,7 +368,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
             string labelStyleName1 = "Point Name With Underline [Left]";
             string labelStyleName2 = "Point Name With Underline [Right]";
-            PointUtils.ImportLabelStyles(blockFilePath, labelStyleName1, labelStyleName2);
+            PointUtils.ImportLabelStyles(StylesFilePath, labelStyleName1, labelStyleName2);
 
             PointLabelStyles = PointUtils.GetPointLabelStyles(Acad.OpenMode.ForRead);
             SelectedPointLabelStyle = PointLabelStyles.FirstOrDefault(labelStyle => labelStyle.Name == labelStyleName1);
@@ -336,10 +383,12 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
         private void LoadTableStyles()
         {
-            const string tableStyleName = "Alignment Stations";
-            Acad.TableStyle defaultTableStyle = TableUtils.CreateOrGetTableStyle(OpenMode.ForRead, tableStyleName, horizontalCellMargin: 0.06, verticalCellMargin: 0.06, textHeight: 2.5);
+            const string defaultTableStyleName = "Alignment Stations";
+            TableUtils.ImportTableStyle(StylesFilePath, defaultTableStyleName);
+
             TableStyles = TableUtils.GetAllTableStyles(OpenMode.ForRead);
-            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name == tableStyleName);
+            Acad.TableStyle defaultTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name == defaultTableStyleName);
+            SelectedTableStyle = TableStyles.FirstOrDefault(tableStyle => tableStyle.Name == defaultTableStyleName);
 
             if (SelectedTableStyle == null)
             {
@@ -408,7 +457,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
             table.TrySetValue(rowIndex: 0, columnIndex: 3, "NORTHING", textHeight: 2.5, CellAlignment.MiddleCenter);
 
             int rowIndex = 1;
-
             int pointIndexStart = PointIndexStart;
 
             foreach (double station in stations)
