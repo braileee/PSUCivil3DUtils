@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage SchemaVersion="1.0">
+	<CompanyDetails Name="s.pavlovitsky" Email="s.pavlovitsky@gmail.com" />
+	
+	<!--Civil 3D 2023-->
+	<Components>
+		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.2" SeriesMax="R24.2"/>
+		
+		<ComponentEntry AppName="COWICivil3D"
+						AppDescription="COWI Civil 3D Utils"
+						ModuleName="./2023/UI/civil3d_cowi_2023.cuix" />
+
+		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
+						AppDescription="Civil3DAlignmentStationCoordinatesTable"
+						ModuleName="./2023/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAlignmentStationCoordinatesTable" 
+						 Global="Civil3DAlignmentStationCoordinatesTable" 
+						 Description="Civil3DAlignmentStationCoordinatesTable" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="MahApps.Metro"
+				AppDescription="MahApps.Metro"
+				ModuleName="./2023/Contents/MahApps.Metro.dll"
+				LoadOnAutoCADStartup ="true" >
+			
+		</ComponentEntry>
+	</Components>
+</ApplicationPackage>

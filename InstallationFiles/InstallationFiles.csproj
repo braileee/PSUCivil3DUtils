@@ -45,8 +45,12 @@
   <PropertyGroup>
     <StartupObject />
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2023Debug|AnyCPU'">
+    <OutputPath>bin\Civil3D2023Debug\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="Civil3D2019\PackageContents.xml" />
+    <None Include="Civil3D2023\civil3d_cowi_2023.cuix" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Civil3D2019\civil3d_cowi_2019.cuix" />
@@ -54,9 +58,15 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Civil3D2023\PackageContents.xml" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Civil3D2019 xcopy "$(ProjectDir)\Civil3D2019\PackageContents.xml" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\" /F /R /Y /I
-if $(ConfigurationName) == Civil3D2019 xcopy "$(ProjectDir)\Civil3D2019\civil3d_cowi_2019.cuix" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\UI\"  /F /R /Y /I</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Civil3D2019Debug xcopy "$(ProjectDir)\Civil3D2019\PackageContents.xml" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\" /F /R /Y /I
+if $(ConfigurationName) == Civil3D2019Debug xcopy "$(ProjectDir)\Civil3D2019\civil3d_cowi_2019.cuix" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\UI\"  /F /R /Y /I
+
+if $(ConfigurationName) == Civil3D2023Debug xcopy "$(ProjectDir)\Civil3D2023\PackageContents.xml" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\" /F /R /Y /I
+if $(ConfigurationName) == Civil3D2023Debug xcopy "$(ProjectDir)\Civil3D2023\civil3d_cowi_2023.cuix" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\UI\"  /F /R /Y /I</PostBuildEvent>
   </PropertyGroup>
 </Project>
