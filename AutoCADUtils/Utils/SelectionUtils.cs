@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DAlignmentStationCoordinatesTable.Utils
+namespace AutoCADUtils.Utils
 {
     public static class SelectionUtils
     {
@@ -29,7 +29,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
 
                     opt.SetRejectMessage(rejectMessage);
                     ObjectId selectedObjId = ed.GetEntity(opt).ObjectId;
-                    
+
                     if (selectedObjId.IsNull)
                     {
                         ts.Commit();
@@ -37,7 +37,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
                     }
 
                     object objEntity = ts.GetObject(selectedObjId, OpenMode.ForWrite, false, true) as object;
-                    
+
                     if (objEntity == null)
                     {
                         return default;

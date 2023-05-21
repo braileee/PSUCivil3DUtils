@@ -1,15 +1,15 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.Civil.ApplicationServices;
+using Autodesk.Civil.DatabaseServices.Styles;
 using System.Collections.Generic;
 using System.Linq;
-using Autodesk.Civil.DatabaseServices.Styles;
-using Autodesk.AutoCAD.Geometry;
 
-namespace Civil3DAlignmentStationCoordinatesTable.Utils
+namespace Civil3DUtils.Utils
 {
-    public static class PointUtils
+    public static class PointCogoUtils
     {
         public static List<PointStyle> GetPointStyles(OpenMode openMode)
         {

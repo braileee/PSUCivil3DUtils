@@ -1,33 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2019Debug|AnyCPU'">
-    <Configuration Condition=" '$(Configuration)' == 'Civil3D2019Debug' ">Civil3D2019Debug</Configuration>
+  <PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}</ProjectGuid>
+    <ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Civil3DAlignmentStationCoordinatesTable</RootNamespace>
-    <AssemblyName>Civil3DAlignmentStationCoordinatesTable</AssemblyName>
+    <RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
+    <AssemblyName>Civil3DSubassemblyAnnotations</AssemblyName>
     <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2023Debug|AnyCPU'">
-    <Configuration Condition=" '$(Configuration)' == 'Civil3D2023Debug' ">Civil3D2023Debug</Configuration>
+  <PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}</ProjectGuid>
+    <ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Civil3DAlignmentStationCoordinatesTable</RootNamespace>
-    <AssemblyName>Civil3DAlignmentStationCoordinatesTable</AssemblyName>
+    <RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
+    <AssemblyName>Civil3DSubassemblyAnnotations</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
-    <TargetFrameworkProfile />
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2019Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Civil3D2019Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -35,8 +33,9 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2023Debug|AnyCPU'">
+  <PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Civil3D2023Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
@@ -44,6 +43,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <LangVersion>7.3</LangVersion>
     <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
     <Reference Include="accoremgd">
@@ -137,8 +137,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Converters\DoubleConverter.cs" />
-    <Compile Include="DocumentExtensions.cs" />
+    <Compile Include="Events\CorridorCodeUpdateEvent.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Models\CorridorCode.cs" />
+    <Compile Include="Models\LinkGroup.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -166,11 +168,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Files\Styles.dwg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj">
       <Project>{aa1444a5-0548-46e8-a9f6-4b1445d3dc66}</Project>
       <Name>AutoCADUtils</Name>
@@ -184,5 +181,6 @@
   <PropertyGroup>
     <PostBuildEvent>if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
 if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E</PostBuildEvent>
+    <TargetFrameworkProfile />
   </PropertyGroup>
 </Project>

@@ -2,14 +2,14 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.Civil.ApplicationServices;
-using Civil = Autodesk.Civil.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Civil = Autodesk.Civil.DatabaseServices;
 
-namespace Civil3DAlignmentStationCoordinatesTable.Utils
+namespace Civil3DUtils.Utils
 {
     public static class AlignmentUtils
     {

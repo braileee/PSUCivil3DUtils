@@ -1,19 +1,15 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
-using Acad = Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.Civil.ApplicationServices;
+using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.Civil.DatabaseServices.Styles;
-using Autodesk.AutoCAD.DatabaseServices;
+using Acad = Autodesk.AutoCAD.DatabaseServices;
 
-namespace Civil3DAlignmentStationCoordinatesTable.Utils
+namespace AutoCADUtils.Utils
 {
-    public class TableUtils
+    public static class TableUtils
     {
         public static Acad.Table CreateTable(
             string promptInsertionPointsMessage,
@@ -21,7 +17,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         {
             var adoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var db = adoc.Database;
-            var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
             Acad.Table table = null;
             using (Acad.Transaction ts = db.TransactionManager.StartTransaction())
@@ -52,7 +47,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         {
             var adoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var db = adoc.Database;
-            var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
             Acad.Table tb = null;
 
@@ -91,7 +85,6 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
         {
             var adoc = Autodesk.AutoCAD.ApplicationServices.Core.Application.DocumentManager.MdiActiveDocument;
             var db = adoc.Database;
-            var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             var ed = adoc.Editor;
             Acad.Table tb = null;
 
@@ -431,7 +424,7 @@ namespace Civil3DAlignmentStationCoordinatesTable.Utils
             return tableStyle;
         }
 
-        internal static void ImportTableStyle(string filePath, string tableStyleName)
+        public static void ImportTableStyle(string filePath, string tableStyleName)
         {
             DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
             Document destinationDocument = documentCollection.MdiActiveDocument;

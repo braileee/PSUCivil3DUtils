@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DAlignmentStationCoordinatesTable.Utils
+namespace AutoCADUtils.Utils
 {
-    public static  class LineUtils
+    public static class LineUtils
     {
         public static Line DrawLine(Point3d startPoint, Point3d endPoint)
         {

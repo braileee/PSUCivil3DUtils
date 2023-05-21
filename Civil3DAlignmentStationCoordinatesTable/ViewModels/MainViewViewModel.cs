@@ -1,7 +1,6 @@
 ﻿using Acad = Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Civil = Autodesk.Civil.DatabaseServices;
-using Civil3DAlignmentStationCoordinatesTable.Utils;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -16,6 +15,9 @@ using Autodesk.Civil.DatabaseServices.Styles;
 using System.Windows;
 using System.IO;
 using System.Collections.ObjectModel;
+using Civil3DUtils.Utils;
+using AutoCADUtils.Utils;
+using AutoCADUtils;
 
 namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 {
@@ -349,15 +351,15 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
         private void LoadPointStyles()
         {
-            PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
+            PointStyles = PointCogoUtils.GetPointStyles(Acad.OpenMode.ForRead);
 
             string pointStyleName = "Station Marked Point";
             SelectedPointStyle = PointStyles.FirstOrDefault(pointStyle => pointStyle.Name == pointStyleName);
 
             if (SelectedPointStyle == null)
             {
-                PointUtils.ImportStyles(StylesFilePath, pointStyleName);
-                PointStyles = PointUtils.GetPointStyles(Acad.OpenMode.ForRead);
+                PointCogoUtils.ImportStyles(StylesFilePath, pointStyleName);
+                PointStyles = PointCogoUtils.GetPointStyles(Acad.OpenMode.ForRead);
                 SelectedPointStyle = PointStyles.FirstOrDefault(item => item.Name == pointStyleName);
 
                 if (SelectedPointStyle == null)
@@ -368,9 +370,9 @@ namespace Civil3DAlignmentStationCoordinatesTable.ViewModels
 
             string labelStyleName1 = "Point Name With Underline [Left]";
             string labelStyleName2 = "Point Name With Underline [Right]";
-            PointUtils.ImportLabelStyles(StylesFilePath, labelStyleName1, labelStyleName2);
+            PointCogoUtils.ImportLabelStyles(StylesFilePath, labelStyleName1, labelStyleName2);
 
-            PointLabelStyles = PointUtils.GetPointLabelStyles(Acad.OpenMode.ForRead);
+            PointLabelStyles = PointCogoUtils.GetPointLabelStyles(Acad.OpenMode.ForRead);
             SelectedPointLabelStyle = PointLabelStyles.FirstOrDefault(labelStyle => labelStyle.Name == labelStyleName1);
 
             if (SelectedPointLabelStyle == null)
