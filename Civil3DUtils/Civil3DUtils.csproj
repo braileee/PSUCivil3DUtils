@@ -88,6 +88,7 @@
     <Compile Include="CivilDocumentService.cs" />
     <Compile Include="CorridorExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PropertySetUtils.cs" />
     <Compile Include="SampleLineExtensions.cs" />
     <Compile Include="SampleLineGroupExtensions.cs" />
     <Compile Include="Utils\AlignmentUtils.cs" />
@@ -115,6 +116,10 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2023\C3D\AeccDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="AecPropDataMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2023\ACA\AecPropDataMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2022Debug|AnyCPU'">
     <Reference Include="accoremgd">
@@ -135,6 +140,10 @@
     </Reference>
     <Reference Include="AeccDbMgd">
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2022\C3D\AeccDbMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="AecPropDataMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2022\ACA\AecPropDataMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -159,6 +168,16 @@
       <HintPath>C:\Program Files\Autodesk\AutoCAD 2019\C3D\AeccDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="AecPropDataMgd">
+      <HintPath>C:\Program Files\Autodesk\AutoCAD 2019\ACA\AecPropDataMgd.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj">
+      <Project>{aa1444a5-0548-46e8-a9f6-4b1445d3dc66}</Project>
+      <Name>AutoCADUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

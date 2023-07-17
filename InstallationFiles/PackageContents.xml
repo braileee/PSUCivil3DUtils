@@ -43,6 +43,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2019/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
@@ -92,6 +103,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2022/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2022/Contents/MahApps.Metro.dll"
@@ -138,6 +160,17 @@
 				<Command Local="ReverseTextElevation"
 						 Global="ReverseTextElevation"
 						 Description="ReverseTextElevation" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2023/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
 			</Commands>
 		</ComponentEntry>
 

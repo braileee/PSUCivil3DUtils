@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
+﻿using AutoCADUtils;
+using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.ApplicationServices;
 using System;
@@ -15,8 +16,24 @@ namespace Civil3DUtils
         {
             get
             {
-                Database database = Application.DocumentManager.MdiActiveDocument.Database;
+                Database database = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Database;
                 return CivilDocument.GetCivilDocument(database);
+            }
+        }
+
+        public static Autodesk.AutoCAD.DatabaseServices.TransactionManager TransactionManager
+        {
+            get
+            {
+                return AutocadDocumentService.TransactionManager;
+            }
+        }
+
+        public static Document Document
+        {
+            get
+            {
+                return AutocadDocumentService.ActiveDocument;
             }
         }
     }

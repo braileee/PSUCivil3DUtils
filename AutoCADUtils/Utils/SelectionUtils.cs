@@ -117,5 +117,54 @@ namespace AutoCADUtils.Utils
             return elements;
         }
 
+        public static List<Entity> GetEntities(string message)
+        {
+            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Database db = adoc.Database;
+            Editor ed = adoc.Editor;
+            PromptSelectionOptions opt = new PromptSelectionOptions();
+
+            opt.MessageForAdding = message;
+
+
+            List<Entity> elements = new List<Entity>();
+
+            using (adoc.LockDocument())
+            {
+                using (Transaction ts = db.TransactionManager.StartTransaction())
+                {
+                    PromptSelectionResult pipesPrompt = ed.GetSelection();
+                    if (pipesPrompt.Status == PromptStatus.OK)
+                    {
+                        SelectionSet selectionSet = pipesPrompt.Value;
+                        foreach (SelectedObject selectedElement in selectionSet)
+                        {
+                            if (selectedElement == null)
+                            {
+                                continue;
+                            }
+
+                            object objEntity = ts.GetObject(selectedElement.ObjectId, OpenMode.ForWrite, false, true);
+
+                            if (objEntity == null)
+                            {
+                                return default;
+                            }
+
+                            Entity entity = objEntity as Entity;
+
+                            if (entity != null)
+                            {
+                                elements.Add(entity);
+                            }
+
+                        }
+                    }
+                    ts.Commit();
+                }
+            }
+
+            return elements;
+        }
     }
 }
