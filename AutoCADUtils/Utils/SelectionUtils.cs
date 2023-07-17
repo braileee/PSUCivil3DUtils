@@ -36,7 +36,7 @@ namespace AutoCADUtils.Utils
                         return default;
                     }
 
-                    object objEntity = ts.GetObject(selectedObjId, OpenMode.ForWrite, false, true) as object;
+                    object objEntity = ts.GetObject(selectedObjId, OpenMode.ForWrite, false, true);
 
                     if (objEntity == null)
                     {
@@ -60,5 +60,62 @@ namespace AutoCADUtils.Utils
 
             return oEntity;
         }
+
+        public static List<T> GetElements<T>(string message)
+        {
+            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Database db = adoc.Database;
+            Editor ed = adoc.Editor;
+            PromptSelectionOptions opt = new PromptSelectionOptions();
+
+            opt.MessageForAdding = message;
+
+
+            List<T> elements = new List<T>();
+
+            using (adoc.LockDocument())
+            {
+                using (Transaction ts = db.TransactionManager.StartTransaction())
+                {
+                    PromptSelectionResult pipesPrompt = ed.GetSelection();
+                    if (pipesPrompt.Status == PromptStatus.OK)
+                    {
+                        SelectionSet selectionSet = pipesPrompt.Value;
+                        foreach (SelectedObject selectedElement in selectionSet)
+                        {
+                            if (selectedElement == null)
+                            {
+                                continue;
+                            }
+
+                            object objEntity = ts.GetObject(selectedElement.ObjectId, OpenMode.ForWrite, false, true);
+
+                            if (objEntity == null)
+                            {
+                                return default;
+                            }
+
+                            if (!objEntity.GetType().Name.Equals(typeof(T).Name))
+                            {
+                                return default;
+                            }
+
+                            T castedElement = (T)objEntity;
+
+                            if (castedElement == null)
+                            {
+                                return default;
+                            }
+
+                            elements.Add(castedElement);
+                        }
+                    }
+                    ts.Commit();
+                }
+            }
+
+            return elements;
+        }
+
     }
 }
