@@ -62,7 +62,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2023", "2023", "{33FCE41A-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github_actions", "github_actions", "{940944EB-52BA-48EE-BA47-32D0AD9D44C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DExtractCorridorLinksToSurfaces", "Civil3DExtractCorridorLinksToSurfaces\Civil3DExtractCorridorLinksToSurfaces.csproj", "{00BD819D-91F4-446E-864E-7F9A8C9ED22A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DExtractCorridorLinksToSurfaces", "Civil3DExtractCorridorLinksToSurfaces\Civil3DExtractCorridorLinksToSurfaces.csproj", "{00BD819D-91F4-446E-864E-7F9A8C9ED22A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,8 +83,8 @@ Global
 		{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}.Debug|Any CPU.Build.0 = Civil3D2023Debug|Any CPU
 		{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}.Release|Any CPU.ActiveCfg = Civil3D2023Debug|Any CPU
 		{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}.Release|Any CPU.Build.0 = Civil3D2023Debug|Any CPU
-		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2019Debug|Any CPU.ActiveCfg = Civil3D2019|Any CPU
-		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2019Debug|Any CPU.Build.0 = Civil3D2019|Any CPU
+		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2019Debug|Any CPU.ActiveCfg = Civil3D2019Debug|Any CPU
+		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2019Debug|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
 		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2022Debug|Any CPU.ActiveCfg = Civil3D2022Debug|Any CPU
 		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2022Debug|Any CPU.Build.0 = Civil3D2022Debug|Any CPU
 		{D366AA9D-72E7-420F-AE21-03EAFD001403}.Civil3D2023Debug|Any CPU.ActiveCfg = Civil3D2023Debug|Any CPU

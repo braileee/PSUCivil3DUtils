@@ -24,6 +24,7 @@
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2019Debug' ">Civil3D2019Debug</Configuration>
 		<DebugSymbols>true</DebugSymbols>
 		<OutputPath>bin\$(Configuration)\</OutputPath>
 		<DefineConstants>DEBUG;TRACE</DefineConstants>

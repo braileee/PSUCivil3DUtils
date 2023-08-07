@@ -5,7 +5,6 @@
 		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
 		<RootNamespace>Civil3DUtils</RootNamespace>
 		<AssemblyName>Civil3DUtils</AssemblyName>
-		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<Configuration Condition=" '$(Configuration)' == '' ">Civil3D2019Debug</Configuration>
@@ -29,13 +28,6 @@
 		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
 		<RootNamespace>Civil3DUtils</RootNamespace>
 		<AssemblyName>Civil3DUtils</AssemblyName>
-		<TargetFramework>net48</TargetFramework>
-	</PropertyGroup>
-	<PropertyGroup>
-		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
-		<AssemblyTitle>Civil3DUtils</AssemblyTitle>
-		<Product>Civil3DUtils</Product>
-		<Copyright>Copyright © COWI 2023</Copyright>
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
