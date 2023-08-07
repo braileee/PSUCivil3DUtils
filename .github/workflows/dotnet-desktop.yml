@@ -1,13 +1,15 @@
 name: learn-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
+
 jobs:
-  check-bats-version:
-    runs-on: ubuntu-latest
+  windows:
+    name: windows-2022
+    runs-on: windows-2022
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+          fetch-depth: 0
+      - name: Run Nuke Build
+        run: ./.nuke/build.cmd --GitHubToken ${{ secrets.GITHUB_TOKEN }}
