@@ -1,4 +1,8 @@
-﻿using Autodesk.Civil.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.Civil.ApplicationServices;
+using Civil = Autodesk.Civil.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +13,7 @@ namespace Civil3DUtils
 {
     public static  class CorridorExtensions
     {
-        public static List<Baseline> GetBaselines(this Corridor corridor)
+        public static List<Civil.Baseline> GetBaselines(this Civil.Corridor corridor)
         {
             return corridor.Baselines.ToList();
         }
