@@ -37,6 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2019", "2019", "{F8A5E931-B
 		Civil3DDlls\2019\acmgd.dll = Civil3DDlls\2019\acmgd.dll
 		Civil3DDlls\2019\AecBaseMgd.dll = Civil3DDlls\2019\AecBaseMgd.dll
 		Civil3DDlls\2019\AeccDbMgd.dll = Civil3DDlls\2019\AeccDbMgd.dll
+		Civil3DDlls\2019\AecPropDataMgd.dll = Civil3DDlls\2019\AecPropDataMgd.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2022", "2022", "{2C92BAD2-8588-413B-B52C-FAFE96B04463}"
@@ -46,6 +47,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2022", "2022", "{2C92BAD2-8
 		Civil3DDlls\2022\acmgd.dll = Civil3DDlls\2022\acmgd.dll
 		Civil3DDlls\2022\AecBaseMgd.dll = Civil3DDlls\2022\AecBaseMgd.dll
 		Civil3DDlls\2022\AeccDbMgd.dll = Civil3DDlls\2022\AeccDbMgd.dll
+		Civil3DDlls\2022\AecPropDataMgd.dll = Civil3DDlls\2022\AecPropDataMgd.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2023", "2023", "{33FCE41A-B378-4A42-A4BC-AC6B1AC0BF5E}"
@@ -55,6 +57,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2023", "2023", "{33FCE41A-B
 		Civil3DDlls\2023\acmgd.dll = Civil3DDlls\2023\acmgd.dll
 		Civil3DDlls\2023\AecBaseMgd.dll = Civil3DDlls\2023\AecBaseMgd.dll
 		Civil3DDlls\2023\AeccDbMgd.dll = Civil3DDlls\2023\AeccDbMgd.dll
+		Civil3DDlls\2023\AecPropDataMgd.dll = Civil3DDlls\2023\AecPropDataMgd.dll
 	EndProjectSection
 EndProject
 Global
