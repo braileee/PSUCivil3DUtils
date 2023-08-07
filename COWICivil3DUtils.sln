@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DSubassemblyAnnotatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DUtils", "Civil3DUtils\Civil3DUtils.csproj", "{7A1DED80-7CBF-47C7-A443-0C630130DD07}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCADUtils", "AutoCADUtils\AutoCADUtils.csproj", "{AA1444A5-0548-46E8-A9F6-4B1445D3DC66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoCADUtils", "AutoCADUtils\AutoCADUtils.csproj", "{AA1444A5-0548-46E8-A9F6-4B1445D3DC66}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DToolbox", "Civil3DToolbox\Civil3DToolbox.csproj", "{8E8018B0-2591-4FA6-A346-B66674B2DBA9}"
 EndProject
