@@ -13,7 +13,7 @@
 		<ProjectGuid>{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}</ProjectGuid>
 		<RootNamespace>Civil3DAlignmentStationCoordinatesTable</RootNamespace>
 		<AssemblyName>Civil3DAlignmentStationCoordinatesTable</AssemblyName>
-		<TargetFrameworkProfile />
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<Configuration Condition=" '$(Configuration)' == 'Civil3D2022Debug' ">Civil3D2022Debug</Configuration>
@@ -21,7 +21,7 @@
 		<ProjectGuid>{E3158364-3C2F-4C85-8D71-0BE68EA92F4B}</ProjectGuid>
 		<RootNamespace>Civil3DAlignmentStationCoordinatesTable</RootNamespace>
 		<AssemblyName>Civil3DAlignmentStationCoordinatesTable</AssemblyName>
-		<TargetFrameworkProfile />
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<DebugSymbols>true</DebugSymbols>
@@ -29,47 +29,14 @@
 		<DefineConstants>DEBUG;TRACE</DefineConstants>
 		<DebugType>full</DebugType>
 		<LangVersion>7.3</LangVersion>
+		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
-		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<LangVersion>7.3</LangVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
-		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<LangVersion>7.3</LangVersion>
-	</PropertyGroup>
+	
 	<PropertyGroup>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 		<AssemblyTitle>Civil3DAlignmentStationCoordinatesTable</AssemblyTitle>
 		<Company>COWI</Company>
 		<Product>Civil3DAlignmentStationCoordinatesTable</Product>
 		<Copyright>Copyright © COWI 2023</Copyright>
-		<TargetFramework>net48</TargetFramework>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="5.2.0" />
@@ -214,4 +181,7 @@
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.cs" />
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
+	</Target>
 </Project>

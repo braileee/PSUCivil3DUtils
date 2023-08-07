@@ -2,8 +2,8 @@
 	<PropertyGroup>
 		<ProjectGuid>{AA1444A5-0548-46E8-A9F6-4B1445D3DC66}</ProjectGuid>
 		<Configurations>Civil3D2019Debug;Civil3D2022Debug;Civil3D2023Debug</Configurations>
-		<RootNamespace>Civil3DUtils</RootNamespace>
-		<AssemblyName>Civil3DUtils</AssemblyName>
+		<RootNamespace>AutoCADUtils</RootNamespace>
+		<AssemblyName>AutoCADUtils</AssemblyName>
 		<AssemblyTitle>AutoCADUtils</AssemblyTitle>
 		<Product>AutoCADUtils</Product>
 		<Copyright>Copyright ©  2023</Copyright>
@@ -22,6 +22,30 @@
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Optimize>True</Optimize>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<LangVersion>7.3</LangVersion>
+		<TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<LangVersion>7.3</LangVersion>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<LangVersion>7.3</LangVersion>
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
 		<Reference Include="System.Windows" />

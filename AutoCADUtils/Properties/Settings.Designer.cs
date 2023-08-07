@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Civil3DUtils.Properties {
+namespace AutoCADUtils.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
