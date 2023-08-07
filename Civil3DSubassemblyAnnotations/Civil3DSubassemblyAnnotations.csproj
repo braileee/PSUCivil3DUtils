@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+	<PropertyGroup>
+		<Configurations>Civil3D2019Debug;Civil3D2022Debug;Civil3D2023Debug</Configurations>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
@@ -8,7 +8,7 @@
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2022Debug' ">Civil3D2022Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
@@ -16,13 +16,22 @@
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2023Debug' ">Civil3D2023Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
+		<RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
+		<AssemblyName>Civil3DSubassemblyAnnotations</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2019Debug' ">Civil3D2019Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
 		<AssemblyName>Civil3DSubassemblyAnnotations</AssemblyName>
 		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<DebugSymbols>true</DebugSymbols>
 		<OutputPath>bin\$(Configuration)\</OutputPath>
@@ -48,32 +57,12 @@
 		<LangVersion>7.3</LangVersion>
 	</PropertyGroup>
 	<PropertyGroup>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<AssemblyTitle>Civil3DSubassemblyAnnotations</AssemblyTitle>
 		<Company>COWI</Company>
 		<Product>Civil3DSubassemblyAnnotations</Product>
 		<Copyright>Copyright © COWI 2023</Copyright>
 		<TargetFramework>net48</TargetFramework>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="5.2.0" />
@@ -132,7 +121,7 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
 		<Reference Include="accoremgd">
-			<HintPath>C:\Program Files\Autodesk\AutoCAD 2023\accoremgd.dll</HintPath>
+			<HintPath>..\Civil3DDlls\2023\accoremgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="acdbmgd">
@@ -207,4 +196,7 @@
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.cs" />
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
+	</Target>
 </Project>

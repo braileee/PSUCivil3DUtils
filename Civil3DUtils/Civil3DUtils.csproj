@@ -1,79 +1,42 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configurations>Civil3D2019Debug;Civil3D2022Debug;Civil3D2023Debug</Configurations>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
+		<RootNamespace>Civil3DUtils</RootNamespace>
+		<AssemblyName>Civil3DUtils</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
-		<RootNamespace>Civil3DUtils</RootNamespace>
-		<AssemblyName>Civil3DUtils</AssemblyName>
-		<TargetFramework>net48</TargetFramework>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
-		<RootNamespace>Civil3DUtils</RootNamespace>
-		<AssemblyName>Civil3DUtils</AssemblyName>
-		<TargetFramework>net48</TargetFramework>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
-		<Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+		<Configuration Condition=" '$(Configuration)' == '' ">Civil3D2019Debug</Configuration>
 		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
 		<RootNamespace>Civil3DUtils</RootNamespace>
 		<AssemblyName>Civil3DUtils</AssemblyName>
 		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
-		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
+		<Configuration Condition=" '$(Configuration)' == '' ">Civil3D2022Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
+		<RootNamespace>Civil3DUtils</RootNamespace>
+		<AssemblyName>Civil3DUtils</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
-		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
-		<DebugSymbols>true</DebugSymbols>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
+		<Configuration Condition=" '$(Configuration)' == '' ">Civil3D2023Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
+		<RootNamespace>Civil3DUtils</RootNamespace>
+		<AssemblyName>Civil3DUtils</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 		<ProjectGuid>{7A1DED80-7CBF-47C7-A443-0C630130DD07}</ProjectGuid>
 		<AssemblyTitle>Civil3DUtils</AssemblyTitle>
-		<Company>COWI</Company>
 		<Product>Civil3DUtils</Product>
 		<Copyright>Copyright © COWI 2023</Copyright>
 		<TargetFramework>net48</TargetFramework>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
-		<PostBuildEvent>
-			if $(ConfigurationName) == Civil3D2019Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2022Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\" /F /R /Y /I /E
-			if $(ConfigurationName) == Civil3D2023Debug xcopy "$(TargetDir)*.*" "%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\" /F /R /Y /I /E
-		</PostBuildEvent>
 	</PropertyGroup>
 	<ItemGroup>
 	  <Compile Remove="Views\**" />
@@ -112,6 +75,10 @@
 			<HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2019\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<Reference Include="accoremgd">
@@ -134,10 +101,14 @@
 			<HintPath>..\Civil3DDlls\2022\AeccDbMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2022\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
 		<Reference Include="accoremgd">
-			<HintPath>C:\Program Files\Autodesk\AutoCAD 2023\accoremgd.dll</HintPath>
+			<HintPath>..\Civil3DDlls\2023\accoremgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 		<Reference Include="acdbmgd">
@@ -154,6 +125,10 @@
 		</Reference>
 		<Reference Include="AeccDbMgd">
 			<HintPath>..\Civil3DDlls\2023\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2023\AecPropDataMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
@@ -179,14 +154,7 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="Properties\Settings.settings">
-			<Generator>SettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-		</None>
-	</ItemGroup>
-	<ItemGroup>
 		<ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj" />
-		<ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Remove="obj\Civil3D2019Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
@@ -203,4 +171,7 @@
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.cs" />
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
 	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
+	</Target>
 </Project>
