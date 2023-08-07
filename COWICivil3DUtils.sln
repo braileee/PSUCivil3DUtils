@@ -64,6 +64,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github_actions", "github_ac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DExtractCorridorLinksToSurfaces", "Civil3DExtractCorridorLinksToSurfaces\Civil3DExtractCorridorLinksToSurfaces.csproj", "{00BD819D-91F4-446E-864E-7F9A8C9ED22A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DPropertyValuesReport", "Civil3DPropertyValuesReport\Civil3DPropertyValuesReport.csproj", "{B44CC1BB-800D-44AD-97E0-D949DC4F197F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Civil3D2019Debug|Any CPU = Civil3D2019Debug|Any CPU
@@ -153,6 +155,16 @@ Global
 		{00BD819D-91F4-446E-864E-7F9A8C9ED22A}.Debug|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
 		{00BD819D-91F4-446E-864E-7F9A8C9ED22A}.Release|Any CPU.ActiveCfg = Civil3D2019Debug|Any CPU
 		{00BD819D-91F4-446E-864E-7F9A8C9ED22A}.Release|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2019Debug|Any CPU.ActiveCfg = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2019Debug|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2022Debug|Any CPU.ActiveCfg = Civil3D2022Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2022Debug|Any CPU.Build.0 = Civil3D2022Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2023Debug|Any CPU.ActiveCfg = Civil3D2023Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Civil3D2023Debug|Any CPU.Build.0 = Civil3D2023Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Debug|Any CPU.ActiveCfg = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Debug|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Release|Any CPU.ActiveCfg = Civil3D2019Debug|Any CPU
+		{B44CC1BB-800D-44AD-97E0-D949DC4F197F}.Release|Any CPU.Build.0 = Civil3D2019Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
