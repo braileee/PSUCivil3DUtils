@@ -73,13 +73,14 @@
 
         </StackPanel>
 
-        <Label Content="Selected"/>
+        <Label Content="Selected" DockPanel.Dock="Top"/>
 
         <DataGrid ItemsSource="{Binding SelectedElements}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True">
+                  ScrollViewer.CanContentScroll="True"
+                  MaxHeight="400">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
                                     Binding="{Binding Name}"/>
@@ -104,12 +105,13 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Content="Total"/>
+        <Label Content="Total" DockPanel.Dock="Top"/>
         <DataGrid ItemsSource="{Binding TotalElements}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True">
+                  ScrollViewer.CanContentScroll="True"
+                  MaxHeight="300">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Name"
                                     Binding="{Binding Name}"/>
@@ -119,13 +121,13 @@
                                     Binding="{Binding Style}"/>
                 <DataGridTextColumn Header="Volume"
                                     Binding="{Binding Volume}"/>
-                <DataGridTextColumn Header="Length2d"
+                <DataGridTextColumn Header="Length 2D"
                                     Binding="{Binding Length2d}"/>
-                <DataGridTextColumn Header="Length3d"
+                <DataGridTextColumn Header="Length 3D"
                                     Binding="{Binding Length3d}"/>
-                <DataGridTextColumn Header="Area2d"
+                <DataGridTextColumn Header="Area 2D"
                                     Binding="{Binding Area2d}"/>
-                <DataGridTextColumn Header="Area3d"
+                <DataGridTextColumn Header="Area 3D"
                                     Binding="{Binding Area3d}"/>
                 <DataGridTextColumn Header="Thickness"
                                     Binding="{Binding Thickness}"/>

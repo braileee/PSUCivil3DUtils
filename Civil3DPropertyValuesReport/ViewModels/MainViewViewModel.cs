@@ -12,6 +12,9 @@ using System.Windows.Documents;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Autodesk.AutoCAD.Windows.Data;
+using Prism.Commands;
+using System.Windows;
 
 namespace Civil3DPropertyValuesReport.ViewModels
 {
@@ -30,6 +33,13 @@ namespace Civil3DPropertyValuesReport.ViewModels
 
             RoundingSigns = new List<string> { "0", "0.0", "0.00", "0.000", "0.0000" };
             SelectedRoundingSign = RoundingSigns.FirstOrDefault(sign => sign == "0.00");
+
+            ExportCommand = new DelegateCommand(OnExportCommand);
+        }
+
+        private void OnExportCommand()
+        {
+            MessageBox.Show("Not implemented", "Error");
         }
 
         private void ActiveDocumentImpliedSelectionChanged(object sender, EventArgs e)
@@ -118,6 +128,8 @@ namespace Civil3DPropertyValuesReport.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public DelegateCommand ExportCommand { get; }
 
         public int SelectedRoundingValue
         {
