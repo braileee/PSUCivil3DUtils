@@ -7,8 +7,7 @@
              xmlns:converters="clr-namespace:Civil3DPropertyValuesReport.Converters"
              xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"     
              mc:Ignorable="d" 
-        SizeToContent="WidthAndHeight"
-        Height="550">
+        SizeToContent="WidthAndHeight">
     <Window.Resources>
 
         <ResourceDictionary>
@@ -71,17 +70,18 @@
                     HorizontalAlignment="Left"
                     Width="200"
                     Margin="2">
-            
+
         </StackPanel>
+
+        <Label Content="Selected"/>
 
         <DataGrid ItemsSource="{Binding SelectedElements}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True"
-                  Height="400">
+                  ScrollViewer.CanContentScroll="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Type"
+                <DataGridTextColumn Header="Name"
                                     Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Layer"
                                     Binding="{Binding Layer}"/>
@@ -104,14 +104,14 @@
             </DataGrid.Columns>
         </DataGrid>
 
+        <Label Content="Total"/>
         <DataGrid ItemsSource="{Binding TotalElements}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
                   DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True"
-                  Height="400">
+                  ScrollViewer.CanContentScroll="True">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Type"
+                <DataGridTextColumn Header="Name"
                                     Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Layer"
                                     Binding="{Binding Layer}"/>
@@ -119,13 +119,13 @@
                                     Binding="{Binding Style}"/>
                 <DataGridTextColumn Header="Volume"
                                     Binding="{Binding Volume}"/>
-                <DataGridTextColumn Header="Length 2D"
+                <DataGridTextColumn Header="Length2d"
                                     Binding="{Binding Length2d}"/>
-                <DataGridTextColumn Header="Length 3D"
+                <DataGridTextColumn Header="Length3d"
                                     Binding="{Binding Length3d}"/>
-                <DataGridTextColumn Header="Area 2D"
+                <DataGridTextColumn Header="Area2d"
                                     Binding="{Binding Area2d}"/>
-                <DataGridTextColumn Header="Area 3D"
+                <DataGridTextColumn Header="Area3d"
                                     Binding="{Binding Area3d}"/>
                 <DataGridTextColumn Header="Thickness"
                                     Binding="{Binding Thickness}"/>
@@ -133,7 +133,7 @@
                                     Binding="{Binding Count}"/>
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <Button Content="Export" 
                 Command="{Binding ExportCommand}"
                 DockPanel.Dock="Bottom"

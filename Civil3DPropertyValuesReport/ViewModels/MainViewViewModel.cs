@@ -35,6 +35,7 @@ namespace Civil3DPropertyValuesReport.ViewModels
         private void ActiveDocumentImpliedSelectionChanged(object sender, EventArgs e)
         {
             SelectedElements.Clear();
+            TotalElements.Clear();
 
             SelectionSet oSelectionSet = AutocadDocumentService.Editor?.SelectImplied()?.Value;
 
@@ -67,6 +68,10 @@ namespace Civil3DPropertyValuesReport.ViewModels
                     SelectedElements.Add(new ElementWrapper(dBObject, SelectedRoundingValue));
                 }
 
+                TotalWrapper totalWrapper = TotalWrapper.CreateOneTotal(SelectedElements, SelectedRoundingValue);
+
+                TotalElements.Add(totalWrapper);
+
                 SelectedElements.CollectionChanged += SelectedElementsCollectionChanged;
 
                 ts.Commit();
@@ -93,6 +98,7 @@ namespace Civil3DPropertyValuesReport.ViewModels
         }
 
         public ObservableCollection<ElementWrapper> SelectedElements { get; set; } = new ObservableCollection<ElementWrapper>();
+        public ObservableCollection<TotalWrapper> TotalElements { get; set; } = new ObservableCollection<TotalWrapper>();
         public List<string> RoundingSigns { get; set; } = new List<string>();
         public string SelectedRoundingSign
         {
