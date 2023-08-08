@@ -221,6 +221,11 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
 
                         foreach (LinkCodeWrapper linkCodeWrapper in LinkCodeWrappers.Where(item => item.IsSelected))
                         {
+                            if (linkCodeWrapper.Name == "<Select All>")
+                            {
+                                continue;
+                            }
+
                             string corridorSurfaceName = $"{corridor.Name} - {linkCodeWrapper.Name} - {Guid.NewGuid()}";
 
                             CorridorSurface corridorSurface = corridor.CorridorSurfaces.Add(corridorSurfaceName);

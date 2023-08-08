@@ -55,13 +55,24 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
-				AppDescription="Civil3DExtractCorridorLinksToSurfaces"
-				ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
-				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
 						 Global="Civil3DExtractCorridorLinksToSurfaces"
 						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2019/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
 			</Commands>
 		</ComponentEntry>
 
@@ -126,13 +137,24 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
-		AppDescription="Civil3DExtractCorridorLinksToSurfaces"
-		ModuleName="./2022/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
-		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2022/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
 						 Global="Civil3DExtractCorridorLinksToSurfaces"
 						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2022/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
 			</Commands>
 		</ComponentEntry>
 
@@ -197,13 +219,24 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
-AppDescription="Civil3DExtractCorridorLinksToSurfaces"
-ModuleName="./2023/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
-LoadOnCommandInvocation ="True" LoadOnRequest="True">
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2023/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
 						 Global="Civil3DExtractCorridorLinksToSurfaces"
 						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2023/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
 			</Commands>
 		</ComponentEntry>
 
