@@ -76,11 +76,21 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+				AppDescription="Civil3DCreateCogoPointOnSectionView"
+				ModuleName="./2019/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
 				LoadOnAutoCADStartup ="true" >
-
 		</ComponentEntry>
 	</Components>
 
@@ -155,6 +165,17 @@
 				<Command Local="Civil3DPropertyValuesReport"
 						 Global="Civil3DPropertyValuesReport"
 						 Description="Civil3DPropertyValuesReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+				AppDescription="Civil3DCreateCogoPointOnSectionView"
+				ModuleName="./2022/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
 			</Commands>
 		</ComponentEntry>
 
@@ -240,6 +261,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+		AppDescription="Civil3DCreateCogoPointOnSectionView"
+		ModuleName="./2023/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+		
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"
