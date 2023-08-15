@@ -1,0 +1,209 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configurations>Civil3D2019Debug;Civil3D2022Debug;Civil3D2023Debug</Configurations>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7c30caba-8ecc-4534-b198-96cadd4350e4}</ProjectGuid>
+		<RootNamespace>Civil3DIFCBatchImport</RootNamespace>
+		<AssemblyName>Civil3DIFCBatchImport</AssemblyName>
+		<TargetFrameworkProfile />
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2023Debug' ">Civil3D2023Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7c30caba-8ecc-4534-b198-96cadd4350e4}</ProjectGuid>
+		<RootNamespace>Civil3DIFCBatchImport</RootNamespace>
+		<AssemblyName>Civil3DIFCBatchImport</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
+		<Configuration Condition=" '$(Configuration)' == 'Civil3D2022Debug' ">Civil3D2022Debug</Configuration>
+		<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+		<ProjectGuid>{7c30caba-8ecc-4534-b198-96cadd4350e4}</ProjectGuid>
+		<RootNamespace>Civil3DIFCBatchImport</RootNamespace>
+		<AssemblyName>Civil3DIFCBatchImport</AssemblyName>
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+		<DebugSymbols>true</DebugSymbols>
+		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<DefineConstants>DEBUG;TRACE</DefineConstants>
+		<DebugType>full</DebugType>
+		<LangVersion>7.3</LangVersion>
+		<TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<AssemblyTitle>Civil3DAlignmentStationCoordinatesTable</AssemblyTitle>
+		<Company>COWI</Company>
+		<Product>Civil3DAlignmentStationCoordinatesTable</Product>
+		<Copyright>Copyright © COWI 2023</Copyright>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="5.2.0" />
+		<PackageReference Include="ControlzEx" Version="4.4.0" />
+		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="Prism.Wpf" Version="8.1.97" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2023\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2023\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2023\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2023\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2023\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2022\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2022\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2022\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2022\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2022\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System.ComponentModel.Composition" />
+		<Reference Include="System.ComponentModel.DataAnnotations" />
+		<Reference Include="System.Configuration" />
+		<Reference Include="System.Web" />
+		<Reference Include="System.Web.Extensions" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\Settings.Designer.cs">
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Settings.settings</DependentUpon>
+		</Compile>
+		<Compile Update="Views\MainView.xaml.cs">
+			<DependentUpon>MainView.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Page Include="Views\MainView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Remove="TableExtensions.cs" />
+		<Compile Remove="obj\Civil3D2019\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
+		<Compile Remove="obj\Civil3D2019\GeneratedInternalTypeHelper.g.cs" />
+		<Compile Remove="obj\Civil3D2019\GeneratedInternalTypeHelper.g.i.cs" />
+		<Compile Remove="obj\Civil3D2019Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
+		<Compile Remove="obj\Civil3D2019Debug\GeneratedInternalTypeHelper.g.i.cs" />
+		<Compile Remove="obj\Civil3D2022Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+		<Compile Remove="obj\Civil3D2022Debug\GeneratedInternalTypeHelper.g.cs" />
+		<Compile Remove="obj\Civil3D2022Debug\GeneratedInternalTypeHelper.g.i.cs" />
+		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+		<Compile Remove="obj\Civil3D2023Debug\GeneratedInternalTypeHelper.g.cs" />
+		<Compile Remove="obj\Civil3D2023Debug\GeneratedInternalTypeHelper.g.i.cs" />
+		<Compile Remove="obj\Civil3D2019\Views\MainView.g.cs" />
+		<Compile Remove="obj\Civil3D2019\Views\MainView.g.i.cs" />
+		<Compile Remove="obj\Civil3D2019Debug\Views\MainView.g.i.cs" />
+		<Compile Remove="obj\Civil3D2022Debug\Views\MainView.g.cs" />
+		<Compile Remove="obj\Civil3D2022Debug\Views\MainView.g.i.cs" />
+		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.cs" />
+		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Centimeters.dwt" />
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Decimeters.dwt" />
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Feet.dwt" />
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Inches.dwt" />
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Meters.dwt" />
+	  <None Remove="Files\_Autodesk Civil 3D %28Metric%29 NCS - Millimeters.dwt" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Centimeters.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Decimeters.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Feet.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Inches.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Meters.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	  <Content Include="Files\Template\_Autodesk Civil 3D %28Metric%29 NCS - Millimeters.dwt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
+	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
+	</Target>
+</Project>

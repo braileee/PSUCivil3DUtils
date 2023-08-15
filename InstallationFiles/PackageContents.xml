@@ -87,6 +87,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+		AppDescription="Civil3DIFCBatchImport"
+		ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
@@ -176,6 +187,18 @@
 				<Command Local="Civil3DCreateCogoPointOnSectionView"
 						 Global="Civil3DCreateCogoPointOnSectionView"
 						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+
+
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+						AppDescription="Civil3DIFCBatchImport"
+						ModuleName="./2022/Contents/Civil3DIFCBatchImport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
 			</Commands>
 		</ComponentEntry>
 
@@ -271,7 +294,18 @@
 						 Description="Civil3DCreateCogoPointOnSectionView" />
 			</Commands>
 		</ComponentEntry>
-		
+
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+						AppDescription="Civil3DIFCBatchImport"
+						ModuleName="./2023/Contents/Civil3DIFCBatchImport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"

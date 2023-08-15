@@ -20,6 +20,14 @@ namespace AutoCADUtils
             }
         }
 
+        public static DocumentCollection DocumentManager
+        {
+            get
+            {
+                return Application.DocumentManager;
+            }
+        }
+
         public static string ActiveDocumentFullPath
         {
             get
