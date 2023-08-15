@@ -105,8 +105,11 @@ namespace Civil3DIFCBatchImport.ViewModels
                     string dwgFile = Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(ifcFile)}.dwg");
 
                     dwgFiles.Add(dwgFile);
-                    AutocadDocumentService.ActiveDocument.SendStringToExecute($"-IFCIMPORT\n{ifcFile}\nNo\n{dwgFile}\nOptions\nTemplate\n{templateFilePath}\neXit\nImport\nYes\n", true, false, false);
+                    string command = $"-IFCIMPORT\n{ifcFile}\nNo\n{dwgFile}\nOptions\nTemplate\n{templateFilePath}\neXit\nImport\nNo\n";
+                    AutocadDocumentService.ActiveDocument.SendStringToExecute(command, true, false, false);
                 }
+
+                AutocadDocumentService.ActiveDocument.SendStringToExecute(string.Concat(Enumerable.Repeat("\nNo\n", 2)), true, false, false);
             }
             catch (Exception exception)
             {
