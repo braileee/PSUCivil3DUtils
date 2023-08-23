@@ -61,6 +61,40 @@ namespace AutoCADUtils.Utils
             return oEntity;
         }
 
+        public static DBObject GetDbObject(string promptMessage, OpenMode openMode, string rejectMessage = "Error")
+        {
+            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Database db = adoc.Database;
+            Editor ed = adoc.Editor;
+            DBObject oEntity = null;
+
+            using (adoc.LockDocument())
+            {
+                using (Transaction ts = db.TransactionManager.StartTransaction())
+                {
+                    PromptEntityOptions opt = new PromptEntityOptions(promptMessage)
+                    {
+                        Message = promptMessage
+                    };
+
+                    opt.SetRejectMessage(rejectMessage);
+                    ObjectId selectedObjId = ed.GetEntity(opt).ObjectId;
+
+                    if (selectedObjId.IsNull)
+                    {
+                        ts.Commit();
+                        return default;
+                    }
+
+                    oEntity = ts.GetObject(selectedObjId, openMode, false, true);
+
+                    ts.Commit();
+                }
+            }
+
+            return oEntity;
+        }
+
         public static List<T> GetElements<T>(string message)
         {
             Document adoc = Application.DocumentManager.MdiActiveDocument;

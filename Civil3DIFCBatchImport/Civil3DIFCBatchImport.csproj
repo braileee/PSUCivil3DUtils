@@ -116,6 +116,9 @@
 		</Reference>
 	</ItemGroup>
 	<ItemGroup>
+		<Reference Include="AecPropDataMgd">
+		  <HintPath>..\Civil3DDlls\2022\AecPropDataMgd.dll</HintPath>
+		</Reference>
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
 		<Reference Include="System.ComponentModel.Composition" />

@@ -1,5 +1,6 @@
 ﻿using AutoCADUtils;
 using AutoCADUtils.Utils;
+using Autodesk.Aec.PropertyData.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
@@ -8,6 +9,7 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using Civil3DIFCBatchImport.Properties;
+using Civil3DUtils;
 using Civil3DUtils.Utils;
 using Prism.Commands;
 using Prism.Events;
@@ -45,6 +47,52 @@ namespace Civil3DIFCBatchImport.ViewModels
             SelectTemplateCommand = new DelegateCommand(OnSelectTemplateCommand);
 
             TemplateFilePath = Settings.Default.TemplateFilePath;
+
+            ExportValuesCommand = new DelegateCommand(OnExportValuesCommand);
+            ImportValuesCommand = new DelegateCommand(OnImportValuesCommand);
+        }
+
+        private void OnExportValuesCommand()
+        {
+            Acad.DBObject dbObject = SelectionUtils.GetDbObject("Select an element to export property set values", OpenMode.ForRead);
+
+            List<PropertySetDefinition> propertySetDefinitions = PropertySetUtils.GetAllPropertySetDefinitions(OpenMode.ForRead);
+
+            foreach (PropertySetDefinition propertySetDefinition in propertySetDefinitions)
+            {
+                List<PropertyDefinition> propertyDefinitions = PropertySetUtils.GetAllPropertyDefinitionsOfPropertySet(propertySetDefinition);
+
+                foreach (PropertyDefinition propertyDefinition in propertyDefinitions)
+                {
+                    // Get values by different types and create json file with them
+
+                    switch (propertyDefinition.DataType)
+                    {
+                        case Autodesk.Aec.PropertyData.DataType.Integer:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.Real:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.Text:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.TrueFalse:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.AutoIncrement:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.AlphaIncrement:
+                            break;
+                        case Autodesk.Aec.PropertyData.DataType.List:
+                            break;
+                        default:
+                            break;
+                    }
+
+                }
+            }
+        }
+
+        private void OnImportValuesCommand()
+        {
+            // Import values from json to selected elements
         }
 
         private void OnSelectTemplateCommand()
@@ -72,6 +120,9 @@ namespace Civil3DIFCBatchImport.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public DelegateCommand ExportValuesCommand { get; }
+        public DelegateCommand ImportValuesCommand { get; }
 
         private void OnExportCommand()
         {

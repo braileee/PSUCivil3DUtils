@@ -48,28 +48,43 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <StackPanel>
-
-        <Label Content="Select Property Sets Excel File"/>
-        <Button Content="Load"
+    <TabControl>
+        <TabItem Header="From Excel">
+            <StackPanel>
+                <Label Content="Select Property Sets Excel File"/>
+                <Button Content="Load"
                 Margin="5"
                 Padding="2"
                 Command="{Binding LoadExcelCommand}"/>
 
-        <Label Content="Select a property set group"/>
-        <ComboBox ItemsSource="{Binding PropertySetGroups}"
+                <Label Content="Select a property set group"/>
+                <ComboBox ItemsSource="{Binding PropertySetGroups}"
                   SelectedItem="{Binding SelectedPropertySetGroup}"
                   Margin="5"
                   Padding="2"/>
 
-        <GroupBox Header="Elements selection">
-            <Button Content="Select"
+                <GroupBox Header="Elements selection">
+                    <Button Content="Select"
                     Command="{Binding SelectElements}"/>
-        </GroupBox>
+                </GroupBox>
 
-        <Button Command="{Binding SetPropertySetValuesCommand}"
+                <Button Command="{Binding SetPropertySetValuesCommand}"
                 Content="Set Values"
                 Margin="5"
                 Padding="2"/>
-    </StackPanel>
+            </StackPanel>
+        </TabItem>
+        <TabItem Header="Import/Export">
+            <StackPanel>
+                <Button Content="Select Element To Export Values"
+                    Command="{Binding ExportValuesCommand}"
+                        Margin="2"/>
+
+                <Button Content="Select Elements to Import Values"
+                    Command="{Binding ImportValuesCommand}"
+                        Margin="2"/>
+            </StackPanel>
+        </TabItem>
+    </TabControl>
+
 </Window>
