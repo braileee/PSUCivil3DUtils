@@ -13,6 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace Civil3DToolbox
@@ -50,53 +51,71 @@ namespace Civil3DToolbox
         [CommandMethod("PSV", "BindXrefsForDwgsInFolder", CommandFlags.Modal)]
         public static void BindXrefsForDwgsInFolder()
         {
-            string directory = FolderUtils.GetFolderPathExtendedWindow(Environment.SpecialFolder.Desktop);
-
-            if (!Directory.Exists(directory))
+            try
             {
-                MessageBox.Show("No such directory");
-                return;
-            }
+                Document document = null;
 
-            string[] dwgFilePaths = Directory.GetFiles(directory, "*.dwg", SearchOption.AllDirectories);
+                string directory = FolderUtils.GetFolderPathExtendedWindow(Environment.SpecialFolder.Desktop);
 
-            foreach (string dwgFilePath in dwgFilePaths)
-            {
-                Document document = AutocadDocumentService.DocumentManager.Open(dwgFilePath);
-                AutocadDocumentService.DocumentManager.MdiActiveDocument = document;
-
-                using (AutocadDocumentService.LockActiveDocument())
+                if (!Directory.Exists(directory))
                 {
-                    using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                    MessageBox.Show("No such directory");
+                    return;
+                }
+
+                string[] dwgFilePaths = Directory.GetFiles(directory, "*.dwg", SearchOption.AllDirectories);
+
+                foreach (string dwgFilePath in dwgFilePaths)
+                {
+
+                    document = AutocadDocumentService.DocumentManager.Open(dwgFilePath, forReadOnly: false);
+                    Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument = document;
+
+                    using (document.LockDocument())
                     {
-                        ObjectIdCollection xrefCollection = new ObjectIdCollection();
-
-                        using (XrefGraph xrefGraph = AutocadDocumentService.Database.GetHostDwgXrefGraph(false))
+                        using (Transaction transaction = document.TransactionManager.StartTransaction())
                         {
-                            int numOfNodes = xrefGraph.NumNodes;
+                            ObjectIdCollection xrefIdCollection = new ObjectIdCollection();
 
-                            for (int nodeIndex = 0; nodeIndex < xrefGraph.NumNodes; nodeIndex++)
+                            using (XrefGraph xrefGraph = document.Database.GetHostDwgXrefGraph(false))
                             {
-                                XrefGraphNode xNode = xrefGraph.GetXrefNode(nodeIndex);
+                                int numOfNodes = xrefGraph.NumNodes;
 
-                                if (!xNode.Database.Filename.Equals(AutocadDocumentService.Database.Filename))
+                                for (int nodeIndex = 0; nodeIndex < xrefGraph.NumNodes; nodeIndex++)
                                 {
-                                    if (xNode.XrefStatus == XrefStatus.Resolved)
+                                    XrefGraphNode xNode = xrefGraph.GetXrefNode(nodeIndex);
+
+                                    if (!xNode.Database.Filename.Equals(document.Database.Filename))
                                     {
-                                        xrefCollection.Add(xNode.BlockTableRecordId);
+                                        if (xNode.XrefStatus == XrefStatus.Resolved)
+                                        {
+                                            xrefIdCollection.Add(xNode.BlockTableRecordId);
+                                        }
                                     }
                                 }
                             }
+
+                            if (xrefIdCollection.Count != 0)
+                            {
+                                document.Database.BindXrefs(xrefIdCollection, true);
+
+                                foreach (ObjectId xrefId in xrefIdCollection)
+                                {
+                                    document.Database.DetachXref(xrefId);
+                                }
+                            }
+
+                            dynamic acadDoc = document.GetAcadDocument();
+                            acadDoc.Save();
+                            transaction.Commit();
                         }
 
-                        if (xrefCollection.Count != 0)
-                        {
-                            AutocadDocumentService.Database.BindXrefs(xrefCollection, true);
-                        }
-
-                        transaction.Commit();
                     }
                 }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Error");
             }
         }
     }

@@ -40,6 +40,10 @@
 				<Command Local="ReverseTextElevation"
 						 Global="ReverseTextElevation"
 						 Description="ReverseTextElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
 			</Commands>
 		</ComponentEntry>
 
@@ -143,6 +147,10 @@
 				<Command Local="ReverseTextElevation"
 						 Global="ReverseTextElevation"
 						 Description="ReverseTextElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
 			</Commands>
 		</ComponentEntry>
 
@@ -248,6 +256,10 @@
 				<Command Local="ReverseTextElevation"
 						 Global="ReverseTextElevation"
 						 Description="ReverseTextElevation" />
+				
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
 			</Commands>
 		</ComponentEntry>
 
