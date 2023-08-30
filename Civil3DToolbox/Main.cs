@@ -50,14 +50,7 @@ namespace Civil3DToolbox
         [CommandMethod("PSV", "BindXrefsForDwgsInFolder", CommandFlags.Modal)]
         public static void BindXrefsForDwgsInFolder()
         {
-            PromptResult promptResult = AutocadDocumentService.Editor.GetString("Get directory");
-
-            if (promptResult.Status != PromptStatus.OK)
-            {
-                return;
-            }
-
-            string directory = promptResult.StringResult;
+            string directory = FolderUtils.GetFolderPathExtendedWindow(Environment.SpecialFolder.Desktop);
 
             if (!Directory.Exists(directory))
             {
