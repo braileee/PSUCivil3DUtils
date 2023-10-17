@@ -109,33 +109,22 @@ namespace Civil3DPropertyValuesReport.Models
         {
             get
             {
-                if (DbObject is Civil.FeatureLine featureLine)
+                switch (DbObject)
                 {
-                    return Math.Round(featureLine.Length2D, Accuracy);
-                }
-                else if (DbObject is Civil.Alignment alignment)
-                {
-                    return Math.Round(alignment.Length, Accuracy);
-                }
-                else if (DbObject is Civil.Profile profile)
-                {
-                    return Math.Round(profile.Length, Accuracy);
-                }
-                else if (DbObject is Civil.Pipe pipe)
-                {
-                    return Math.Round(pipe.Length2DCenterToCenter, Accuracy);
-                }
-                else if (DbObject is Acad.Polyline polyline)
-                {
-                    return Math.Round(polyline.Length, Accuracy);
-                }
-                else if (DbObject is Acad.Polyline2d polyline2d)
-                {
-                    return Math.Round(polyline2d.Length, Accuracy);
-                }
-                else if (DbObject is Acad.Polyline3d polyline3d)
-                {
-                    return Math.Round(polyline3d.Length, Accuracy);
+                    case Civil.FeatureLine featureLine:
+                        return Math.Round(featureLine.Length2D, Accuracy);
+                    case Civil.Alignment alignment:
+                        return Math.Round(alignment.Length, Accuracy);
+                    case Civil.Profile profile:
+                        return Math.Round(profile.Length, Accuracy);
+                    case Civil.Pipe pipe:
+                        return Math.Round(pipe.Length2DCenterToCenter, Accuracy);
+                    case Acad.Polyline polyline:
+                        return Math.Round(polyline.Length, Accuracy);
+                    case Acad.Polyline2d polyline2d:
+                        return Math.Round(polyline2d.Length, Accuracy);
+                    case Acad.Polyline3d polyline3d:
+                        return Math.Round(polyline3d.Length, Accuracy);
                 }
 
                 return 0;
@@ -146,13 +135,12 @@ namespace Civil3DPropertyValuesReport.Models
         {
             get
             {
-                if (DbObject is Civil.FeatureLine featureLine)
+                switch (DbObject)
                 {
-                    return Math.Round(featureLine.Length3D, Accuracy);
-                }
-                else if (DbObject is Civil.Pipe pipe)
-                {
-                    return Math.Round(pipe.Length3DCenterToCenter, Accuracy);
+                    case Civil.FeatureLine featureLine:
+                        return Math.Round(featureLine.Length3D, Accuracy);
+                    case Civil.Pipe pipe:
+                        return Math.Round(pipe.Length3DCenterToCenter, Accuracy);
                 }
 
                 return Length2d;
