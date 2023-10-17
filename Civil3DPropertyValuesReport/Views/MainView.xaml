@@ -55,10 +55,10 @@
                     Width="500"
                     Margin="2"
                     Orientation="Horizontal">
-            <Label Content="Group by"/>
+            <!--<Label Content="Group by"/>
             <ComboBox ItemsSource="{Binding GroupProperties}"
                       SelectedItem="{Binding SelectedGroupProperty}"
-                      Width="100"/>
+                      Width="100"/>-->
 
             <Label Content="Rounding to"/>
             <ComboBox ItemsSource="{Binding RoundingSigns}"
@@ -73,7 +73,8 @@
 
         </StackPanel>
 
-        <Label Content="Selected" DockPanel.Dock="Top"/>
+        <Label Content="Selected" DockPanel.Dock="Top" Margin="5" 
+               BorderThickness="1" BorderBrush="Black" FontSize="16"/>
 
         <DataGrid ItemsSource="{Binding SelectedElements}" 
                   AutoGenerateColumns="False" 
@@ -105,7 +106,9 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Label Content="Total" DockPanel.Dock="Top"/>
+        <Label Content="Total" DockPanel.Dock="Top" Margin="5" 
+         BorderThickness="1" BorderBrush="Black" FontSize="16"/>
+        
         <DataGrid ItemsSource="{Binding TotalElements}" 
                   AutoGenerateColumns="False" 
                   IsReadOnly="True"
@@ -136,13 +139,13 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Button Content="Export" 
+        <!--<Button Content="Export" 
                 Command="{Binding ExportCommand}"
                 DockPanel.Dock="Bottom"
                 Width="100"
                 Height="30"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Bottom"
-                Margin="2"/>
+                Margin="2"/>-->
     </DockPanel>
 </Window>

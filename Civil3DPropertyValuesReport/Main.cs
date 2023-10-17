@@ -4,6 +4,7 @@ using Autofac;
 using Civil3DPropertyValuesReport.Startup;
 using Civil3DPropertyValuesReport.Views;
 using System.Reflection;
+using System.Web.UI;
 
 namespace Civil3DPropertyValuesReport
 {
@@ -14,7 +15,7 @@ namespace Civil3DPropertyValuesReport
         {
             try
             {
-                Assembly.LoadFrom("MahApps.Metro.dll");
+                System.Reflection.Assembly.LoadFrom("MahApps.Metro.dll");
             }
             catch (System.Exception)
             {
