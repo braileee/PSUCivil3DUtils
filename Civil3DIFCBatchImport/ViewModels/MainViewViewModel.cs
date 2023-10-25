@@ -50,6 +50,21 @@ namespace Civil3DIFCBatchImport.ViewModels
 
             ExportValuesCommand = new DelegateCommand(OnExportValuesCommand);
             ImportValuesCommand = new DelegateCommand(OnImportValuesCommand);
+
+            SelectedDirectoryInfo = "Select";
+
+            SelectedTemplateInfo = string.IsNullOrEmpty(TemplateFilePath) ? "Select" : $"Selected: {Path.GetFileNameWithoutExtension(TemplateFilePath)}";
+        }
+
+        private string selectedTemplateInfo;
+        public string SelectedTemplateInfo
+        {
+            get { return selectedTemplateInfo; }
+            set
+            {
+                selectedTemplateInfo = value;
+                RaisePropertyChanged();
+            }
         }
 
         private void OnExportValuesCommand()
@@ -108,6 +123,8 @@ namespace Civil3DIFCBatchImport.ViewModels
             }
 
             TemplateFilePath = FileUtils.GetFilePath(templatesFolder, "DWT files (*.dwt)|*.dwt|All files (*.*)|*.*");
+
+            SelectedTemplateInfo = $"Selected: {Path.GetFileNameWithoutExtension(TemplateFilePath)}";
         }
 
         private string templateFilePath;
@@ -123,6 +140,18 @@ namespace Civil3DIFCBatchImport.ViewModels
 
         public DelegateCommand ExportValuesCommand { get; }
         public DelegateCommand ImportValuesCommand { get; }
+        public string SelectedDirectoryInfo
+        {
+            get
+            {
+                return selectedDirectoryInfo;
+            }
+            set
+            {
+                selectedDirectoryInfo = value;
+                RaisePropertyChanged();
+            }
+        }
 
         private void OnExportCommand()
         {
@@ -146,11 +175,9 @@ namespace Civil3DIFCBatchImport.ViewModels
                     return;
                 }
 
-                string[] ifcFiles = Directory.GetFiles(FolderPath, "*.ifc", SearchOption.AllDirectories);
-
                 List<string> dwgFiles = new List<string>();
 
-                foreach (string ifcFile in ifcFiles)
+                foreach (string ifcFile in IfcFiles)
                 {
                     string directory = Path.GetDirectoryName(ifcFile);
                     string dwgFile = Path.Combine(directory, $"{Path.GetFileNameWithoutExtension(ifcFile)}.dwg");
@@ -172,6 +199,15 @@ namespace Civil3DIFCBatchImport.ViewModels
         {
             FolderPath = !File.Exists(Settings.Default.FolderPath) ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) : Settings.Default.FolderPath;
             FolderPath = FolderUtils.GetFolderPathExtendedWindow(FolderPath);
+
+            string[] ifcFilesArray = Directory.GetFiles(FolderPath, "*.ifc", SearchOption.AllDirectories);
+
+            if (ifcFilesArray != null && ifcFilesArray.Length > 0)
+            {
+                IfcFiles = ifcFilesArray.ToList();
+            }
+
+            SelectedDirectoryInfo = $"Selected: {IfcFiles.Count}";
         }
 
         private bool isUnitsMillimeters;
@@ -187,6 +223,7 @@ namespace Civil3DIFCBatchImport.ViewModels
 
         private bool isUnitsMeters;
         private string folderPath;
+        private string selectedDirectoryInfo;
 
         public bool IsUnitsMeters
         {
@@ -214,6 +251,8 @@ namespace Civil3DIFCBatchImport.ViewModels
                 RaisePropertyChanged();
             }
         }
+
+        public List<string> IfcFiles { get; set; } = new List<string>();
 
         private void DocumentCollectionDocumentActivated(object sender, DocumentCollectionEventArgs e)
         {

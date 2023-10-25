@@ -122,6 +122,7 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
 
         private SurfaceStyle selectedSurfaceStyle;
         private bool doCreateAutomaticBoundary;
+        private OverhangCorrectionWrapper selectedOverhangCorrection;
 
         public SurfaceStyle SelectedSurfaceStyle
         {
@@ -134,7 +135,15 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
         }
 
         public List<OverhangCorrectionWrapper> OverhangCorrectionList { get; private set; } = new List<OverhangCorrectionWrapper>();
-        public OverhangCorrectionWrapper SelectedOverhangCorrection { get; private set; } = new OverhangCorrectionWrapper();
+        public OverhangCorrectionWrapper SelectedOverhangCorrection
+        {
+            get { return selectedOverhangCorrection; }
+            set
+            {
+                selectedOverhangCorrection = value;
+                RaisePropertyChanged();
+            }
+        }
         public bool DoCreateAutomaticBoundary
         {
             get
@@ -272,6 +281,7 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
                             string corridorSurfaceName = $"{corridor.Name} - {linkCodeWrapper.Name} - {Guid.NewGuid()}";
 
                             CorridorSurface corridorSurface = corridor.CorridorSurfaces.Add(corridorSurfaceName, SelectedSurfaceStyle.Id);
+                            corridorSurface.IsBuild = true;
                             corridorSurface.AddLinkCode(linkCodeWrapper.Name, addAsBreakLine: false);
                             corridorSurface.OverhangCorrection = SelectedOverhangCorrection.OverhangCorrectionType;
                             corridorSurface.Boundaries.AddCorridorExtentsBoundary($"Boundary - {corridorSurfaceName}");

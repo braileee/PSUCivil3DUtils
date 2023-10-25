@@ -125,6 +125,11 @@ namespace Civil3DPropertyValuesReport.ViewModels
                     elementWrapper.Accuracy = SelectedRoundingValue;
                 }
 
+                foreach (TotalWrapper totalElement in TotalElements)
+                {
+                    totalElement.Accurracy = SelectedRoundingValue;
+                }
+
                 RaisePropertyChanged();
             }
         }

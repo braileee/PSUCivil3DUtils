@@ -11,6 +11,7 @@ namespace Civil3DPropertyValuesReport.Models
     public class TotalWrapper : BindableBase
     {
         private const string VariesValue = "**VARIES**";
+        private int accurracy;
 
         private TotalWrapper()
         {
@@ -132,7 +133,26 @@ namespace Civil3DPropertyValuesReport.Models
             }
         }
 
-        public int Accurracy { get; private set; }
+        public int Accurracy
+        {
+            get
+            {
+                return accurracy;
+            }
+            set
+            {
+                accurracy = value;
+                RaisePropertyChanged();
+                RaisePropertyChanged(nameof(Volume));
+                RaisePropertyChanged(nameof(Length2d));
+                RaisePropertyChanged(nameof(Length3d));
+                RaisePropertyChanged(nameof(Area2d));
+                RaisePropertyChanged(nameof(Area3d));
+                RaisePropertyChanged(nameof(Thickness));
+                RaisePropertyChanged(nameof(Count));
+            }
+        }
+
         public ObservableCollection<ElementWrapper> Elements { get; private set; } = new ObservableCollection<ElementWrapper>();
     }
 }

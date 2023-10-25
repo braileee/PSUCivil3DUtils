@@ -54,14 +54,17 @@
         <Label Content="Select a directory"
                Margin="2"/>
         <Button 
-            Content="Select"
+            Content="{Binding SelectedDirectoryInfo}"
             Command="{Binding SelectDirectoryCommand}"
                 Margin="2"/>
+        
         <Label Content="Template to create DWG files"
                Margin="2"/>
-        <Button Content="Select"
+        
+        <Button Content="{Binding SelectedTemplateInfo}"
                 Command="{Binding SelectTemplateCommand}" 
                 Margin="2"/>
+        
         <StackPanel>
             
         </StackPanel>
