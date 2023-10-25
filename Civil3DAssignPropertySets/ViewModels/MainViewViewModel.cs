@@ -21,6 +21,7 @@ using ExcelDataReader;
 using System.Data;
 using Civil3DAssignPropertySets.Models;
 using Civil3DUtils;
+using System.Reflection;
 
 namespace Civil3DAssignPropertySets.ViewModels
 {
@@ -168,7 +169,12 @@ namespace Civil3DAssignPropertySets.ViewModels
         {
             try
             {
-                ExcelFilePath = FileUtils.GetFilePath(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*");
+                string assemblyLocation = Assembly.GetAssembly(typeof(MainViewViewModel)).Location;
+                string assemblyDirectory = Path.GetDirectoryName(assemblyLocation);
+
+                string exampleFilePath = Path.Combine(assemblyDirectory, "Files", "Civil3DAssignPropertySets");
+
+                ExcelFilePath = FileUtils.GetFilePath(exampleFilePath, "Excel files (*.xlsx)|*.xlsx|All files (*.*)|*.*");
 
                 if (string.IsNullOrEmpty(ExcelFilePath))
                 {

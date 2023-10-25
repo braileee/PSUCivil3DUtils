@@ -118,6 +118,35 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
         }
 
         public DelegateCommand DeleteSelectedCommand { get; }
+        public List<SurfaceStyle> SurfaceStyles { get; private set; } = new List<SurfaceStyle>();
+
+        private SurfaceStyle selectedSurfaceStyle;
+        private bool doCreateAutomaticBoundary;
+
+        public SurfaceStyle SelectedSurfaceStyle
+        {
+            get { return selectedSurfaceStyle; }
+            set
+            {
+                selectedSurfaceStyle = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public List<OverhangCorrectionWrapper> OverhangCorrectionList { get; private set; } = new List<OverhangCorrectionWrapper>();
+        public OverhangCorrectionWrapper SelectedOverhangCorrection { get; private set; } = new OverhangCorrectionWrapper();
+        public bool DoCreateAutomaticBoundary
+        {
+            get
+            {
+                return doCreateAutomaticBoundary;
+            }
+            set
+            {
+                doCreateAutomaticBoundary = value;
+                RaisePropertyChanged();
+            }
+        }
 
         public MainViewViewModel(IEventAggregator eventAggregator)
         {
@@ -125,8 +154,6 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
 
             DocumentCollection documentCollection = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager;
             documentCollection.DocumentActivated += DocumentCollectionDocumentActivated;
-
-            Corridors = CorridorUtils.GetAllTheCorridors(OpenMode.ForRead);
 
             SelectCorridorFromModel = new DelegateCommand(OnSelectCorridorFromModel);
             CreateSurfacesCommand = new DelegateCommand(OnCreateSurfacesCommand);
@@ -137,6 +164,17 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
             _eventAggregator.GetEvent<SelectAllSurfacesEvent>().Subscribe(OnSelectAllSurfacesEvent);
 
             DeleteSelectedCommand = new DelegateCommand(OnDeleteSelectedCommand);
+
+            SurfaceStyles = SurfaceUtils.GetSurfaceStyles(OpenMode.ForRead);
+            SelectedSurfaceStyle = SurfaceStyles.FirstOrDefault();
+
+            OverhangCorrectionList = OverhangCorrectionWrapper.Get();
+            SelectedOverhangCorrection = OverhangCorrectionList.FirstOrDefault();
+
+            DoCreateAutomaticBoundary = true;
+
+            Corridors = CorridorUtils.GetAllTheCorridors(OpenMode.ForRead);
+            SelectedCorridor = Corridors.FirstOrDefault();
         }
 
         private void OnDeleteSelectedCommand()
@@ -202,10 +240,15 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
             {
                 if (SelectedCorridor == null)
                 {
+                    MessageBox.Show("No selected corridor");
                     return;
                 }
 
-                int counter = 0;
+                if (SelectedSurfaceStyle == null)
+                {
+                    MessageBox.Show("No selected surface style");
+                    return;
+                }
 
                 List<CorridorSurface> corridorSurfaces = new List<CorridorSurface>();
                 Corridor corridor = SelectedCorridor;
@@ -228,38 +271,24 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
 
                             string corridorSurfaceName = $"{corridor.Name} - {linkCodeWrapper.Name} - {Guid.NewGuid()}";
 
-                            CorridorSurface corridorSurface = corridor.CorridorSurfaces.Add(corridorSurfaceName);
+                            CorridorSurface corridorSurface = corridor.CorridorSurfaces.Add(corridorSurfaceName, SelectedSurfaceStyle.Id);
                             corridorSurface.AddLinkCode(linkCodeWrapper.Name, addAsBreakLine: false);
+                            corridorSurface.OverhangCorrection = SelectedOverhangCorrection.OverhangCorrectionType;
                             corridorSurface.Boundaries.AddCorridorExtentsBoundary($"Boundary - {corridorSurfaceName}");
                             corridorSurfaces.Add(corridorSurface);
                         }
 
                         corridor.Rebuild();
-
                         transaction.Commit();
                     }
                 }
-
-                using (AutocadDocumentService.LockActiveDocument())
-                {
-                    using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
-                    {
-                        if (!corridor.IsWriteEnabled)
-                        {
-                            corridor = transaction.GetObject(SelectedCorridor.Id, OpenMode.ForWrite, false, true) as Corridor;
-                        }
-
-                        corridor.Rebuild();
-                        transaction.Commit();
-                    }
-                }
-
-                MessageBox.Show($"Created corridor surfaces: {corridorSurfaces.Count}");
             }
             catch (Exception exception)
             {
                 MessageBox.Show(exception.Message, "Error");
             }
+
+            RaiseCloseRequest();
         }
 
         private void OnSelectCorridorFromModel()

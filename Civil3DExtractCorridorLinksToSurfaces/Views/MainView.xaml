@@ -90,6 +90,24 @@
                         </StackPanel>
                     </GroupBox>
 
+                    <GroupBox Header="Corridor Surfaces">
+                        <StackPanel>
+                            <Label Content="Styles"/>
+                            <ComboBox ItemsSource="{Binding SurfaceStyles}"
+                                      SelectedItem="{Binding SelectedSurfaceStyle}"
+                                      DisplayMemberPath="Name"/>
+
+                            <Label Content="Overhang Correction"/>
+                            <ComboBox ItemsSource="{Binding OverhangCorrectionList}"
+                                      SelectedItem="{Binding SelectedOverhangCorrection}"
+                                      DisplayMemberPath="Name"/>
+
+                            <CheckBox IsChecked="{Binding DoCreateAutomaticBoundary}"
+                                      Content="Create Automatic Boundary"
+                                      Margin="0 5 5 5"/>
+                        </StackPanel>
+                    </GroupBox>
+
                     <Button Content="Create Surfaces"
                 Command="{Binding CreateSurfacesCommand}"
                 Margin="2"/>

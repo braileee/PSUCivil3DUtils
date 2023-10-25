@@ -45,13 +45,6 @@
 
 	<PropertyGroup />
 	<ItemGroup>
-		<None Include="Civil3D2022\civil3d_cowi_2022.cuix" />
-		<None Include="Civil3D2023\civil3d_cowi_2023.cuix" />
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="Civil3D2019\civil3d_cowi_2019.cuix" />
-	</ItemGroup>
-	<ItemGroup>
 		<None Include="PackageContents.xml" />
 	</ItemGroup>
 	<ItemGroup>
@@ -60,6 +53,6 @@
 		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\Civil3D2019\civil3d_cowi_2019.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\Civil3D2022\civil3d_cowi_2022.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\Civil3D2023\civil3d_cowi_2023.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
+	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\UI\civil3d_cowi.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\UI\civil3d_cowi.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\UI\civil3d_cowi.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
 	</Target>
 </Project>

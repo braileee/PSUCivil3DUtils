@@ -145,7 +145,7 @@
 		</Compile>
 	</ItemGroup>
 	<ItemGroup>
-		<Content Include="Files\PropertySetGroupsExample.xlsx">
+		<Content Include="Files\Civil3DAssignPropertySets\PropertySetGroupsExample.xlsx">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
 	</ItemGroup>

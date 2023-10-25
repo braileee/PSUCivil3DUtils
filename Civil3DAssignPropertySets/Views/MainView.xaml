@@ -74,7 +74,7 @@
                 Padding="2"/>
             </StackPanel>
         </TabItem>
-        <TabItem Header="Import/Export">
+        <!--<TabItem Header="Import/Export">
             <StackPanel>
                 <Button Content="Select Element To Export Values"
                     Command="{Binding ExportValuesCommand}"
@@ -84,7 +84,7 @@
                     Command="{Binding ImportValuesCommand}"
                         Margin="2"/>
             </StackPanel>
-        </TabItem>
+        </TabItem>-->
     </TabControl>
 
 </Window>

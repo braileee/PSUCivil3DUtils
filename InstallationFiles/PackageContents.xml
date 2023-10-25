@@ -8,7 +8,7 @@
 
 		<ComponentEntry AppName="COWICivil3D"
 						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2019/UI/civil3d_cowi_2019.cuix" />
+						ModuleName="./2019/UI/civil3d_cowi.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
@@ -115,7 +115,7 @@
 
 		<ComponentEntry AppName="COWICivil3D"
 						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2022/UI/civil3d_cowi_2022.cuix" />
+						ModuleName="./2022/UI/civil3d_cowi.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
@@ -224,7 +224,7 @@
 
 		<ComponentEntry AppName="COWICivil3D"
 						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2023/UI/civil3d_cowi_2023.cuix" />
+						ModuleName="./2023/UI/civil3d_cowi.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
