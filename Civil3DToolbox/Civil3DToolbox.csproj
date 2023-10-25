@@ -32,6 +32,9 @@
 	</PropertyGroup>
 	<PropertyGroup />
 	<ItemGroup>
+		<Reference Include="Civil3DUtils">
+		  <HintPath>..\Civil3DUtils\bin\Civil3D2019Debug\net47\Civil3DUtils.dll</HintPath>
+		</Reference>
 		<Reference Include="System.Data.DataSetExtensions" />
 		<Reference Include="Microsoft.CSharp" />
 		<Reference Include="System.Net.Http" />

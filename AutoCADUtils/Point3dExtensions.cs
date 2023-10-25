@@ -103,5 +103,10 @@ namespace AutoCADUtils
                                 point.Y,
                                 point.Z);
         }
+
+        public static string AsString(this Point3d point, int tolerance)
+        {
+            return $"{Math.Round(point.X, tolerance)};{Math.Round(point.Y, tolerance)};{Math.Round(point.Z, tolerance)}";
+        }
     }
 }
