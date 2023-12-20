@@ -50,6 +50,62 @@ namespace Civil3DToolbox
             }
         }
 
+        [CommandMethod("PSV", "ReversePolylineElevation", CommandFlags.Modal)]
+        public static void ReversePolylineElevation()
+        {
+            List<Polyline> polylines = SelectionUtils.GetElements<Polyline>("Select polylines to reverse elevation");
+
+            if (polylines.Count == 0)
+            {
+                AutocadDocumentService.Editor.WriteMessage($"No polyline was selected");
+                return;
+            }
+
+            AutocadDocumentService.Editor.WriteMessage($"Polyline entities selected: {polylines.Count}");
+
+            using (AutocadDocumentService.LockActiveDocument())
+            {
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (Polyline polyline in polylines)
+                    {
+                        Polyline openedPolyline = transaction.GetObject(polyline.Id, OpenMode.ForWrite, false, true) as Polyline;
+                        openedPolyline.Elevation = -openedPolyline.Elevation;
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
+        [CommandMethod("PSV", "ReversePolyline2dElevation", CommandFlags.Modal)]
+        public static void ReversePolyline2dElevation()
+        {
+            List<Polyline2d> polylines = SelectionUtils.GetElements<Polyline2d>("Select polylines to reverse elevation");
+
+            if (polylines.Count == 0)
+            {
+                AutocadDocumentService.Editor.WriteMessage($"No polyline was selected");
+                return;
+            }
+
+            AutocadDocumentService.Editor.WriteMessage($"Polyline entities selected: {polylines.Count}");
+
+            using (AutocadDocumentService.LockActiveDocument())
+            {
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (Polyline2d polyline in polylines)
+                    {
+                        Polyline2d openedPolyline = transaction.GetObject(polyline.Id, OpenMode.ForWrite, false, true) as Polyline2d;
+                        openedPolyline.Elevation = -openedPolyline.Elevation;
+                    }
+
+                    transaction.Commit();
+                }
+            }
+        }
+
         [CommandMethod("PSV", "BindXrefsForDwgsInFolder", CommandFlags.Modal)]
         public static void BindXrefsForDwgsInFolder()
         {

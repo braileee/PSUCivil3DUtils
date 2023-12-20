@@ -126,19 +126,19 @@ namespace AutoCADUtils.Utils
 
                             if (objEntity == null)
                             {
-                                return default;
+                                continue;
                             }
 
                             if (!objEntity.GetType().Name.Equals(typeof(T).Name))
                             {
-                                return default;
+                                continue;
                             }
 
                             T castedElement = (T)objEntity;
 
                             if (castedElement == null)
                             {
-                                return default;
+                                continue;
                             }
 
                             elements.Add(castedElement);
