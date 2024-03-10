@@ -59,9 +59,7 @@
 	<PropertyGroup>
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<AssemblyTitle>Civil3DSubassemblyAnnotations</AssemblyTitle>
-		<Company>COWI</Company>
 		<Product>Civil3DSubassemblyAnnotations</Product>
-		<Copyright>Copyright © COWI 2023</Copyright>
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<ItemGroup>
@@ -197,6 +195,6 @@
 		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\COWI.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
+	  <Exec Command="&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;  " />
 	</Target>
 </Project>

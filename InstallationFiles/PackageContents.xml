@@ -6,9 +6,9 @@
 	<Components>
 		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R23.0" SeriesMax="R23.0"/>
 
-		<ComponentEntry AppName="COWICivil3D"
-						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2019/UI/civil3d_cowi.cuix" />
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2019/UI/civil3d_psu.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
@@ -113,9 +113,9 @@
 	<Components>
 		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.1" SeriesMax="R24.1"/>
 
-		<ComponentEntry AppName="COWICivil3D"
-						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2022/UI/civil3d_cowi.cuix" />
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2022/UI/civil3d_psu.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
@@ -222,9 +222,9 @@
 	<Components>
 		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.2" SeriesMax="R24.2"/>
 
-		<ComponentEntry AppName="COWICivil3D"
-						AppDescription="COWI Civil 3D Utils"
-						ModuleName="./2023/UI/civil3d_cowi.cuix" />
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2023/UI/civil3d_psu.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
