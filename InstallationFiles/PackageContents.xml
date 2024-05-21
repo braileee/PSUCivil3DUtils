@@ -44,6 +44,14 @@
 				<Command Local="BindXrefsForDwgsInFolder"
 						 Global="BindXrefsForDwgsInFolder"
 						 Description="BindXrefsForDwgsInFolder" />
+				
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+						 Global="ReversePolylineElevation"
+						 Description="ReversePolylineElevation" />
 			</Commands>
 		</ComponentEntry>
 
@@ -92,13 +100,24 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DIFCBatchImport"
-		AppDescription="Civil3DIFCBatchImport"
-		ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
-		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+				AppDescription="Civil3DIFCBatchImport"
+				ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DIFCBatchImport"
 						 Global="Civil3DIFCBatchImport"
 						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+				AppDescription="Civil3DLineSelfIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -210,6 +229,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+				AppDescription="Civil3DLineSelfIntersectionCheck"
+				ModuleName="./2022/Contents/Civil3DLineSelfIntersectionCheck.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2022/Contents/MahApps.Metro.dll"
@@ -318,6 +348,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+						AppDescription="Civil3DLineSelfIntersectionCheck"
+						ModuleName="./2023/Contents/Civil3DLineSelfIntersectionCheck.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+		
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"

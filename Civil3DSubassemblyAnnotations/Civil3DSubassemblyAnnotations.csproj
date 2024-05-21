@@ -5,6 +5,7 @@
 		<ProjectGuid>{41981E44-B15C-46AE-9FA8-067421754186}</ProjectGuid>
 		<RootNamespace>Civil3DSubassemblyAnnotations</RootNamespace>
 		<AssemblyName>Civil3DSubassemblyAnnotations</AssemblyName>
+		<ProjectGuid>{a482b3a7-70eb-4fee-8c45-c8433c15292d}</ProjectGuid>
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">

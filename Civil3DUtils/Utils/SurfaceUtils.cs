@@ -13,7 +13,7 @@ namespace Civil3DUtils.Utils
     {
         public static List<SurfaceStyle> GetSurfaceStyles(OpenMode openMode)
         {
-            SurfaceStyleCollection surfaceStyleIds = CivilDocumentService.CivilDocument.Styles.SurfaceStyles;
+            SurfaceStyleCollection surfaceStyleIds = CivilDocumentUtils.CivilDocument.Styles.SurfaceStyles;
 
             List<SurfaceStyle> surfaceStyles = new List<SurfaceStyle>();
 

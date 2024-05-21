@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace AutoCADUtils.Utils
 {
@@ -13,7 +15,7 @@ namespace AutoCADUtils.Utils
     {
         public static T GetElement<T>(string promptMessage, string rejectMessage = "Error")
         {
-            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Document adoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = adoc.Database;
             Editor ed = adoc.Editor;
             T oEntity = default;
@@ -63,7 +65,7 @@ namespace AutoCADUtils.Utils
 
         public static DBObject GetDbObject(string promptMessage, OpenMode openMode, string rejectMessage = "Error")
         {
-            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Document adoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = adoc.Database;
             Editor ed = adoc.Editor;
             DBObject oEntity = null;
@@ -95,9 +97,51 @@ namespace AutoCADUtils.Utils
             return oEntity;
         }
 
+        public static List<DBObject> GetDbObjects(string message, OpenMode openMode)
+        {
+            Document adoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = adoc.Database;
+            Editor ed = adoc.Editor;
+            PromptSelectionOptions opt = new PromptSelectionOptions();
+
+            opt.MessageForAdding = message;
+
+            List<DBObject> dbObjects = new List<DBObject>();
+
+            using (adoc.LockDocument())
+            {
+                using (Transaction ts = db.TransactionManager.StartTransaction())
+                {
+                    PromptSelectionResult entitiesPrompt = ed.GetSelection();
+                    if (entitiesPrompt.Status == PromptStatus.OK)
+                    {
+                        SelectionSet selectionSet = entitiesPrompt.Value;
+                        foreach (SelectedObject selectedElement in selectionSet)
+                        {
+                            if (selectedElement == null)
+                            {
+                                continue;
+                            }
+
+                            DBObject dbObject = ts.GetObject(selectedElement.ObjectId, openMode, false, true);
+
+                            if (dbObject != null)
+                            {
+                                dbObjects.Add(dbObject);
+                            }
+
+                        }
+                    }
+                    ts.Commit();
+                }
+            }
+
+            return dbObjects;
+        }
+
         public static List<T> GetElements<T>(string message)
         {
-            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Document adoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = adoc.Database;
             Editor ed = adoc.Editor;
             PromptSelectionOptions opt = new PromptSelectionOptions();
@@ -153,13 +197,12 @@ namespace AutoCADUtils.Utils
 
         public static List<Entity> GetEntities(string message)
         {
-            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Document adoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = adoc.Database;
             Editor ed = adoc.Editor;
             PromptSelectionOptions opt = new PromptSelectionOptions();
 
             opt.MessageForAdding = message;
-
 
             List<Entity> elements = new List<Entity>();
 
@@ -167,10 +210,10 @@ namespace AutoCADUtils.Utils
             {
                 using (Transaction ts = db.TransactionManager.StartTransaction())
                 {
-                    PromptSelectionResult pipesPrompt = ed.GetSelection();
-                    if (pipesPrompt.Status == PromptStatus.OK)
+                    PromptSelectionResult entitiesPrompt = ed.GetSelection();
+                    if (entitiesPrompt.Status == PromptStatus.OK)
                     {
-                        SelectionSet selectionSet = pipesPrompt.Value;
+                        SelectionSet selectionSet = entitiesPrompt.Value;
                         foreach (SelectedObject selectedElement in selectionSet)
                         {
                             if (selectedElement == null)

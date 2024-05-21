@@ -1,9 +1,11 @@
-﻿using AutoCADUtils.Utils;
+﻿using AutoCADUtils;
+using AutoCADUtils.Utils;
 using Autodesk.Aec.PropertyData.DatabaseServices;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.Civil;
+using Civil3DUtils.Utils;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -287,7 +289,7 @@ namespace Civil3DUtils
                                 DBObject obj, string value)
         {
 
-            using (Transaction transaction = CivilDocumentService.TransactionManager.StartTransaction())
+            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
             {
                 if (!obj.IsWriteEnabled)
                 {
@@ -325,7 +327,7 @@ namespace Civil3DUtils
                                 DBObject obj, double value)
         {
 
-            using (Transaction transaction = CivilDocumentService.TransactionManager.StartTransaction())
+            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
             {
                 if (!obj.IsWriteEnabled)
                 {
@@ -363,7 +365,7 @@ namespace Civil3DUtils
                                 DBObject obj, int value)
         {
 
-            using (Transaction transaction = CivilDocumentService.TransactionManager.StartTransaction())
+            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
             {
                 if (!obj.IsWriteEnabled)
                 {
@@ -840,7 +842,7 @@ namespace Civil3DUtils
 
             List<PropertySetDefinition> propertySetDefinitions = new List<PropertySetDefinition>();
 
-            using (CivilDocumentService.Document.LockDocument())
+            using (AutocadDocumentService.LockActiveDocument())
             {
                 using (Transaction ts = db.TransactionManager.StartTransaction())
                 {
@@ -901,7 +903,7 @@ namespace Civil3DUtils
             Dictionary<PropertySetDefinition, List<PropertyDefinition>> propDefDict =
                             new Dictionary<PropertySetDefinition, List<PropertyDefinition>>();
 
-            using (CivilDocumentService.Document.LockDocument())
+            using (AutocadDocumentService.LockActiveDocument())
             {
                 using (Transaction ts = db.TransactionManager.StartTransaction())
                 {
