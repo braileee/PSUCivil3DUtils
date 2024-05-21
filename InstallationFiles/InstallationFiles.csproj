@@ -1,44 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2022Debug;Civil3D2023Debug</Configurations>
-		<ProjectGuid>{D366AA9D-72E7-420F-AE21-03EAFD001403}</ProjectGuid>
-		<TargetFramework>net47</TargetFramework>
-		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-		<OutputPath>bin\$(Configuration)\</OutputPath>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;</Configurations>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<DebugType>full</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<DebugType>pdbonly</DebugType>
-	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2019|AnyCPU'">
-		<DebugSymbols>true</DebugSymbols>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>x64</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
-		<Prefer32Bit>true</Prefer32Bit>
+	
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2022|AnyCPU'">
-		<DebugSymbols>true</DebugSymbols>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>x64</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
-		<Prefer32Bit>true</Prefer32Bit>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2021Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Civil3D2023|AnyCPU'">
-		<DebugSymbols>true</DebugSymbols>
-		<DefineConstants>DEBUG;TRACE</DefineConstants>
-		<DebugType>full</DebugType>
-		<PlatformTarget>x64</PlatformTarget>
-		<LangVersion>7.3</LangVersion>
-		<Prefer32Bit>true</Prefer32Bit>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2024Debug'">
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	
 	<PropertyGroup>
 		<StartupObject />
 	</PropertyGroup>
@@ -53,6 +37,6 @@
 		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;   if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;   if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
+	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
 	</Target>
 </Project>

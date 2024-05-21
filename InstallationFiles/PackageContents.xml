@@ -366,4 +366,123 @@
 
 		</ComponentEntry>
 	</Components>
+	
+	<!--Civil 3D 2024-->
+	<Components>
+		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.3" SeriesMax="R24.3"/>
+
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2024/UI/civil3d_psu.cuix" />
+
+		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
+						AppDescription="Civil3DAlignmentStationCoordinatesTable"
+						ModuleName="./2024/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAlignmentStationCoordinatesTable"
+						 Global="Civil3DAlignmentStationCoordinatesTable"
+						 Description="Civil3DAlignmentStationCoordinatesTable" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DSubassemblyAnnotations"
+						AppDescription="Civil3DSubassemblyAnnotations"
+						ModuleName="./2024/Contents/Civil3DSubassemblyAnnotations.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DSubassemblyAnnotations"
+						 Global="Civil3DSubassemblyAnnotations"
+						 Description="Civil3DSubassemblyAnnotations" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DToolbox"
+						AppDescription="Civil3DToolbox"
+						ModuleName="./2024/Contents/Civil3DToolbox.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="ReverseTextElevation"
+						 Global="ReverseTextElevation"
+						 Description="ReverseTextElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2024/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2024/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
+						 Global="Civil3DExtractCorridorLinksToSurfaces"
+						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2024/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+		AppDescription="Civil3DCreateCogoPointOnSectionView"
+		ModuleName="./2024/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+						AppDescription="Civil3DIFCBatchImport"
+						ModuleName="./2024/Contents/Civil3DIFCBatchImport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+						AppDescription="Civil3DLineSelfIntersectionCheck"
+						ModuleName="./2024/Contents/Civil3DLineSelfIntersectionCheck.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="MahApps.Metro"
+				AppDescription="MahApps.Metro"
+				ModuleName="./2024/Contents/MahApps.Metro.dll"
+				LoadOnAutoCADStartup ="true" >
+
+		</ComponentEntry>
+	</Components>
 </ApplicationPackage>

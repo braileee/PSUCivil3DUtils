@@ -86,7 +86,6 @@ namespace Civil3DLineSelfIntersectionCheck
 
                 CogoPointUtils.CreateCogoPoints(intersectionPoints);
                 MessageBox.Show($"Intersection points count: {intersectionPoints.Count}");
-
             }
             catch (System.Exception exception)
             {
