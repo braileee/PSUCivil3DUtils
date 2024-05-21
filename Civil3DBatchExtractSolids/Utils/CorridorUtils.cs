@@ -17,7 +17,6 @@ namespace Civil3DBatchExtractSolids.Utils
         {
             var adoc = Application.DocumentManager.MdiActiveDocument;
             var db = adoc.Database;
-            var cdoc = CivilDocument.GetCivilDocument(adoc.Database);
             Editor ed = adoc.Editor;
 
             Civil.Corridor corridor = null;
@@ -26,8 +25,10 @@ namespace Civil3DBatchExtractSolids.Utils
             {
                 using (Transaction ts = db.TransactionManager.StartTransaction())
                 {
-                    var opt = new PromptEntityOptions($"{Environment.NewLine}{promptMessage}{Environment.NewLine}");
-                    opt.Message = promptMessage;
+                    var opt = new PromptEntityOptions($"{Environment.NewLine}{promptMessage}{Environment.NewLine}")
+                    {
+                        Message = promptMessage
+                    };
                     var corridorObjId = ed.GetEntity(opt).ObjectId;
 
                     if (corridorObjId.IsNull)

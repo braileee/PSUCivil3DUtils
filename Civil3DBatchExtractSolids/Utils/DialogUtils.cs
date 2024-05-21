@@ -11,11 +11,13 @@ namespace Civil3DBatchExtractSolids.Utils
     {
         public static string GetFilePath(string initialDirectory = "c:\\", string dialogFilter = "dwg files (*.dwg)|*.dwg|All files (*.*)|*.*")
         {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = initialDirectory;
-            openFileDialog1.Filter = dialogFilter;
-            openFileDialog1.FilterIndex = 0;
-            openFileDialog1.RestoreDirectory = true;
+            OpenFileDialog openFileDialog1 = new OpenFileDialog
+            {
+                InitialDirectory = initialDirectory,
+                Filter = dialogFilter,
+                FilterIndex = 0,
+                RestoreDirectory = true
+            };
             string selectedFileName = string.Empty;
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {

@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;</Configurations>
-		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
@@ -54,28 +53,7 @@
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
-	<ItemGroup Condition="'$(Configuration)'=='Civil3D2021Debug'">
-	  <Reference Include="accoremgd">
-	    <HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="acdbmgd">
-	    <HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="acmgd">
-	    <HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="AecBaseMgd">
-	    <HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	  <Reference Include="AeccDbMgd">
-	    <HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
-	    <Private>False</Private>
-	  </Reference>
-	</ItemGroup>
+	
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2021Debug'">
 		<Reference Include="accoremgd">
 			<HintPath>..\Civil3DDlls\2021\accoremgd.dll</HintPath>

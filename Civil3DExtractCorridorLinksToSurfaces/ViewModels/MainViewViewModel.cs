@@ -27,15 +27,6 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
     public class MainViewViewModel : BindableBase
     {
         private readonly IEventAggregator _eventAggregator;
-        private bool isStartStationCheckboxChecked;
-        private double startStation;
-        private Civil.Alignment selectedAlignment;
-        private bool isEndStationCheckboxChecked;
-        private double endStation;
-        private bool isEndStationTextboxEnabled;
-        private bool isStartStationTextboxEnabled;
-        private double interval;
-        private List<Acad.TableStyle> tableStyles;
         private List<Corridor> corridors = new List<Corridor>();
 
         public List<Corridor> Corridors

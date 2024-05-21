@@ -12,7 +12,7 @@ namespace Civil3DBatchExtractSolids
         [CommandMethod("PSV", "Civil3DBatchExtractSolids", CommandFlags.Modal)]
         public static void Start()
         {
-#if CIVIL3D2023DEBUG || CIVIL3D2024DEBUG
+#if CIVIL3D2024DEBUG
             var bootstrapper = new Bootstrapper();
             var container = bootstrapper.Bootstrap();
             var mainView = container.Resolve<MainView>();

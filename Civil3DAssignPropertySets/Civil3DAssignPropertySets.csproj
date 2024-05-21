@@ -166,6 +166,10 @@
 			<HintPath>..\Civil3DDlls\2024\AeccDbMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2024\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
 	</ItemGroup>
 
 	<ItemGroup>

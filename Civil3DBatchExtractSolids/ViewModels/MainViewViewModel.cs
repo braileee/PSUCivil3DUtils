@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.DatabaseServices;
 using Civil3DBatchExtractSolids.Events;
 using Civil3DBatchExtractSolids.Models;
@@ -8,6 +9,7 @@ using Prism.Events;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 
@@ -68,7 +70,7 @@ namespace Civil3DBatchExtractSolids.ViewModels
 
         private void OnExtractCommand()
         {
-#if (CIVIL3D2023DEBUG || CIVIL3D2024DEBUG)
+#if (CIVIL3D2024DEBUG)
             try
             {
                 string solidsFilePath = DialogUtils.SaveFileToFolder(Environment.SpecialFolder.Desktop, ".dwg");
@@ -107,7 +109,7 @@ namespace Civil3DBatchExtractSolids.ViewModels
 
                     if (messageBoxResult == MessageBoxResult.Yes)
                     {
-                        AutocadDocumentService.DocumentManager.Open(solidsFilePath);
+                        AutoCADUtils.AutocadDocumentService.DocumentManager.Open(solidsFilePath);
                     }
                 }
                 else

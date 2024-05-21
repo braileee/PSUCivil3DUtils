@@ -266,8 +266,7 @@ namespace Civil3DUtils
                 if (!propDef.Name.Equals(propertyName))
                     continue;
                 //находим значение свойства
-                int propId = -1;
-                propId = propSet.PropertyNameToId(propDef.Name);
+                int propId = propSet.PropertyNameToId(propDef.Name);
 
                 try
                 {
@@ -420,7 +419,7 @@ namespace Civil3DUtils
                 {
                     propSet.SetAt(propId, value);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     continue;
                 }
@@ -474,7 +473,7 @@ namespace Civil3DUtils
                     var propSets = PropertyDataServices.GetPropertySets(obj);
                     propSetId = PropertyDataServices.GetPropertySet(obj, propSetDef.Id);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -696,7 +695,6 @@ namespace Civil3DUtils
             string propertySetName,
             DBObject obj, ref PropertySetDefinition propSetDef)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             var dictPropSetDef = new DictionaryPropertySetDefinitions(db);
             ObjectId propSetDefId = ObjectId.Null;
@@ -720,7 +718,7 @@ namespace Civil3DUtils
                 {
                     propSetId = PropertyDataServices.GetPropertySet(obj, propSetDefId);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -737,7 +735,6 @@ namespace Civil3DUtils
 
         public static PropertySet GetPropertySet(string propertySetName, DBObject obj)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             var dictPropSetDef = new DictionaryPropertySetDefinitions(db);
             var propSetDefId = dictPropSetDef.GetAt(propertySetName);
@@ -751,7 +748,7 @@ namespace Civil3DUtils
                 {
                     propSetId = PropertyDataServices.GetPropertySet(obj, propSetDefId);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return null;
                 }
@@ -836,7 +833,6 @@ namespace Civil3DUtils
 
         public static List<PropertySetDefinition> GetAllPropertySetDefinitions(OpenMode openMode)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(db);
 
@@ -868,7 +864,6 @@ namespace Civil3DUtils
 
         public static List<PropertyDefinition> GetAllPropertyDefinitions(OpenMode openMode)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(db);
             //ObjectId propSetDefId = dictPropSetDef.GetAt(propertySetName);
@@ -900,8 +895,6 @@ namespace Civil3DUtils
         {
             var db = HostApplicationServices.WorkingDatabase;
             DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(db);
-            Dictionary<PropertySetDefinition, List<PropertyDefinition>> propDefDict =
-                            new Dictionary<PropertySetDefinition, List<PropertyDefinition>>();
 
             using (AutocadDocumentService.LockActiveDocument())
             {
@@ -937,7 +930,6 @@ namespace Civil3DUtils
             string propSetName, string propName,
             ref PropertySetDefinition propSetDefFounded, ref PropertyDefinition propDefFounded)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(db);
             Dictionary<PropertySetDefinition, List<PropertyDefinition>> propDefDict =
@@ -978,8 +970,10 @@ namespace Civil3DUtils
                         }
                         else
                         {
-                            propDefDict[propSetDef] = new List<PropertyDefinition>();
-                            propDefDict[propSetDef].Add(propDef);
+                            propDefDict[propSetDef] = new List<PropertyDefinition>
+                            {
+                                propDef
+                            };
                         }
                     }
                 }
@@ -990,7 +984,6 @@ namespace Civil3DUtils
         public static Dictionary<PropertySetDefinition, List<PropertyDefinition>>
             GetAllPropertySetAndPropertyDefinitions(OpenMode openMode)
         {
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
             var db = HostApplicationServices.WorkingDatabase;
             DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(db);
             Dictionary<PropertySetDefinition, List<PropertyDefinition>> propDefDict =
@@ -1019,8 +1012,10 @@ namespace Civil3DUtils
                         }
                         else
                         {
-                            propDefDict[propSetDef] = new List<PropertyDefinition>();
-                            propDefDict[propSetDef].Add(propDef);
+                            propDefDict[propSetDef] = new List<PropertyDefinition>
+                            {
+                                propDef
+                            };
                         }
                     }
                 }
@@ -1035,9 +1030,10 @@ namespace Civil3DUtils
             PropertySetDefinition propertySet)
         {
             if (propertySet == null)
+            {
                 return new List<PropertyDefinition>();
-            var ed = Application.DocumentManager.MdiActiveDocument.Editor;
-            var db = HostApplicationServices.WorkingDatabase;
+            }
+
             List<PropertyDefinition> propDefList = new List<PropertyDefinition>();
 
             //открываем определение property set

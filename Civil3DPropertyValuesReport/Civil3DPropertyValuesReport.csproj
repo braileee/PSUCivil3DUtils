@@ -2,7 +2,6 @@
 	<PropertyGroup>
 		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;</Configurations>
 	</PropertyGroup>
-
 	
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<TargetFramework>net47</TargetFramework>

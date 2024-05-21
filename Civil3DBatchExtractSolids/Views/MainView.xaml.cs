@@ -22,8 +22,6 @@ namespace Civil3DBatchExtractSolids.Views
     /// </summary>
     public partial class MainView : Window
     {
-        private readonly IEventAggregator _eventAggregator;
-
         public MainView(MainViewViewModel mainViewViewModel)
         {
             InitializeComponent();
@@ -33,9 +31,7 @@ namespace Civil3DBatchExtractSolids.Views
 
         private void shapeCheckbox_PreviewMouseDown(object sender, MouseButtonEventArgs eventArgs)
         {
-            CheckBox checkbox = sender as CheckBox;
-
-            if (checkbox != null)
+            if (sender is CheckBox checkbox)
             {
                 checkbox.IsChecked = !checkbox.IsChecked;
                 eventArgs.Handled = true;

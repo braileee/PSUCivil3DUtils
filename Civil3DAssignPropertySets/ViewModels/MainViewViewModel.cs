@@ -27,17 +27,6 @@ namespace Civil3DAssignPropertySets.ViewModels
 {
     public class MainViewViewModel : BindableBase
     {
-        private readonly IEventAggregator _eventAggregator;
-        private bool isStartStationCheckboxChecked;
-        private double startStation;
-        private Civil.Alignment selectedAlignment;
-        private bool isEndStationCheckboxChecked;
-        private double endStation;
-        private bool isEndStationTextboxEnabled;
-        private bool isStartStationTextboxEnabled;
-        private double interval;
-        private List<Acad.TableStyle> tableStyles;
-
         public DelegateCommand LoadExcelCommand { get; }
         public DelegateCommand SelectElements { get; }
         public DelegateCommand SetPropertySetValuesCommand { get; }
@@ -73,8 +62,6 @@ namespace Civil3DAssignPropertySets.ViewModels
 
         public MainViewViewModel(IEventAggregator eventAggregator)
         {
-            _eventAggregator = eventAggregator;
-
             string assemblyLocation = System.Reflection.Assembly.GetAssembly(typeof(MainViewViewModel)).Location;
             string assemblyFolder = Path.GetDirectoryName(assemblyLocation);
 
