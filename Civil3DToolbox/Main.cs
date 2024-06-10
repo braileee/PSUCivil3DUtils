@@ -4,9 +4,12 @@ using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil.DatabaseServices;
+using Civil3DUtils.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Civil3DToolbox
@@ -165,6 +168,84 @@ namespace Civil3DToolbox
             catch (System.Exception exception)
             {
                 MessageBox.Show(exception.Message, "Error");
+            }
+        }
+
+        [CommandMethod("PSV", "MoveSolidsInsertionPointToTinSurface", CommandFlags.Modal)]
+        public static void MoveSolidsInsertionPointToTinSurface()
+        {
+            try
+            {
+                TinSurface surface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead);
+
+                if (surface == null)
+                {
+                    return;
+                }
+
+                List<Solid3d> solids = SolidUtils.PromptMultipleSolids3d(OpenMode.ForWrite);
+
+                if (solids.Count == 0)
+                {
+                    return;
+                }
+
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (Solid3d solid in solids)
+                    {
+                        Point3d maxPoint = solid.Bounds.Value.MaxPoint;
+                        double surfaceElevation = 0;
+
+                        try
+                        {
+                            surfaceElevation = surface.FindElevationAtXY(maxPoint.X, maxPoint.Y);
+                        }
+                        catch (System.Exception)
+                        {
+                            continue;
+                        }
+
+                        solid.Move(transaction, maxPoint, new Point3d(maxPoint.X, maxPoint.Y, surfaceElevation));
+                    }
+
+                    transaction.Commit();
+                }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
+
+        [CommandMethod("PSV", "AddNumberSuffixToRawDescriptionPoint", CommandFlags.Modal)]
+        public static void AddNumberSuffixToRawDescriptionPoint()
+        {
+            try
+            {
+                List<CogoPoint> points = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForWrite);
+
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    for (int i = 0; i < points.Count; i++)
+                    {
+                        CogoPoint cogoPoint = points[i];
+
+                        if (!cogoPoint.IsWriteEnabled)
+                        {
+                            cogoPoint = transaction.GetObject(cogoPoint.Id, OpenMode.ForWrite, false, true) as CogoPoint;
+                        }
+
+                        cogoPoint.RawDescription = $"{cogoPoint.RawDescription}-{i+1:000}";
+                    }
+
+                    transaction.Commit();
+                }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message);
             }
         }
     }

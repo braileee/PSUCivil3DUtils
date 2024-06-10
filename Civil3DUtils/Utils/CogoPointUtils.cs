@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 using AutoCADUtils;
+using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil.DatabaseServices;
 
 namespace Civil3DUtils.Utils
 {
@@ -62,6 +64,45 @@ namespace Civil3DUtils.Utils
             }
 
             return cogoPoint;
+        }
+
+        public static List<CogoPoint> PromptMultipleCogoPoints(OpenMode openMode, string messageForAdding = "Select COGO points")
+        {
+            List<CogoPoint> points = new List<CogoPoint>();
+            PromptSelectionOptions opt = new PromptSelectionOptions();
+            opt.MessageForAdding = messageForAdding;
+            PromptSelectionResult promptResult = AutocadDocumentService.Editor.GetSelection(opt);
+
+            // If the prompt status is OK, objects were selected
+            if (promptResult.Status != PromptStatus.OK)
+            {
+                return points;
+            }
+
+            SelectionSet selectionSet = promptResult.Value;
+
+            using (AutocadDocumentService.LockActiveDocument())
+            {
+                // Step through the objects in the selection set
+                using (Transaction ts = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (SelectedObject selectedObject in selectionSet)
+                    {
+                        if (selectedObject.ObjectId.ObjectClass.Name == RXClass.GetClass(typeof(CogoPoint)).Name)
+                        {
+                            // Check to make sure a valid SelectedObject object was returned
+                            if (selectedObject != null)
+                            {
+                                CogoPoint point = ts.GetObject(selectedObject.ObjectId, openMode, false, true) as CogoPoint;
+                                points.Add(point);
+                            }
+                        }
+                    }
+                    ts.Commit();
+                }
+            }
+
+            return points;
         }
     }
 }
