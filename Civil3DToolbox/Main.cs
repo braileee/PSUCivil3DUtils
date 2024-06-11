@@ -226,6 +226,15 @@ namespace Civil3DToolbox
             {
                 List<CogoPoint> points = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForWrite);
 
+                string startNumberString = PromptUtils.PromptString("Select start number");
+                
+                if(string.IsNullOrEmpty(startNumberString) || string.IsNullOrWhiteSpace(startNumberString))
+                {
+                    return;
+                }
+                
+                int startNumber = NumbersUtils.ParseStringToInt(startNumberString);
+
                 using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
                 {
                     for (int i = 0; i < points.Count; i++)
@@ -237,7 +246,7 @@ namespace Civil3DToolbox
                             cogoPoint = transaction.GetObject(cogoPoint.Id, OpenMode.ForWrite, false, true) as CogoPoint;
                         }
 
-                        cogoPoint.RawDescription = $"{cogoPoint.RawDescription}-{i+1:000}";
+                        cogoPoint.RawDescription = $"{cogoPoint.RawDescription}-{startNumber++:000}";
                     }
 
                     transaction.Commit();

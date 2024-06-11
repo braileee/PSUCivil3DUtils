@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,25 @@ namespace AutoCADUtils.Utils
             PromptResult promptResult = DocumentUtils.Editor.GetKeywords(pKeyOpts);
 
             return promptResult.StringResult;
+        }
+
+        public static string PromptString(string message)
+        {
+            Document acDoc = Application.DocumentManager.MdiActiveDocument;
+
+            PromptStringOptions pStrOpts = new PromptStringOptions($"\n{message}")
+            {
+                AllowSpaces = true
+            };
+
+            PromptResult pStrRes = acDoc.Editor.GetString(pStrOpts);
+
+            if(pStrRes.Status == PromptStatus.OK)
+            {
+                return pStrRes.StringResult;
+            }
+
+            return string.Empty;
         }
     }
 }
