@@ -58,12 +58,40 @@ namespace Civil3DUtils.Utils
                         var cogoPointId = cogoPoints.Add(point, true);
                         cogoPoint = ts.GetObject(cogoPointId, Autocad.OpenMode.ForWrite, false, true) as Civil.CogoPoint;
                     }
-                    
+
                     ts.Commit();
                 }
             }
 
             return cogoPoint;
+        }
+
+        public static List<Civil.CogoPoint> CreateCogoPoints(List<Point3d> points, string description)
+        {
+            Document adoc = Application.DocumentManager.MdiActiveDocument;
+            Autocad.Database db = adoc.Database;
+            CivilDocument cdoc = CivilDocument.GetCivilDocument(adoc.Database);
+            Editor ed = adoc.Editor;
+
+            List<CogoPoint> cogoPoints = new List<CogoPoint>();
+
+            using (AutocadDocumentService.LockActiveDocument())
+            {
+                using (Autocad.Transaction ts = db.TransactionManager.StartTransaction())
+                {
+                    foreach (Point3d point in points)
+                    {
+                        Civil.CogoPointCollection cogoPointCollection = CivilApplication.ActiveDocument.CogoPoints;
+                        ObjectId cogoPointId = cogoPointCollection.Add(point, description, true);
+                        CogoPoint cogoPoint = ts.GetObject(cogoPointId, Autocad.OpenMode.ForWrite, false, true) as Civil.CogoPoint;
+                        cogoPoints.Add(cogoPoint);
+                    }
+
+                    ts.Commit();
+                }
+            }
+
+            return cogoPoints;
         }
 
         public static List<CogoPoint> PromptMultipleCogoPoints(OpenMode openMode, string messageForAdding = "Select COGO points")

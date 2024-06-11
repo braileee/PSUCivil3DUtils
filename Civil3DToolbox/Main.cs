@@ -227,12 +227,12 @@ namespace Civil3DToolbox
                 List<CogoPoint> points = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForWrite);
 
                 string startNumberString = PromptUtils.PromptString("Select start number");
-                
-                if(string.IsNullOrEmpty(startNumberString) || string.IsNullOrWhiteSpace(startNumberString))
+
+                if (string.IsNullOrEmpty(startNumberString) || string.IsNullOrWhiteSpace(startNumberString))
                 {
                     return;
                 }
-                
+
                 int startNumber = NumbersUtils.ParseStringToInt(startNumberString);
 
                 using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
@@ -257,5 +257,41 @@ namespace Civil3DToolbox
                 MessageBox.Show(exception.Message);
             }
         }
+
+        [CommandMethod("PSV", "CreateCOGOPointsFromCircles", CommandFlags.Modal)]
+        public static void CreateCOGOPointsFromCircles()
+        {
+            try
+            {
+                List<Circle> circles = SelectionUtils.GetElements<Circle>("Select circles");
+
+                string description = PromptUtils.PromptString("Input raw description:");
+
+                if (string.IsNullOrEmpty(description) || string.IsNullOrWhiteSpace(description))
+                {
+                    return;
+                }
+
+                List<Point3d> points = new List<Point3d>();
+
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    for (int i = 0; i < circles.Count; i++)
+                    {
+                        Circle circle = circles[i];
+                        points.Add(circle.Center);
+                    }
+
+                    List<CogoPoint> cogoPoints = CogoPointUtils.CreateCogoPoints(points, description);
+
+                    transaction.Commit();
+                }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
     }
 }
