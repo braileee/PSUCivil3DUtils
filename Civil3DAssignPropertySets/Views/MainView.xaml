@@ -74,6 +74,17 @@
                 Padding="2"/>
             </StackPanel>
         </TabItem>
+        <TabItem Header="Copy From Element">
+            <StackPanel>
+                <Button Content="Select source element"
+                        Command="{Binding SelectSourceElement}"
+                        Margin="2"/>
+
+                <Button Content="Select destination elements" 
+                        Command="{Binding SelectDestinationElements}"
+                        Margin="2"/>
+            </StackPanel>
+        </TabItem>
         <!--<TabItem Header="Import/Export">
             <StackPanel>
                 <Button Content="Select Element To Export Values"

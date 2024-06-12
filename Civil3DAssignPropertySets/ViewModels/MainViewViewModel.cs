@@ -22,6 +22,7 @@ using System.Data;
 using Civil3DAssignPropertySets.Models;
 using Civil3DUtils;
 using System.Reflection;
+using Autodesk.Aec.PropertyData.DatabaseServices;
 
 namespace Civil3DAssignPropertySets.ViewModels
 {
@@ -30,6 +31,8 @@ namespace Civil3DAssignPropertySets.ViewModels
         public DelegateCommand LoadExcelCommand { get; }
         public DelegateCommand SelectElements { get; }
         public DelegateCommand SetPropertySetValuesCommand { get; }
+        public DelegateCommand SelectSourceElement { get; }
+        public DelegateCommand SelectDestinationElements { get; }
         public string ExcelFilePath { get; private set; }
         public List<PropertySetItem> PropertySetItems { get; private set; } = new List<PropertySetItem>();
 
@@ -59,6 +62,8 @@ namespace Civil3DAssignPropertySets.ViewModels
         }
 
         public List<Entity> SelectedEntities { get; private set; } = new List<Entity>();
+        public DBObject SourceElement { get; private set; }
+        public List<DBObject> DestinationElements { get; private set; } = new List<DBObject>();
 
         public MainViewViewModel(IEventAggregator eventAggregator)
         {
@@ -71,6 +76,97 @@ namespace Civil3DAssignPropertySets.ViewModels
             LoadExcelCommand = new DelegateCommand(OnLoadExcelCommand);
             SelectElements = new DelegateCommand(OnSelectElements);
             SetPropertySetValuesCommand = new DelegateCommand(OnSetPropertySetValuesCommand);
+
+            SelectSourceElement = new DelegateCommand(OnSelectSourceElement);
+            SelectDestinationElements = new DelegateCommand(OnSelectDestinationElements);
+        }
+
+        private void OnSelectDestinationElements()
+        {
+            try
+            {
+                using (AutocadDocumentService.LockActiveDocument())
+                {
+                    if (SourceElement == null)
+                    {
+                        return;
+                    }
+
+                    DestinationElements = SelectionUtils.GetDbObjects("Select destination elements", OpenMode.ForWrite);
+
+
+                    Dictionary<PropertySetDefinition, List<PropertyDefinition>> setPerProperties = PropertySetUtils.GetAllPropertySetAndPropertyDefinitions(OpenMode.ForRead);
+
+                    List<ElementWrapper> elementsWrappers = new List<ElementWrapper>();
+
+                    foreach (var setPerPropertiesItem in setPerProperties)
+                    {
+                        foreach (var property in setPerPropertiesItem.Value)
+                        {
+                            object value = PropertySetUtils.GetPropertyValue(setPerPropertiesItem.Key, property, SourceElement);
+                            elementsWrappers.Add(new ElementWrapper
+                            {
+                                DbObject = SourceElement,
+                                PropertyDefinition = property,
+                                PropertySetDefinition = setPerPropertiesItem.Key,
+                                Value = value,
+                            });
+                        }
+                    }
+
+                    foreach (DBObject destinationElement in DestinationElements)
+                    {
+                        foreach (var setPerPropertiesItem in setPerProperties)
+                        {
+                            foreach (var property in setPerPropertiesItem.Value)
+                            {
+                                ElementWrapper elementWrapper = elementsWrappers.FirstOrDefault(item => item.PropertySetDefinition.Name == setPerPropertiesItem.Key.Name && item.PropertyDefinition.Name == property.Name);
+
+                                if (elementWrapper != null)
+                                {
+                                    switch (property.DataType)
+                                    {
+                                        case Autodesk.Aec.PropertyData.DataType.Integer:
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (int)elementWrapper.Value);
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.Real:
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (double)elementWrapper.Value);
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.Text:
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (string)elementWrapper.Value);
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.TrueFalse:
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (int)elementWrapper.Value);
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.AutoIncrement:
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.AlphaIncrement:
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.List:
+                                            break;
+                                        case Autodesk.Aec.PropertyData.DataType.Graphic:
+                                            break;
+                                        default:
+                                            break;
+                                    }
+
+                                }
+                            }
+                        }
+                    }
+
+                    MessageBox.Show("Done");
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Error: {exception.Message}");
+            }
+        }
+
+        private void OnSelectSourceElement()
+        {
+            SourceElement = SelectionUtils.GetDbObject("Select source element", OpenMode.ForRead);
         }
 
         private void OnSetPropertySetValuesCommand()
@@ -99,7 +195,7 @@ namespace Civil3DAssignPropertySets.ViewModels
 
                                 PropertySetUtils.GetPropertySetAndPropertyDefinitionByName(OpenMode.ForRead, propertySetItem.PropertySet, propertySetItem.Property, ref propertySetDefinition, ref propertyDefinition);
 
-                                if(propertySetDefinition == null || propertyDefinition == null)
+                                if (propertySetDefinition == null || propertyDefinition == null)
                                 {
                                     continue;
                                 }
