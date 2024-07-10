@@ -22,7 +22,7 @@ namespace Civil3DLineSelfIntersectionCheck
             {
                 int tolerance = 8;
 
-                List<Autodesk.AutoCAD.DatabaseServices.DBObject> dbObjects = SelectionUtils.GetDbObjects("Select polylines, 3d polylines, feature lines", OpenMode.ForRead);
+                List<Autodesk.AutoCAD.DatabaseServices.DBObject> dbObjects = SelectionUtils.GetDbObjects("Select polylines, 3d polylines, feature lines to detect self intersection", OpenMode.ForRead);
 
                 if (!dbObjects.Any())
                 {
@@ -85,7 +85,7 @@ namespace Civil3DLineSelfIntersectionCheck
                 }
 
                 CogoPointUtils.CreateCogoPoints(intersectionPoints);
-                MessageBox.Show($"Intersection points count: {intersectionPoints.Count}");
+                MessageBox.Show($"Self ntersection points count: {intersectionPoints.Count}");
             }
             catch (System.Exception exception)
             {

@@ -33,6 +33,33 @@ namespace Civil3DAssignPropertySets.ViewModels
         public DelegateCommand SetPropertySetValuesCommand { get; }
         public DelegateCommand SelectSourceElement { get; }
         public DelegateCommand SelectDestinationElements { get; }
+
+        public string LoadExcelInfo
+        {
+            get
+            {
+                return loadExcelInfo;
+            }
+            set
+            {
+                loadExcelInfo = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        public string SelectElementsInfo
+        {
+            get
+            {
+                return selectElementsInfo;
+            }
+            set
+            {
+                selectElementsInfo = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public string ExcelFilePath { get; private set; }
         public List<PropertySetItem> PropertySetItems { get; private set; } = new List<PropertySetItem>();
 
@@ -51,6 +78,9 @@ namespace Civil3DAssignPropertySets.ViewModels
         }
 
         private string selectedPropertySetGroup;
+        private string loadExcelInfo;
+        private string selectElementsInfo;
+
         public string SelectedPropertySetGroup
         {
             get { return selectedPropertySetGroup; }
@@ -79,6 +109,10 @@ namespace Civil3DAssignPropertySets.ViewModels
 
             SelectSourceElement = new DelegateCommand(OnSelectSourceElement);
             SelectDestinationElements = new DelegateCommand(OnSelectDestinationElements);
+
+            LoadExcelInfo = "Load";
+
+            SelectElementsInfo = "Select";
         }
 
         private void OnSelectDestinationElements()
@@ -174,6 +208,51 @@ namespace Civil3DAssignPropertySets.ViewModels
             try
             {
                 List<PropertySetItem> propertySetItems = PropertySetItems.Where(item => item.Group == SelectedPropertySetGroup).ToList();
+                List<string> classNames = SelectedEntities.Select(entity => entity.GetRXClass().Name).Distinct().ToList();
+
+                List<PropertyAssigner> assigners = new List<PropertyAssigner>();
+
+                using (AutocadDocumentService.LockActiveDocument())
+                {
+                    using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                    {
+                        foreach (PropertySetItem propertySetItem in propertySetItems)
+                        {
+                            Autodesk.Aec.PropertyData.DatabaseServices.PropertySetDefinition propertySetDefinition = null;
+                            Autodesk.Aec.PropertyData.DatabaseServices.PropertyDefinition propertyDefinition = null;
+
+                            PropertySetUtils.GetPropertySetAndPropertyDefinitionByName(OpenMode.ForWrite, propertySetItem.PropertySet, propertySetItem.Property, ref propertySetDefinition, ref propertyDefinition);
+
+                            if (propertySetDefinition == null)
+                            {
+                                propertySetDefinition = PropertySetUtils.CreatePropertySetDefinition(propertySetItem.PropertySet, classNames, transaction);
+                            }
+
+                            if (propertyDefinition == null)
+                            {
+                                propertySetDefinition = transaction.GetObject(propertySetDefinition.Id, OpenMode.ForWrite, false, true) as PropertySetDefinition;
+
+                                if (double.TryParse(propertySetItem.Value, out double value) && !double.IsNaN(value) && !double.IsInfinity(value))
+                                {
+                                    propertyDefinition = PropertySetUtils.CreatePropertyDefinition(propertySetDefinition, propertySetItem.Property, Autodesk.Aec.PropertyData.DataType.Real);
+                                }
+                                else
+                                {
+                                    propertyDefinition = PropertySetUtils.CreatePropertyDefinition(propertySetDefinition, propertySetItem.Property, Autodesk.Aec.PropertyData.DataType.Text);
+                                }
+                            }
+
+                            assigners.Add(new PropertyAssigner
+                            {
+                                PropertyDefinition = propertyDefinition,
+                                PropertySetDefinition = propertySetDefinition,
+                                PropertySetItem = propertySetItem,
+                            });
+                        }
+
+                        transaction.Commit();
+                    }
+                }
 
                 using (AutocadDocumentService.LockActiveDocument())
                 {
@@ -181,38 +260,28 @@ namespace Civil3DAssignPropertySets.ViewModels
                     {
                         foreach (Entity entity in SelectedEntities)
                         {
-                            if (entity == null)
+                            foreach (PropertyAssigner assigner in assigners)
                             {
-                                continue;
-                            }
-
-                            Entity entityOpen = transaction.GetObject(entity.Id, OpenMode.ForWrite, false, true) as Entity;
-
-                            foreach (PropertySetItem propertySetItem in propertySetItems)
-                            {
-                                Autodesk.Aec.PropertyData.DatabaseServices.PropertySetDefinition propertySetDefinition = null;
-                                Autodesk.Aec.PropertyData.DatabaseServices.PropertyDefinition propertyDefinition = null;
-
-                                PropertySetUtils.GetPropertySetAndPropertyDefinitionByName(OpenMode.ForRead, propertySetItem.PropertySet, propertySetItem.Property, ref propertySetDefinition, ref propertyDefinition);
-
-                                if (propertySetDefinition == null || propertyDefinition == null)
+                                if (entity == null)
                                 {
                                     continue;
                                 }
 
-                                if (propertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Text)
+                                Entity entityOpen = transaction.GetObject(entity.Id, OpenMode.ForWrite, false, true) as Entity;
+
+                                if (assigner.PropertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Text)
                                 {
-                                    PropertySetUtils.SetValueToProperty(propertySetDefinition, propertyDefinition, entityOpen, propertySetItem.Value);
+                                    PropertySetUtils.SetValueToProperty(assigner.PropertySetDefinition, assigner.PropertyDefinition, entityOpen, assigner.PropertySetItem.Value);
                                 }
-                                else if (propertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Real)
+                                else if (assigner.PropertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Real)
                                 {
-                                    double value = NumbersUtils.ParseStringToDouble(propertySetItem.Value);
-                                    PropertySetUtils.SetValueToProperty(propertySetDefinition, propertyDefinition, entityOpen, value);
+                                    double value = NumbersUtils.ParseStringToDouble(assigner.PropertySetItem.Value);
+                                    PropertySetUtils.SetValueToProperty(assigner.PropertySetDefinition, assigner.PropertyDefinition, entityOpen, value);
                                 }
-                                else if (propertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Integer)
+                                else if (assigner.PropertyDefinition.DataType == Autodesk.Aec.PropertyData.DataType.Integer)
                                 {
-                                    int value = NumbersUtils.ParseStringToInt(propertySetItem.Value);
-                                    PropertySetUtils.SetValueToProperty(propertySetDefinition, propertyDefinition, entityOpen, value);
+                                    int value = NumbersUtils.ParseStringToInt(assigner.PropertySetItem.Value);
+                                    PropertySetUtils.SetValueToProperty(assigner.PropertySetDefinition, assigner.PropertyDefinition, entityOpen, value);
                                 }
                             }
                         }
@@ -240,7 +309,7 @@ namespace Civil3DAssignPropertySets.ViewModels
                 }
 
                 SelectedEntities = SelectionUtils.GetEntities("Get elements to assign the property values");
-
+                SelectElementsInfo = $"Selected: {SelectedEntities.Count}";
             }
             catch (Exception exception)
             {
@@ -271,9 +340,11 @@ namespace Civil3DAssignPropertySets.ViewModels
                         DataSet dataSet = reader.AsDataSet();
                         PropertySetItems = PropertySetItem.Convert(dataSet);
                         PropertySetGroups = PropertySetItems.Select(item => item.Group).Distinct().OrderBy(item => item).ToList();
+                        SelectedPropertySetGroup = PropertySetGroups.FirstOrDefault();
                     }
                 }
 
+                LoadExcelInfo = Path.GetFileName(ExcelFilePath);
             }
             catch (Exception exception)
             {

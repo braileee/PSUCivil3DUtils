@@ -288,113 +288,77 @@ namespace Civil3DUtils
                                 DBObject obj, string value)
         {
 
-            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+            if (propertySetDefinition == null || propertyDefinition == null)
             {
-                if (!obj.IsWriteEnabled)
-                {
-                    obj = transaction.GetObject(obj.Id, OpenMode.ForWrite, false, true) as DBObject;
-                }
-
-                //берем property set и property set definition
-                //проверяем значения на пустоту
-                if (propertySetDefinition == null || propertyDefinition == null)
-                {
-                    transaction.Commit();
-                    return;
-                }
-                //затем ищем среди всех свойств нужное
-                PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
-                if (propSet == null)
-                {
-                    PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
-                    propSet = GetPropertySet(propertySetDefinition, obj);
-                }
-
-                int propId = propSet.PropertyNameToId(propertyDefinition.Name);
-                try
-                {
-                    propSet.SetAt(propId, value);
-                }
-                catch (Exception)
-                { }
-                transaction.Commit();
+                return;
             }
+
+            PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
+            if (propSet == null)
+            {
+                PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
+                propSet = GetPropertySet(propertySetDefinition, obj);
+            }
+
+            int propId = propSet.PropertyNameToId(propertyDefinition.Name);
+            try
+            {
+                propSet.SetAt(propId, value);
+            }
+            catch (Exception)
+            { }
         }
 
         public static void SetValueToProperty(PropertySetDefinition propertySetDefinition,
                                 PropertyDefinition propertyDefinition,
                                 DBObject obj, double value)
         {
-
-            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+            if (propertySetDefinition == null || propertyDefinition == null)
             {
-                if (!obj.IsWriteEnabled)
-                {
-                    obj = transaction.GetObject(obj.Id, OpenMode.ForWrite, false, true) as DBObject;
-                }
-
-                //берем property set и property set definition
-                //проверяем значения на пустоту
-                if (propertySetDefinition == null || propertyDefinition == null)
-                {
-                    transaction.Commit();
-                    return;
-                }
-                //затем ищем среди всех свойств нужное
-                PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
-                if (propSet == null)
-                {
-                    PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
-                    propSet = GetPropertySet(propertySetDefinition, obj);
-                }
-
-                int propId = propSet.PropertyNameToId(propertyDefinition.Name);
-                try
-                {
-                    propSet.SetAt(propId, value);
-                }
-                catch (Exception)
-                { }
-                transaction.Commit();
+                return;
             }
+
+            PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
+            if (propSet == null)
+            {
+                PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
+                propSet = GetPropertySet(propertySetDefinition, obj);
+            }
+
+            int propId = propSet.PropertyNameToId(propertyDefinition.Name);
+            try
+            {
+                propSet.SetAt(propId, value);
+            }
+            catch (Exception)
+            { }
         }
 
         public static void SetValueToProperty(PropertySetDefinition propertySetDefinition,
                                 PropertyDefinition propertyDefinition,
                                 DBObject obj, int value)
         {
-
-            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+            if (propertySetDefinition == null || propertyDefinition == null)
             {
-                if (!obj.IsWriteEnabled)
-                {
-                    obj = transaction.GetObject(obj.Id, OpenMode.ForWrite, false, true) as DBObject;
-                }
-
-                //берем property set и property set definition
-                //проверяем значения на пустоту
-                if (propertySetDefinition == null || propertyDefinition == null)
-                {
-                    transaction.Commit();
-                    return;
-                }
-                //затем ищем среди всех свойств нужное
-                PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
-                if (propSet == null)
-                {
-                    PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
-                    propSet = GetPropertySet(propertySetDefinition, obj);
-                }
-
-                int propId = propSet.PropertyNameToId(propertyDefinition.Name);
-                try
-                {
-                    propSet.SetAt(propId, value);
-                }
-                catch (Exception)
-                { }
-                transaction.Commit();
+                return;
             }
+
+            PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
+
+            if (propSet == null)
+            {
+                PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
+                propSet = GetPropertySet(propertySetDefinition, obj);
+            }
+
+            int propId = propSet.PropertyNameToId(propertyDefinition.Name);
+            try
+            {
+                propSet.SetAt(propId, value);
+            }
+            catch (Exception)
+            { }
+
         }
 
         public static int SetValueToProperty(string propertySetName, string propertyName, DBObject obj, int value)
@@ -770,37 +734,30 @@ namespace Civil3DUtils
         {
             var db = HostApplicationServices.WorkingDatabase;
             PropertyDefinition propDefManual = null;
-            using (Transaction ts = db.TransactionManager.StartTransaction())
-            {
-                propDefManual = new PropertyDefinition();
-                propDefManual.SetToStandard(db);
-                propDefManual.SubSetDatabaseDefaults(db);
-                propDefManual.Name = propertyName;
-                propDefManual.DataType = dataType;
-                if (!propertySetDefinition.IsWriteEnabled)
-                    propertySetDefinition = ts.GetObject(propertySetDefinition.Id,
-                                                    OpenMode.ForWrite, false, true) as PropertySetDefinition;
 
-                foreach (PropertyDefinition definition in propertySetDefinition.Definitions)
+            propDefManual = new PropertyDefinition();
+            propDefManual.SetToStandard(db);
+            propDefManual.SubSetDatabaseDefaults(db);
+            propDefManual.Name = propertyName;
+            propDefManual.DataType = dataType;
+
+            foreach (PropertyDefinition definition in propertySetDefinition.Definitions)
+            {
+                if (definition.Name.Equals(propertyName))
                 {
-                    if (definition.Name.Equals(propertyName))
-                    {
-                        ts.Commit();
-                        return definition;
-                    }
+                    return definition;
                 }
-                try
-                {
-                    propertySetDefinition.Definitions.Add(propDefManual);
-                }
-                catch (Exception) { }
-                ts.Commit();
             }
+            try
+            {
+                propertySetDefinition.Definitions.Add(propDefManual);
+            }
+            catch (Exception) { }
 
             return propDefManual;
         }
 
-        public static PropertySetDefinition CreatePropertySetDefinition(string propertySetName, List<string> classNames)
+        public static PropertySetDefinition CreatePropertySetDefinition(string propertySetName, List<string> classNames, Transaction transaction)
         {
             Editor editor = Application.DocumentManager.MdiActiveDocument.Editor;
             Database database = HostApplicationServices.WorkingDatabase;
@@ -808,25 +765,23 @@ namespace Civil3DUtils
             PropertySetDefinition propSetDef = GetAllPropertySetDefinitions(OpenMode.ForWrite).FirstOrDefault(g => g.Name.Equals(propertySetName));
             if (propSetDef == null)
             {
-                using (Transaction ts = database.TransactionManager.StartTransaction())
+
+                DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(database);
+                if (!dictPropSetDef.Has(propertySetName, transaction))
                 {
-                    DictionaryPropertySetDefinitions dictPropSetDef = new DictionaryPropertySetDefinitions(database);
-                    if (!dictPropSetDef.Has(propertySetName, ts))
+                    propSetDef = new PropertySetDefinition();
+                    propSetDef.SetToStandard(database);
+                    propSetDef.SubSetDatabaseDefaults(database);
+                    StringCollection applliedTo = new StringCollection();
+                    foreach (string className in classNames)
                     {
-                        propSetDef = new PropertySetDefinition();
-                        propSetDef.SetToStandard(database);
-                        propSetDef.SubSetDatabaseDefaults(database);
-                        StringCollection applliedTo = new StringCollection();
-                        foreach (string className in classNames)
-                        {
-                            applliedTo.Add(className);
-                        }
-                        propSetDef.SetAppliesToFilter(applliedTo, byStyle: false);
-                        dictPropSetDef.AddNewRecord(propertySetName, propSetDef);
-                        ts.AddNewlyCreatedDBObject(propSetDef, true);
+                        applliedTo.Add(className);
                     }
-                    ts.Commit();
+                    propSetDef.SetAppliesToFilter(applliedTo, byStyle: false);
+                    dictPropSetDef.AddNewRecord(propertySetName, propSetDef);
+                    transaction.AddNewlyCreatedDBObject(propSetDef, true);
                 }
+
             }
             return propSetDef;
         }
@@ -943,7 +898,6 @@ namespace Civil3DUtils
                     if (propSetDefId.IsNull)
                         continue;
 
-                    //открываем определение property set
                     PropertySetDefinition propSetDef = ts.GetObject(propSetDefId, openMode) as PropertySetDefinition;
                     if (!propSetDef.Name.Equals(propSetName))
                         continue;
