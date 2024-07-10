@@ -13,6 +13,8 @@ namespace Civil3DBatchExtractSolids
         public static void Start()
         {
 #if CIVIL3D2024DEBUG
+            System.Reflection.Assembly.LoadFrom("MahApps.Metro.dll");
+
             var bootstrapper = new Bootstrapper();
             var container = bootstrapper.Bootstrap();
             var mainView = container.Resolve<MainView>();
