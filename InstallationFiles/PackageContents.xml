@@ -409,6 +409,14 @@
 				<Command Local="BindXrefsForDwgsInFolder"
 						 Global="BindXrefsForDwgsInFolder"
 						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+						 Global="ReversePolylineElevation"
+						 Description="ReversePolylineElevation" />
 			</Commands>
 		</ComponentEntry>
 
@@ -446,9 +454,9 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
-		AppDescription="Civil3DCreateCogoPointOnSectionView"
-		ModuleName="./2024/Contents/Civil3DCreateCogoPointOnSectionView.dll"
-		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+				AppDescription="Civil3DCreateCogoPointOnSectionView"
+				ModuleName="./2024/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DCreateCogoPointOnSectionView"
 						 Global="Civil3DCreateCogoPointOnSectionView"
@@ -457,9 +465,9 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DIFCBatchImport"
-						AppDescription="Civil3DIFCBatchImport"
-						ModuleName="./2024/Contents/Civil3DIFCBatchImport.dll"
-						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+				AppDescription="Civil3DIFCBatchImport"
+				ModuleName="./2024/Contents/Civil3DIFCBatchImport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DIFCBatchImport"
 						 Global="Civil3DIFCBatchImport"
@@ -468,9 +476,9 @@
 		</ComponentEntry>
 
 		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-						AppDescription="Civil3DLineSelfIntersectionCheck"
-						ModuleName="./2024/Contents/Civil3DLineSelfIntersectionCheck.dll"
-						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+				AppDescription="Civil3DLineSelfIntersectionCheck"
+				ModuleName="./2024/Contents/Civil3DLineSelfIntersectionCheck.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DLineSelfIntersectionCheck"
 						 Global="Civil3DLineSelfIntersectionCheck"
@@ -482,7 +490,6 @@
 				AppDescription="MahApps.Metro"
 				ModuleName="./2024/Contents/MahApps.Metro.dll"
 				LoadOnAutoCADStartup ="true" >
-
 		</ComponentEntry>
 	</Components>
 </ApplicationPackage>
