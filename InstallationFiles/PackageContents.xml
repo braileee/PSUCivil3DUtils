@@ -121,6 +121,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2019/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
@@ -237,6 +248,17 @@
 				<Command Local="Civil3DLineSelfIntersectionCheck"
 						 Global="Civil3DLineSelfIntersectionCheck"
 						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2022/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
 			</Commands>
 		</ComponentEntry>
 
@@ -358,7 +380,18 @@
 						 Description="Civil3DLineSelfIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
-		
+
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2023/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"
@@ -483,6 +516,17 @@
 				<Command Local="Civil3DLineSelfIntersectionCheck"
 						 Global="Civil3DLineSelfIntersectionCheck"
 						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2024/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
 			</Commands>
 		</ComponentEntry>
 

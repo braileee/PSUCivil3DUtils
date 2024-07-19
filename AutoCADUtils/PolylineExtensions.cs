@@ -63,6 +63,50 @@ namespace AutoCADUtils
             return vertexes;
         }
 
+        public static List<LineSegment3d> GetSegments(this Polyline3d polyline)
+        {
+            List<PolylineVertex3d> vertexes = polyline.GetVertexes();
+            List<LineSegment3d> segments = new List<LineSegment3d>();
+
+            if (vertexes.Count < 4)
+            {
+                return segments;
+            }
+
+            for (int i = 0; i < vertexes.Count; i++)
+            {
+                if (i == 0)
+                {
+                    continue;
+                }
+
+                Point3d startPoint = vertexes[i - 1].Position;
+                Point3d endPoint = vertexes[i].Position;
+
+                if (startPoint.IsEqualTo(endPoint))
+                {
+                    continue;
+                }
+
+                LineSegment3d segment = new LineSegment3d(startPoint, endPoint);
+                segments.Add(segment);
+            }
+
+            if (polyline.Closed)
+            {
+                Point3d startPoint = vertexes.First().Position;
+                Point3d endPoint = vertexes.Last().Position;
+
+                if (!startPoint.IsEqualTo(endPoint))
+                {
+                    LineSegment3d segment = new LineSegment3d(startPoint, endPoint);
+                    segments.Add(segment);
+                }
+            }
+
+            return segments;
+        }
+
         public static List<LineSegment3d> GetSegments(this Polyline3d polyline, int tolerance)
         {
             List<PolylineVertex3d> vertexes = polyline.GetVertexes();
@@ -83,7 +127,7 @@ namespace AutoCADUtils
                 Point3d startPoint = vertexes[i - 1].Position;
                 Point3d endPoint = vertexes[i].Position;
 
-                if(startPoint.IsEqualByXYZ(endPoint, tolerance))
+                if (startPoint.IsEqualByXYZ(endPoint, tolerance))
                 {
                     continue;
                 }
