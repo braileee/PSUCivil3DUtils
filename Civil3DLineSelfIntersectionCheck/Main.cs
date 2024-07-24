@@ -22,21 +22,24 @@ namespace Civil3DLineSelfIntersectionCheck
             {
                 int tolerance = 8;
 
-                List<Autodesk.AutoCAD.DatabaseServices.DBObject> dbObjects = SelectionUtils.GetDbObjects("Select polylines, 3d polylines, feature lines to detect self intersection", OpenMode.ForRead);
+                List<Autodesk.AutoCAD.DatabaseServices.DBObject> dbObjects = SelectionUtils.GetDbObjects("Select polylines, 3d polylines, feature lines to detect self intersection:", OpenMode.ForRead);
 
                 if (!dbObjects.Any())
                 {
                     return;
                 }
 
-                string keyword = PromptUtils.PromptKeyword("Intersection detection", allowNone: false, Constants.TwoDimensionalKeyword, Constants.ThreeDimensionalKeyword);
+                string intersectionDetectionKeyword = PromptUtils.PromptKeyword("Select intersection detection method:", allowNone: false, allowArbitraryInput: false, defaultValue: Constants.TwoDimensionalKeyword, Constants.TwoDimensionalKeyword, Constants.ThreeDimensionalKeyword);
 
-                if (string.IsNullOrEmpty(keyword))
+                if (string.IsNullOrEmpty(intersectionDetectionKeyword))
                 {
+                    MessageBox.Show("Incorrect input, operation has been canceled");
                     return;
                 }
 
-                IntersectionDetection intersectionDetection = keyword == Constants.ThreeDimensionalKeyword ? IntersectionDetection.ThreeDimensional : IntersectionDetection.TwoDimensional;
+                string pointsGroupName = PromptUtils.PromptKeyword("Intersection points will be created as COGO points. Input point group name or press enter to use default name:", allowNone: false, allowArbitraryInput: true, defaultValue: Constants.LineIntersectionPointsGroupName, Constants.LineIntersectionPointsGroupName);
+
+                IntersectionDetection intersectionDetection = intersectionDetectionKeyword == Constants.ThreeDimensionalKeyword ? IntersectionDetection.ThreeDimensional : IntersectionDetection.TwoDimensional;
 
                 List<Point3d> intersectionPoints = new List<Point3d>();
                 foreach (Autodesk.AutoCAD.DatabaseServices.DBObject dbObject in dbObjects)
@@ -84,7 +87,11 @@ namespace Civil3DLineSelfIntersectionCheck
                     }
                 }
 
-                CogoPointUtils.CreateCogoPoints(intersectionPoints);
+                PointGroup pointGroup = CogoPointUtils.CreateCogoPointGroup(pointsGroupName);
+                CogoPointUtils.CreateCogoPoints(intersectionPoints, pointsGroupName);
+
+                pointGroup.Update();
+
                 MessageBox.Show($"Self ntersection points count: {intersectionPoints.Count}");
             }
             catch (System.Exception exception)

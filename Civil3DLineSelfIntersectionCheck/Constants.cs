@@ -10,5 +10,7 @@ namespace Civil3DLineSelfIntersectionCheck
     {
         public const string TwoDimensionalKeyword = "2D";
         public const string ThreeDimensionalKeyword = "3D";
+
+        public const string LineIntersectionPointsGroupName = "Line Intersection Points";
     }
 }

@@ -15,12 +15,18 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InstallationFiles", "Instal
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DSubassemblyAnnotations", "Civil3DSubassemblyAnnotations\Civil3DSubassemblyAnnotations.csproj", "{41981E44-B15C-46AE-9FA8-067421754186}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DUtils", "Civil3DUtils\Civil3DUtils.csproj", "{7A1DED80-7CBF-47C7-A443-0C630130DD07}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AutoCADUtils", "AutoCADUtils\AutoCADUtils.csproj", "{AA1444A5-0548-46E8-A9F6-4B1445D3DC66}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DToolbox", "Civil3DToolbox\Civil3DToolbox.csproj", "{8E8018B0-2591-4FA6-A346-B66674B2DBA9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DAssignPropertySets", "Civil3DAssignPropertySets\Civil3DAssignPropertySets.csproj", "{59316028-C542-4B96-A850-A5E98FDEAA29}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -73,6 +79,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DPropertyValuesReport
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DCreateCogoPointOnSectionView", "Civil3DCreateCogoPointOnSectionView\Civil3DCreateCogoPointOnSectionView.csproj", "{91701ED3-D389-4CCA-A36C-7A7CB491A099}"
 	ProjectSection(ProjectDependencies) = postProject
+		{AA1444A5-0548-46E8-A9F6-4B1445D3DC66} = {AA1444A5-0548-46E8-A9F6-4B1445D3DC66}
 		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
 	EndProjectSection
 EndProject
@@ -84,6 +91,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{C21990CC-EAF7-45ED-A84D-8FB4EED05C15}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DLineSelfIntersectionCheck", "Civil3DLineSelfIntersectionCheck\Civil3DLineSelfIntersectionCheck.csproj", "{37334637-C1B9-4EA5-B4E4-65E8619A54FB}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2024", "2024", "{A94B09C3-4DAF-4FEC-AA93-346B8B5E68AF}"
 	ProjectSection(SolutionItems) = preProject
@@ -97,6 +107,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2024", "2024", "{A94B09C3-4
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DBatchExtractSolids", "Civil3DBatchExtractSolids\Civil3DBatchExtractSolids.csproj", "{A482B3A7-70EB-4FEE-8C45-C8433C15292D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7A1DED80-7CBF-47C7-A443-0C630130DD07} = {7A1DED80-7CBF-47C7-A443-0C630130DD07}
+		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2021", "2021", "{994009E1-21F1-41DE-91F4-8D88BBF2F6BE}"
 	ProjectSection(SolutionItems) = preProject
@@ -108,7 +122,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2021", "2021", "{994009E1-2
 		Civil3DDlls\2021\AecPropDataMgd.dll = Civil3DDlls\2021\AecPropDataMgd.dll
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Civil3DWeedLines", "Civil3DWeedLines\Civil3DWeedLines.csproj", "{0C05D76A-FC31-47ED-94AA-80DF522BCBB1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DWeedLines", "Civil3DWeedLines\Civil3DWeedLines.csproj", "{0C05D76A-FC31-47ED-94AA-80DF522BCBB1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

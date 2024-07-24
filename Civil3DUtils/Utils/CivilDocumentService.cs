@@ -3,7 +3,7 @@ using Autodesk.Civil.ApplicationServices;
 
 namespace Civil3DUtils.Utils
 {
-    public static class CivilDocumentUtils
+    public static class CivilDocumentService
     {
         public static CivilDocument CivilDocument
         {

@@ -132,5 +132,37 @@ namespace Civil3DUtils.Utils
 
             return points;
         }
+
+        public static PointGroup CreateCogoPointGroup(string pointGroupName)
+        {
+            PointGroup pointGroup = null;
+
+            using (AutocadDocumentService.LockActiveDocument())
+            {
+                using (Autocad.Transaction ts = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    ObjectId pointGroupId = ObjectId.Null;
+
+                    if (CivilDocumentService.CivilDocument.PointGroups.Contains(pointGroupName))
+                    {
+                        pointGroupId = CivilDocumentService.CivilDocument.PointGroups[pointGroupName];
+                    }
+                    else
+                    {
+                        pointGroupId = CivilDocumentService.CivilDocument.PointGroups.Add(pointGroupName);
+                    }
+
+                    if (pointGroupId == ObjectId.Null)
+                    {
+                        return pointGroup;
+                    }
+
+                    pointGroup = ts.GetObject(pointGroupId, OpenMode.ForWrite, false, true) as PointGroup;
+                    ts.Commit();
+                }
+            }
+
+            return pointGroup;
+        }
     }
 }

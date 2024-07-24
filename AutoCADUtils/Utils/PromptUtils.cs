@@ -12,17 +12,36 @@ namespace AutoCADUtils.Utils
     {
         public static string PromptKeyword(string message, bool allowNone, params string[] keywords)
         {
-            PromptKeywordOptions pKeyOpts = new PromptKeywordOptions("");
-            pKeyOpts.Message = $"{Environment.NewLine}{message}";
+            PromptKeywordOptions options = new PromptKeywordOptions("");
+            options.Message = $"{Environment.NewLine}{message}";
 
             foreach (string keyword in keywords)
             {
-                pKeyOpts.Keywords.Add(keyword);
+                options.Keywords.Add(keyword);
             }
 
-            pKeyOpts.AllowNone = false;
+            options.AllowNone = false;
 
-            PromptResult promptResult = DocumentUtils.Editor.GetKeywords(pKeyOpts);
+            PromptResult promptResult = DocumentUtils.Editor.GetKeywords(options);
+
+            return promptResult.StringResult;
+        }
+
+        public static string PromptKeyword(string message, bool allowNone, bool allowArbitraryInput, string defaultValue, params string[] keywords)
+        {
+            PromptKeywordOptions options = new PromptKeywordOptions("");
+            options.Message = $"{Environment.NewLine}{message}";
+
+            foreach (string keyword in keywords)
+            {
+                options.Keywords.Add(keyword);
+            }
+
+            options.Keywords.Default = defaultValue;
+            options.AllowNone = false;
+            options.AllowArbitraryInput = allowArbitraryInput;
+
+            PromptResult promptResult = DocumentUtils.Editor.GetKeywords(options);
 
             return promptResult.StringResult;
         }
@@ -38,7 +57,7 @@ namespace AutoCADUtils.Utils
 
             PromptResult pStrRes = acDoc.Editor.GetString(pStrOpts);
 
-            if(pStrRes.Status == PromptStatus.OK)
+            if (pStrRes.Status == PromptStatus.OK)
             {
                 return pStrRes.StringResult;
             }
