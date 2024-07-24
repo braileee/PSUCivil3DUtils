@@ -73,19 +73,49 @@ namespace Civil3DWeedLines.ViewModels
 
         public DelegateCommand SelectLinesCommand { get; }
 
+        private bool byDistanceBetweenSegments;
+
+        public bool ByDistanceBetweenSegments
+        {
+            get { return byDistanceBetweenSegments; }
+            set
+            {
+                byDistanceBetweenSegments = value;
+                RaisePropertyChanged();
+            }
+        }
+
+        private bool byShortestSegment;
+
+        public bool ByShortestSegment
+        {
+            get { return byShortestSegment; }
+            set
+            {
+                byShortestSegment = value;
+                RaisePropertyChanged();
+            }
+        }
+
+
         public MainViewViewModel(IEventAggregator eventAggregator)
         {
             SelectLinesInfo = "Weed lines";
             SelectLinesCommand = new DelegateCommand(OnSelectLinesCommand);
+            ByShortestSegment = true;
 
             LoadDefaultValues();
         }
 
         private void LoadDefaultValues()
         {
-            DistanceValue = 1;
-            DeltaAngleValue = 5;
-            ToleranceValue = 3;
+            double defaultDistanceValue = NumbersUtils.ParseStringToDouble(Properties.Settings.Default.DistanceValue);
+            double defaultAngleValue = NumbersUtils.ParseStringToDouble(Properties.Settings.Default.DeltaAngleValue);
+            int defaultToleranceValue = NumbersUtils.ParseStringToInt(Properties.Settings.Default.ToleranceValue);
+
+            DistanceValue = defaultDistanceValue > 0 ? defaultDistanceValue : 1;
+            DeltaAngleValue = defaultAngleValue > 0 ? defaultAngleValue : 0.5;
+            ToleranceValue = defaultToleranceValue > 0 ? defaultToleranceValue : 3;
         }
 
         private void OnSelectLinesCommand()
@@ -99,6 +129,12 @@ namespace Civil3DWeedLines.ViewModels
                 }
 
                 List<Polyline3d> polylines = SelectionUtils.GetElements<Polyline3d>("Select 3D Polylines");
+
+                if (polylines.Count == 0)
+                {
+                    MessageBox.Show("3D polylines have not been selected, operation canceled");
+                    return;
+                }
 
                 // Weed duplicate point within tolerance
 
@@ -145,138 +181,9 @@ namespace Civil3DWeedLines.ViewModels
                         transaction.Commit();
                     }
 
-                    using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
-                    {
-                        foreach (Polyline3d polyline in polylines)
-                        {
-                            List<LineSegmentWrapper> lineSegmentWrappers = LineSegmentWrapper.Create(polyline);
+                    int allDeletedPointsCount = WeedByShortestSegment(polylines);
 
-                            List<LineSegmentWrapper> segmentsToWeed = new List<LineSegmentWrapper>();
-
-                            for (int i = 0; i < lineSegmentWrappers.Count; i++)
-                            {
-                                LineSegmentWrapper currentSegment = lineSegmentWrappers[i];
-
-                                LineSegmentWrapper lastSegmentToWeed = segmentsToWeed.LastOrDefault();
-
-                                double deltaAngle = double.PositiveInfinity;
-
-                                // Add first elements if its distance do not exceed the limit
-                                if (i == 0 || segmentsToWeed.Count == 0)
-                                {
-                                    if (currentSegment.LineSegment.Length <= DistanceValue)
-                                    {
-                                        segmentsToWeed.Add(currentSegment);
-                                    }
-
-                                    continue;
-                                }
-                                else if (segmentsToWeed.Count == 1)
-                                {
-                                    // Add the second segment if total distance and angle between do not exceed the limit
-
-                                    deltaAngle = GetDeltaAngle(currentSegment, lastSegmentToWeed);
-
-                                    double twoLastSegmentsLength = lastSegmentToWeed.LineSegment.Length + currentSegment.LineSegment.Length;
-
-                                    if (twoLastSegmentsLength <= DistanceValue && deltaAngle <= DeltaAngleValue)
-                                    {
-                                        segmentsToWeed.Add(currentSegment);
-                                    }
-                                    else
-                                    {
-                                        segmentsToWeed.Clear();
-                                        segmentsToWeed.Add(currentSegment);
-                                    }
-
-                                    continue;
-                                }
-
-                                if (segmentsToWeed.Count < 2)
-                                {
-                                    continue;
-                                }
-
-                                double deltaAngleNext = GetDeltaAngle(currentSegment, lastSegmentToWeed);
-
-                                // Check total length of segments plus the current one
-                                double totalLength = segmentsToWeed.Sum(item => item.LineSegment.Length) + currentSegment.LineSegment.Length;
-
-                                if (deltaAngleNext > DeltaAngleValue)
-                                {
-                                    RemoveCommonPoints(segmentsToWeed, transaction);
-                                    segmentsToWeed.Clear();
-                                    segmentsToWeed.Add(currentSegment);
-                                }
-                                else if(deltaAngleNext <= DeltaAngleValue && totalLength <= DistanceValue)
-                                {
-                                    segmentsToWeed.Add(currentSegment);
-                                }
-                                else
-                                {
-                                    RemoveCommonPoints(segmentsToWeed, transaction);
-                                    segmentsToWeed.Clear();
-                                    segmentsToWeed.Add(currentSegment);
-                                }
-
-                                // if their distance and angle less than limit value
-                                // then add to list
-
-
-
-                                /*LineSegmentWrapper currentSegment = lineSegmentWrappers[i];
-
-                                // Add previous segment
-                                LineSegmentWrapper previousSegment = lineSegmentWrappers[i - 1];
-                                segmentsGroup.Add(previousSegment);
-
-                                // Don't analyze group if there're less than 2 segments
-                                if (segmentsGroup.Count < 2)
-                                {
-                                    continue;
-                                }
-
-                                double totalDistance = segmentsGroup.Sum(item => item.LineSegment.Length);
-
-                                // no need to weed segments if the total distance more than limit value
-
-                                if (totalDistance >= DistanceValue)
-                                {
-                                    segmentsGroup.Clear();
-                                    continue;
-                                }
-
-                                double currentDistance = segmentsGroup[segmentsGroup.Count - 1].LineSegment.Length + segmentsGroup[segmentsGroup.Count - 2].LineSegment.Length;
-
-                                double angleRadians = segmentsGroup[segmentsGroup.Count - 1].LineSegment.Direction.GetAngleTo(segmentsGroup[segmentsGroup.Count - 2].LineSegment.Direction);
-                                double angleDegress = angleRadians.RadiansToDegrees();
-                                double deltaAngle = Math.Abs(180 - angleDegress);*/
-
-                                /*LineSegmentWrapper currentSegment = lineSegmentWrappers[i];
-                                segmentsGroup.Add(currentSegment);
-
-                                if (i == 0)
-                                {
-                                    continue;
-                                }
-
-                                LineSegmentWrapper previousSegment = lineSegmentWrappers[i - 1];
-
-                                double totalDistance = segmentsGroup.Sum(item => item.LineSegment.Length);
-                                double angleRadians = previousSegment.LineSegment.Direction.GetAngleTo(currentSegment.LineSegment.Direction);
-                                double angleDegress = angleRadians.RadiansToDegrees();
-                                double deltaAngle = Math.Abs(180 - angleDegress);
-                                */
-
-                            }
-
-                            if (segmentsToWeed.Count > 1)
-                            {
-                                RemoveCommonPoints(segmentsToWeed, transaction);
-                            }
-                        }
-                        transaction.Commit();
-                    }
+                    MessageBox.Show($"Deleted points: {allDeletedPointsCount}");
                 }
             }
             catch (Exception exception)
@@ -285,8 +192,184 @@ namespace Civil3DWeedLines.ViewModels
             }
         }
 
-        private void RemoveCommonPoints(List<LineSegmentWrapper> segmentsToWeed, Transaction transaction)
+        private int WeedByDistanceBetweenSegments(List<Polyline3d> polylines)
         {
+            int allDeletedPointsCount = 0;
+
+            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+            {
+                foreach (Polyline3d polyline in polylines)
+                {
+                    List<LineSegmentWrapper> lineSegmentWrappers = LineSegmentWrapper.Create(polyline);
+
+                    List<LineSegmentWrapper> segmentsToWeed = new List<LineSegmentWrapper>();
+
+                    for (int i = 0; i < lineSegmentWrappers.Count; i++)
+                    {
+                        LineSegmentWrapper currentSegment = lineSegmentWrappers[i];
+
+                        LineSegmentWrapper lastSegmentToWeed = segmentsToWeed.LastOrDefault();
+
+                        double deltaAngle = double.PositiveInfinity;
+
+                        // Add first elements if its distance do not exceed the limit
+                        if (i == 0 || segmentsToWeed.Count == 0)
+                        {
+                            if (currentSegment.LineSegment.Length <= DistanceValue)
+                            {
+                                segmentsToWeed.Add(currentSegment);
+                            }
+
+                            continue;
+                        }
+                        else if (segmentsToWeed.Count == 1)
+                        {
+                            // Add the second segment if total distance and angle between do not exceed the limit
+
+                            deltaAngle = GetDeltaAngle(currentSegment, lastSegmentToWeed);
+
+                            double twoLastSegmentsLength = lastSegmentToWeed.LineSegment.Length + currentSegment.LineSegment.Length;
+
+                            if (twoLastSegmentsLength <= DistanceValue && deltaAngle <= DeltaAngleValue)
+                            {
+                                segmentsToWeed.Add(currentSegment);
+                            }
+                            else
+                            {
+                                segmentsToWeed.Clear();
+                                segmentsToWeed.Add(currentSegment);
+                            }
+
+                            continue;
+                        }
+
+                        if (segmentsToWeed.Count < 2)
+                        {
+                            continue;
+                        }
+
+                        double deltaAngleNext = GetDeltaAngle(currentSegment, lastSegmentToWeed);
+
+                        // Check total length of segments plus the current one
+                        double totalLength = segmentsToWeed.Sum(item => item.LineSegment.Length) + currentSegment.LineSegment.Length;
+
+                        if (deltaAngleNext > DeltaAngleValue)
+                        {
+                            int deletedPointsCount = RemoveCommonPoints(segmentsToWeed, transaction);
+                            allDeletedPointsCount += deletedPointsCount;
+
+                            segmentsToWeed.Clear();
+                            segmentsToWeed.Add(currentSegment);
+                        }
+                        else if (deltaAngleNext <= DeltaAngleValue && totalLength <= DistanceValue)
+                        {
+                            segmentsToWeed.Add(currentSegment);
+                        }
+                        else
+                        {
+                            int deletedPointsCount = RemoveCommonPoints(segmentsToWeed, transaction);
+                            allDeletedPointsCount += deletedPointsCount;
+
+                            segmentsToWeed.Clear();
+                            segmentsToWeed.Add(currentSegment);
+                        }
+                    }
+
+                    if (segmentsToWeed.Count > 1)
+                    {
+                        int deletedPointsCount = RemoveCommonPoints(segmentsToWeed, transaction);
+                        allDeletedPointsCount += deletedPointsCount;
+                    }
+                }
+                transaction.Commit();
+            }
+
+            return allDeletedPointsCount;
+        }
+
+        private int WeedByShortestSegment(List<Polyline3d> polylines)
+        {
+            int allDeletedPointsCount = 0;
+
+            using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+            {
+                foreach (Polyline3d polyline in polylines)
+                {
+                    List<LineSegmentWrapper> lineSegmentWrappers = LineSegmentWrapper.Create(polyline);
+
+                    if (lineSegmentWrappers.Count < 2)
+                    {
+                        continue;
+                    }
+
+                    List<LineSegmentWrapper> segmentsToWeed = new List<LineSegmentWrapper>();
+
+                    for (int i = 0; i < lineSegmentWrappers.Count; i++)
+                    {
+                        LineSegmentWrapper currentSegment = lineSegmentWrappers[i];
+
+                        if (currentSegment.LineSegment.Length >= DistanceValue)
+                        {
+                            continue;
+                        }
+
+                        bool weedByStartPoint = false;
+                        bool weedByEndPoint = false;
+
+                        if (i > 0)
+                        {
+                            LineSegmentWrapper previousSegment = lineSegmentWrappers.ElementAtOrDefault(i - 1);
+
+                            if (previousSegment != null)
+                            {
+                                double angle = GetDeltaAngle(currentSegment, previousSegment);
+
+                                if (angle < DeltaAngleValue)
+                                {
+                                    weedByStartPoint = true;
+                                }
+                            }
+
+                            LineSegmentWrapper nextSegment = lineSegmentWrappers.ElementAtOrDefault(i + 1);
+
+                            if (nextSegment != null)
+                            {
+                                double angle = GetDeltaAngle(currentSegment, previousSegment);
+
+                                if (angle < DeltaAngleValue)
+                                {
+                                    weedByEndPoint = true;
+                                }
+                            }
+
+                            int deletedPointsCount = 0;
+                            if (weedByStartPoint && weedByEndPoint)
+                            {
+                                deletedPointsCount = RemoveCommonPoints(new List<LineSegmentWrapper> { currentSegment, previousSegment, nextSegment }, transaction);
+                            }
+                            else if (weedByStartPoint)
+                            {
+                                deletedPointsCount = RemoveCommonPoints(new List<LineSegmentWrapper> { currentSegment, previousSegment }, transaction);
+                            }
+                            else if (weedByEndPoint)
+                            {
+                                deletedPointsCount = RemoveCommonPoints(new List<LineSegmentWrapper> { currentSegment, nextSegment }, transaction);
+                            }
+
+                            allDeletedPointsCount += deletedPointsCount;
+                        }
+                    }
+                }
+                transaction.Commit();
+            }
+
+            return allDeletedPointsCount;
+        }
+
+        private int RemoveCommonPoints(List<LineSegmentWrapper> segmentsToWeed, Transaction transaction)
+        {
+            int deletedPointsCount = 0;
+
             for (int i = 0; i < segmentsToWeed.Count; i++)
             {
                 if (i == 0)
@@ -317,8 +400,11 @@ namespace Civil3DWeedLines.ViewModels
                 if (!vertex.IsErased)
                 {
                     vertex.Erase(true);
+                    deletedPointsCount++;
                 }
             }
+
+            return deletedPointsCount;
         }
 
         private static double GetDeltaAngle(LineSegmentWrapper currentSegment, LineSegmentWrapper lastSegment)

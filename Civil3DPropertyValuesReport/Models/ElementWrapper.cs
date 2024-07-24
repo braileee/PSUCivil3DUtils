@@ -15,6 +15,7 @@ namespace Civil3DPropertyValuesReport.Models
     {
         private int accuracy;
         private string name;
+        private string handle;
 
         public ElementWrapper(Acad.DBObject dBObject, int accurracy)
         {
@@ -50,6 +51,15 @@ namespace Civil3DPropertyValuesReport.Models
             {
                 name = value;
                 RaisePropertyChanged();
+            }
+        }
+
+
+        public string Handle
+        {
+            get
+            {
+                return DbObject?.Handle.Value.ToString();
             }
         }
 

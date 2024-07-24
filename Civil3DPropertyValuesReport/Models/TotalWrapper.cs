@@ -77,6 +77,19 @@ namespace Civil3DPropertyValuesReport.Models
             }
         }
 
+        public string Handle
+        {
+            get
+            {
+                if (Elements.Count > 1)
+                {
+                    return VariesValue;
+                }
+
+                return Elements.FirstOrDefault()?.Handle;
+            }
+        }
+
         public double Volume
         {
             get

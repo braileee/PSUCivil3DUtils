@@ -187,19 +187,13 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Properties\Settings.Designer.cs">
-			<AutoGen>True</AutoGen>
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<DependentUpon>Settings.settings</DependentUpon>
+		  <DesignTimeSharedInput>True</DesignTimeSharedInput>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Settings.settings</DependentUpon>
 		</Compile>
 		<Compile Update="Views\MainView.xaml.cs">
 			<DependentUpon>MainView.xaml</DependentUpon>
 		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<None Include="Properties\Settings.settings">
-			<Generator>SettingsSingleFileGenerator</Generator>
-			<LastGenOutput>Settings.Designer.cs</LastGenOutput>
-		</None>
 	</ItemGroup>
 	<ItemGroup>
 		<Page Include="Views\MainView.xaml">
@@ -210,6 +204,13 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Properties\Settings.settings">
+	    <Generator>SettingsSingleFileGenerator</Generator>
+	    <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+	  </None>
 	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E" />

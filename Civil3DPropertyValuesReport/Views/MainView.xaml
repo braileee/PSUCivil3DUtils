@@ -49,103 +49,120 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <DockPanel>
-        <StackPanel DockPanel.Dock="Top" 
-                    HorizontalAlignment="Left"
-                    Width="500"
-                    Margin="2"
-                    Orientation="Horizontal">
-            <!--<Label Content="Group by"/>
-            <ComboBox ItemsSource="{Binding GroupProperties}"
-                      SelectedItem="{Binding SelectedGroupProperty}"
-                      Width="100"/>-->
+    <TabControl>
+        <TabItem Header="Selected">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Top" 
+                HorizontalAlignment="Left"
+                Width="500"
+                Margin="2"
+                Orientation="Horizontal">
 
-            <Label Content="Rounding to"/>
-            <ComboBox ItemsSource="{Binding RoundingSigns}"
-                      SelectedItem="{Binding SelectedRoundingSign}"
-                      Width="100"/>
-        </StackPanel>
+                    <Label Content="Rounding to"/>
+                    <ComboBox ItemsSource="{Binding RoundingSigns}"
+                  SelectedItem="{Binding SelectedRoundingSign}"
+                  Width="100"/>
+                </StackPanel>
 
-        <StackPanel DockPanel.Dock="Top" 
-                    HorizontalAlignment="Left"
-                    Width="200"
-                    Margin="2">
+                <StackPanel DockPanel.Dock="Top" 
+                HorizontalAlignment="Left"
+                Width="200"
+                Margin="2">
 
-        </StackPanel>
+                </StackPanel>
 
-        <Label Content="Selected" DockPanel.Dock="Top" Margin="5" 
-               BorderThickness="1" BorderBrush="Black" FontSize="16"/>
+                <DataGrid ItemsSource="{Binding SelectedElements}" 
+              AutoGenerateColumns="False" 
+              IsReadOnly="True"
+              DockPanel.Dock="Top"
+              ScrollViewer.CanContentScroll="True"
+              MaxHeight="400">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"
+                                Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Handle"
+                                            Binding="{Binding Handle}"/>
+                        <DataGridTextColumn Header="Layer"
+                                Binding="{Binding Layer}"/>
+                        <DataGridTextColumn Header="Style"
+                                Binding="{Binding Style}"/>
+                        <DataGridTextColumn Header="Volume"
+                                Binding="{Binding Volume}"/>
+                        <DataGridTextColumn Header="Length 2D"
+                                Binding="{Binding Length2d}"/>
+                        <DataGridTextColumn Header="Length 3D"
+                                Binding="{Binding Length3d}"/>
+                        <DataGridTextColumn Header="Area 2D"
+                                Binding="{Binding Area2d}"/>
+                        <DataGridTextColumn Header="Area 3D"
+                                Binding="{Binding Area3d}"/>
+                        <DataGridTextColumn Header="Thickness"
+                                Binding="{Binding Thickness}"/>
+                        <DataGridTextColumn Header="Count"
+                                Binding="{Binding Count}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </TabItem>
 
-        <DataGrid ItemsSource="{Binding SelectedElements}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True"
-                  DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True"
-                  MaxHeight="400">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"
-                                    Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Layer"
-                                    Binding="{Binding Layer}"/>
-                <DataGridTextColumn Header="Style"
-                                    Binding="{Binding Style}"/>
-                <DataGridTextColumn Header="Volume"
-                                    Binding="{Binding Volume}"/>
-                <DataGridTextColumn Header="Length 2D"
-                                    Binding="{Binding Length2d}"/>
-                <DataGridTextColumn Header="Length 3D"
-                                    Binding="{Binding Length3d}"/>
-                <DataGridTextColumn Header="Area 2D"
-                                    Binding="{Binding Area2d}"/>
-                <DataGridTextColumn Header="Area 3D"
-                                    Binding="{Binding Area3d}"/>
-                <DataGridTextColumn Header="Thickness"
-                                    Binding="{Binding Thickness}"/>
-                <DataGridTextColumn Header="Count"
-                                    Binding="{Binding Count}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <Label Content="Total" DockPanel.Dock="Top" Margin="5" 
-         BorderThickness="1" BorderBrush="Black" FontSize="16"/>
-        
-        <DataGrid ItemsSource="{Binding TotalElements}" 
-                  AutoGenerateColumns="False" 
-                  IsReadOnly="True"
-                  DockPanel.Dock="Top"
-                  ScrollViewer.CanContentScroll="True"
-                  MaxHeight="300">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Name"
-                                    Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Layer"
-                                    Binding="{Binding Layer}"/>
-                <DataGridTextColumn Header="Style"
-                                    Binding="{Binding Style}"/>
-                <DataGridTextColumn Header="Volume"
-                                    Binding="{Binding Volume}"/>
-                <DataGridTextColumn Header="Length 2D"
-                                    Binding="{Binding Length2d}"/>
-                <DataGridTextColumn Header="Length 3D"
-                                    Binding="{Binding Length3d}"/>
-                <DataGridTextColumn Header="Area 2D"
-                                    Binding="{Binding Area2d}"/>
-                <DataGridTextColumn Header="Area 3D"
-                                    Binding="{Binding Area3d}"/>
-                <DataGridTextColumn Header="Thickness"
-                                    Binding="{Binding Thickness}"/>
-                <DataGridTextColumn Header="Count"
-                                    Binding="{Binding Count}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <!--<Button Content="Export" 
-                Command="{Binding ExportCommand}"
-                DockPanel.Dock="Bottom"
-                Width="100"
-                Height="30"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Bottom"
-                Margin="2"/>-->
-    </DockPanel>
+        <TabItem Header="Total">
+            <DockPanel>
+                <DataGrid ItemsSource="{Binding TotalElements}" 
+              AutoGenerateColumns="False" 
+              IsReadOnly="True"
+              DockPanel.Dock="Top"
+              ScrollViewer.CanContentScroll="True"
+              MaxHeight="300">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name"
+                                            Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Handle"
+                                            Binding="{Binding Handle}"/>
+                        <DataGridTextColumn Header="Layer"
+                                Binding="{Binding Layer}"/>
+                        <DataGridTextColumn Header="Style"
+                                Binding="{Binding Style}"/>
+                        <DataGridTextColumn Header="Volume"
+                                Binding="{Binding Volume}"/>
+                        <DataGridTextColumn Header="Length 2D"
+                                Binding="{Binding Length2d}"/>
+                        <DataGridTextColumn Header="Length 3D"
+                                Binding="{Binding Length3d}"/>
+                        <DataGridTextColumn Header="Area 2D"
+                                Binding="{Binding Area2d}"/>
+                        <DataGridTextColumn Header="Area 3D"
+                                Binding="{Binding Area3d}"/>
+                        <DataGridTextColumn Header="Thickness"
+                                Binding="{Binding Thickness}"/>
+                        <DataGridTextColumn Header="Count"
+                                Binding="{Binding Count}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </TabItem>
+        <TabItem Header="By Segments">
+            <DataGrid ItemsSource="{Binding SelectedLineElements}" 
+                      SelectedItem="{Binding SelectedLineElement}"
+                         AutoGenerateColumns="False" 
+                         IsReadOnly="True"
+                         DockPanel.Dock="Top"
+                         ScrollViewer.CanContentScroll="True"
+                         MaxHeight="400">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Name"
+                                        Binding="{Binding Name}"/>
+                    <DataGridTextColumn Header="Handle"
+                                        Binding="{Binding Handle}"/>
+                    <DataGridTextColumn Header="Layer"
+                                        Binding="{Binding Layer}"/>
+                    <DataGridTextColumn Header="Style"
+                                        Binding="{Binding Style}"/>
+                    <DataGridTextColumn Header="Segment Type"
+                                        Binding="{Binding SegmentType}"/>
+                    <DataGridTextColumn Header="Length"
+                                        Binding="{Binding Length}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </TabItem>
+    </TabControl>
 </Window>

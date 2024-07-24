@@ -15,6 +15,9 @@ using System.ComponentModel;
 using Autodesk.AutoCAD.Windows.Data;
 using Prism.Commands;
 using System.Windows;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace Civil3DPropertyValuesReport.ViewModels
 {
@@ -46,6 +49,7 @@ namespace Civil3DPropertyValuesReport.ViewModels
         {
             SelectedElements.Clear();
             TotalElements.Clear();
+            SelectedLineElements.Clear();
 
             SelectionSet oSelectionSet = AutocadDocumentService.Editor?.SelectImplied()?.Value;
 
@@ -75,7 +79,14 @@ namespace Civil3DPropertyValuesReport.ViewModels
                         continue;
                     }
 
-                    SelectedElements.Add(new ElementWrapper(dBObject, SelectedRoundingValue));
+                    ElementWrapper elementWrapper = new ElementWrapper(dBObject, SelectedRoundingValue);
+                    SelectedElements.Add(elementWrapper);
+
+                    if (dBObject is Polyline3d || dBObject is FeatureLine || dBObject is Polyline)
+                    {
+                        List<LineSegmentWrapper> lineSegmentWrappers = LineSegmentWrapper.Get(dBObject, SelectedRoundingValue);
+                        SelectedLineElements.AddRange(lineSegmentWrappers);
+                    }
                 }
 
                 TotalWrapper totalWrapper = TotalWrapper.CreateOneTotal(SelectedElements, SelectedRoundingValue);
@@ -108,6 +119,38 @@ namespace Civil3DPropertyValuesReport.ViewModels
         }
 
         public ObservableCollection<ElementWrapper> SelectedElements { get; set; } = new ObservableCollection<ElementWrapper>();
+
+        private LineSegmentWrapper selectedLineElement;
+        public LineSegmentWrapper SelectedLineElement
+        {
+            get { return selectedLineElement; }
+            set
+            {
+                selectedLineElement = value;
+
+                if (selectedLineElement != null)
+                {
+                    double minX = Math.Min(SelectedLineElement.StartPoint.X, SelectedLineElement.EndPoint.X);
+                    double minY = Math.Min(SelectedLineElement.StartPoint.Y, SelectedLineElement.EndPoint.Y);
+                    double minZ = Math.Min(SelectedLineElement.StartPoint.Z, SelectedLineElement.EndPoint.Z);
+
+                    double maxX = Math.Max(SelectedLineElement.StartPoint.X, SelectedLineElement.EndPoint.X);
+                    double maxY = Math.Max(SelectedLineElement.StartPoint.Y, SelectedLineElement.EndPoint.Y);
+                    double maxZ = Math.Max(SelectedLineElement.StartPoint.Z, SelectedLineElement.EndPoint.Z);
+
+                    double offset = 0.1;
+
+                    Point3d minPoint = new Point3d(minX - offset, minY - offset, minZ);
+                    Point3d maxPoint = new Point3d(maxX + offset, maxY + offset, maxZ);
+
+                    AutocadDocumentService.ZoomTo(minPoint, maxPoint);
+                }
+
+                RaisePropertyChanged();
+            }
+        }
+
+        public ObservableCollection<LineSegmentWrapper> SelectedLineElements { get; set; } = new ObservableCollection<LineSegmentWrapper>();
         public ObservableCollection<TotalWrapper> TotalElements { get; set; } = new ObservableCollection<TotalWrapper>();
         public List<string> RoundingSigns { get; set; } = new List<string>();
         public string SelectedRoundingSign

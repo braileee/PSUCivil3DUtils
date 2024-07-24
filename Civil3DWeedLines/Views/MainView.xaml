@@ -9,25 +9,31 @@
              Width="300"    
              SizeToContent="Height"
              Title="Lines weeding">
-    <StackPanel>
 
-        <Label Content="Tolerance"
+    <StackPanel>
+        <GroupBox Header="Geometry settings">
+            <StackPanel>
+                <Label Content="Tolerance"
          Margin="2"/>
-        <TextBox Text="{Binding ToleranceValue}"
+                <TextBox Text="{Binding ToleranceValue}"
            Margin="2"/>
 
-        <Label Content="Delta angle"
+                <Label Content="Delta angle"
                Margin="2"/>
-        <TextBox Text="{Binding DeltaAngleValue}"
+                <TextBox Text="{Binding DeltaAngleValue}"
                  Margin="2"/>
 
-        <Label Content="Distance"
+                <Label Content="Distance"
                Margin="2"/>
-        <TextBox Text="{Binding DistanceValue}"
+                <TextBox Text="{Binding DistanceValue}"
                  Margin="2"/>
 
-        <Button Content="{Binding SelectLinesInfo}"
-                Command="{Binding SelectLinesCommand}"
-                Margin="2"/>
+                <Button Content="{Binding SelectLinesInfo}"
+                        Command="{Binding SelectLinesCommand}"
+                        Margin="2"
+                        Padding="2"/>
+            </StackPanel>
+        </GroupBox>
+
     </StackPanel>
 </Window>

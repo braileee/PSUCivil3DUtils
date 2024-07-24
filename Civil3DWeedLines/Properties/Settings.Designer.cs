@@ -8,82 +8,54 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Civil3DWeedLines.Properties
-{
-
-
+namespace Civil3DWeedLines.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.5.0.0")]
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase
-    {
-
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.9.0.0")]
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
-
-        public static Settings Default
-        {
-            get
-            {
+        
+        public static Settings Default {
+            get {
                 return defaultInstance;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public double Interval
-        {
-            get
-            {
-                return ((double)(this["Interval"]));
+        public string DistanceValue {
+            get {
+                return ((string)(this["DistanceValue"]));
             }
-            set
-            {
-                this["Interval"] = value;
+            set {
+                this["DistanceValue"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int PointIndexStart
-        {
-            get
-            {
-                return ((int)(this["PointIndexStart"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public string DeltaAngleValue {
+            get {
+                return ((string)(this["DeltaAngleValue"]));
             }
-            set
-            {
-                this["PointIndexStart"] = value;
+            set {
+                this["DeltaAngleValue"] = value;
             }
         }
-
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PointIndexName
-        {
-            get
-            {
-                return ((string)(this["PointIndexName"]));
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public string ToleranceValue {
+            get {
+                return ((string)(this["ToleranceValue"]));
             }
-            set
-            {
-                this["PointIndexName"] = value;
-            }
-        }
-
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StationPrefix
-        {
-            get
-            {
-                return ((string)(this["StationPrefix"]));
-            }
-            set
-            {
-                this["StationPrefix"] = value;
+            set {
+                this["ToleranceValue"] = value;
             }
         }
     }

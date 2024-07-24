@@ -15,6 +15,8 @@ namespace Civil3DWeedLines.Models
         public PolylineVertex3d StartVertex { get; set; }
         public PolylineVertex3d EndVertex { get; set; }
 
+        // public double CurrentSegmentLength { get; private set; }
+
         public static List<LineSegmentWrapper> Create(Polyline3d polyline)
         {
             List<PolylineVertex3d> vertexes = polyline.GetVertexes();
@@ -47,7 +49,8 @@ namespace Civil3DWeedLines.Models
                 {
                     LineSegment = segment,
                     StartVertex = startVertex,
-                    EndVertex = endVertex
+                    EndVertex = endVertex,
+                    // CurrentSegmentLength = segment.Length
                 };
                 segments.Add(lineSegmentWrapper);
             }
@@ -67,7 +70,8 @@ namespace Civil3DWeedLines.Models
                     {
                         LineSegment = segment,
                         StartVertex = startVertex,
-                        EndVertex = endVertex
+                        EndVertex = endVertex,
+                        // CurrentSegmentLength = segment.Length
                     };
 
                     segments.Add(lineSegmentWrapper);
@@ -77,6 +81,10 @@ namespace Civil3DWeedLines.Models
             return segments;
         }
 
+        /*public void UpdateCurrentLength(double length)
+        {
+            CurrentSegmentLength = length;
+        }*/
         
         public PolylineVertex3d GetCommonVertex(LineSegmentWrapper otherSegmentWrapper)
         {

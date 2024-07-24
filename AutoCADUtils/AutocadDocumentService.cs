@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -71,6 +72,31 @@ namespace AutoCADUtils
         public static DocumentLock LockActiveDocument()
         {
             return ActiveDocument.LockDocument();
+        }
+
+
+        public static void ZoomTo(Point3d min, Point3d max)
+        {
+
+            Point2d min2d = new Point2d(min.X, min.Y);
+
+            Point2d max2d = new Point2d(max.X, max.Y);
+
+
+            ViewTableRecord view =
+
+              new ViewTableRecord();
+
+
+            view.CenterPoint =
+
+              min2d + ((max2d - min2d) / 2.0);
+
+            view.Height = max2d.Y - min2d.Y;
+
+            view.Width = max2d.X - min2d.X;
+
+            Editor.SetCurrentView(view);
         }
     }
 }
