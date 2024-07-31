@@ -310,6 +310,17 @@ namespace Civil3DWeedLines.ViewModels
 
                         if (currentSegment.LineSegment.Length >= DistanceValue)
                         {
+                            if(i > 0)
+                            {
+                                LineSegmentWrapper previousSegment = lineSegmentWrappers[i - 1];
+
+                                if(previousSegment.LineSegment.Length < DistanceValue)
+                                {
+                                    int deletedPointsCount = RemoveCommonPoints(new List<LineSegmentWrapper> { currentSegment, previousSegment }, transaction);
+                                    allDeletedPointsCount += deletedPointsCount;
+                                }
+                            }
+
                             continue;
                         }
 
