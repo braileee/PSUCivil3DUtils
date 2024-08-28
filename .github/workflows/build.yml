@@ -20,12 +20,13 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v1
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '8.0.x'
-      
+      - name: Setup MSBuild Path
+        uses: warrenbuckley/Setup-MSBuild@v1
+
+      - name: Restore NuGet Packages
+        run: nuget restore PSUCivil3DUtils.sln
+
       - name: Build solution Civil 3D 2019 Debug
-        run: dotnet build -c Civil3D2019Debug
+        run: msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug
