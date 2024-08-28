@@ -127,6 +127,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DWeedLines", "Civil3D
 		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github Actions", "Github Actions", "{5F5D5F9D-3D1C-4E36-912B-0CF2595A6AE0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Civil3D2019Debug|Any CPU = Civil3D2019Debug|Any CPU
