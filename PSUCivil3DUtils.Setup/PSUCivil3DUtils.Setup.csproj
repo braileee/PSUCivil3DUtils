@@ -6,9 +6,35 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
+    <Configurations>Debug;Release;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <NoWarn>NU1701;NU1702;IL3000</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2024Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <NoWarn>NU1701;NU1702;IL3000</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2023Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <NoWarn>NU1701;NU1702;IL3000</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2022Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <NoWarn>NU1701;NU1702;IL3000</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2021Release|AnyCPU'">
+    <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+    <NoWarn>NU1701;NU1702;IL3000</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2019Release|AnyCPU'">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     <NoWarn>NU1701;NU1702;IL3000</NoWarn>
   </PropertyGroup>

@@ -1,22 +1,38 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;</Configurations>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2019Release'">
+	  <TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2021Debug'">
 		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2021Release'">
+	  <TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2022Release'">
+	  <TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2023Release'">
+	  <TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2024Debug'">
 		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2024Release'">
+	  <TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	
 	<PropertyGroup>
@@ -60,6 +76,32 @@
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2019Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2021Debug'">
 		<Reference Include="accoremgd">
@@ -88,6 +130,33 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2021Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2021\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2021\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2021\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2021\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2021\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2021\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
+
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<Reference Include="accoremgd">
 			<HintPath>..\Civil3DDlls\2022\accoremgd.dll</HintPath>
@@ -113,6 +182,33 @@
 			<HintPath>..\Civil3DDlls\2022\AecPropDataMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2022Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2022\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2022\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2022\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2022\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2022\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2022\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
 	</ItemGroup>
 	
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
@@ -141,6 +237,33 @@
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
+	
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2023Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2023\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2023\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2023\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2023\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2023\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2023\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2024Debug'">
 		<Reference Include="accoremgd">
@@ -167,6 +290,33 @@
 			<HintPath>..\Civil3DDlls\2024\AecPropDataMgd.dll</HintPath>
 			<Private>False</Private>
 		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2024Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2024\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2024\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2024\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2024\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2024\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2024\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
 	</ItemGroup>
 
 	<ItemGroup>

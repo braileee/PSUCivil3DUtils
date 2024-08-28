@@ -1,26 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;</Configurations>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release</Configurations>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2019Release'">
+	  <TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2021Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2021Release'">
+	  <TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2022Debug'">
 		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2022Release'">
+	  <TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2023Debug'">
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2023Release'">
+	  <TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2024Debug'">
 		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2024Release'">
+	  <TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 	
 	<PropertyGroup>
