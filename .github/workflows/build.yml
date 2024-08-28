@@ -42,8 +42,8 @@ jobs:
       - name: Add msbuild to PATH
         uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Restore Packages
-        run: nuget restore PSUCivil3DUtils.sln
+      # - name: Restore Packages
+      #   run: nuget restore PSUCivil3DUtils.sln
 
       - name: Build solution Civil 3D 2019 Debug
         run: msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug
