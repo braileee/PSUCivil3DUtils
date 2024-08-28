@@ -1,13 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release</Configurations>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release</Configurations>
 	</PropertyGroup>
 	
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug'">
 		<TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
 	
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2020Debug'">
+	  <TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+	
 	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2019Release'">
+	  <TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2020Release'">
 	  <TargetFramework>net47</TargetFramework>
 	</PropertyGroup>
 
@@ -76,7 +84,59 @@
 			<Private>False</Private>
 		</Reference>
 	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2020Debug'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)'=='Civil3D2019Release'">
+	  <Reference Include="accoremgd">
+	    <HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acdbmgd">
+	    <HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="acmgd">
+	    <HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecBaseMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AeccDbMgd">
+	    <HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	  <Reference Include="AecPropDataMgd">
+	    <HintPath>..\Civil3DDlls\2019\AecPropDataMgd.dll</HintPath>
+	    <Private>False</Private>
+	  </Reference>
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2020Release'">
 	  <Reference Include="accoremgd">
 	    <HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
 	    <Private>False</Private>
