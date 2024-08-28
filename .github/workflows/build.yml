@@ -33,7 +33,7 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: nuget restore PSUCivil3DUtils.sln -p:TargetFramework=net47
+        run: nuget restore PSUCivil3DUtils.sln
 
       - name: Build solution Civil 3D 2019 Debug
         run: | 
