@@ -10,13 +10,52 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 [assembly: InternalsVisibleTo(assemblyName: "PSUCivil3DUtils.Setup.aot")] // assembly name + '.aot suffix
 
 public class Program
 {
+    /* public List<string> ContentFiles
+     {
+         get
+         {
+             return new List<string>()
+             {
+                 "AutoCADUtils.dll",
+                 "Autofac.dll",
+                 "Civil3DAlignmentStationCoordinatesTable.dll",
+                 "Civil3DAssignPropertySets.dll",
+                 "Civil3DBatchExtractSolids.dll",
+                 "Civil3DCreateCogoPointOnSectionView.dll",
+                 "Civil3DExtractCorridorLinksToSurfaces.dll",
+                 "Civil3DIFCBatchImport.dll",
+                 "Civil3DLineSelfIntersectionCheck.dll",
+                 "Civil3DPropertyValuesReport.dll",
+                 "Civil3DSubassemblyAnnotations.dll",
+                 "Civil3DToolbox.dll",
+                 "Civil3DUtils.dll",
+                 "Civil3DWeedLines.dll",
+                 "ControlzEx.dll",
+                 "ExcelDataReader.DataSet.dll",
+                 "ExcelDataReader.dll",
+                 "MahApps.Metro.dll",
+                 "Microsoft.Bcl.AsyncInterfaces.dll",
+                 "Microsoft.Xaml.Behaviors.dll",
+                 "Prism.dll",
+                 "Prism.Wpf.dll",
+                 "System.Runtime.CompilerServices.Unsafe.dll",
+                 "System.Threading.Tasks.Extensions.dll",
+                 "Files\\Styles.dwg",
+                 "Template\\Styles.dwg",
+
+             };
+         }
+     }*/
+
     public static string ApplicationPluginsFolder { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Autodesk\\ApplicationPlugins\\";
-    public static string CurrentAppFolderPath
+
+    public static string BundleFolderPath
     {
         get
         {
@@ -24,11 +63,51 @@ public class Program
         }
     }
 
-    public static string Content2018FolderPath
+    public static string Content2019FolderPath
     {
         get
         {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2018");
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2019");
+        }
+    }
+
+    public static string Content2020FolderPath
+    {
+        get
+        {
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2020");
+        }
+    }
+
+    public static string Content2021FolderPath
+    {
+        get
+        {
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2021");
+        }
+    }
+
+    public static string Content2022FolderPath
+    {
+        get
+        {
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2022");
+        }
+    }
+
+    public static string Content2023FolderPath
+    {
+        get
+        {
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2023");
+        }
+    }
+
+    public static string Content2024FolderPath
+    {
+        get
+        {
+            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2024");
         }
     }
 
@@ -44,7 +123,7 @@ public class Program
     {
         get
         {
-            return Path.Combine(Content2018FolderPath, MainDllName);
+            return Path.Combine(Content2019FolderPath, MainDllName);
         }
     }
 
@@ -68,7 +147,7 @@ public class Program
     {
         get
         {
-            return Path.Combine(CurrentAppFolderPath, "UI");
+            return Path.Combine(BundleFolderPath, "UI");
         }
     }
 
@@ -106,14 +185,16 @@ public class Program
     /// <summary>Produces MSI with digital signature.</summary>
     private static void Main()
     {
-        string filepath = BuildMsi();
+        List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
+
+        string filepath = BuildMsi(filePathList);
     }
 
     /// <summary>Produces msi.</summary>
     /// <returns>Path to MSI file</returns>
-    private static string BuildMsi()
+    private static string BuildMsi(List<string> filePathList)
     {
-        Dir[] dirs = GetInstallInvetory();
+        Dir[] dirs = GetInstallInvetory(filePathList);
 
         Project project = new Project()
         {
@@ -122,7 +203,7 @@ public class Program
             Version = GetVersion(),
             GUID = ProductGuid,
             ValidateBackgroundImage = false,
-            SourceBaseDir = CurrentAppFolderPath,
+            SourceBaseDir = BundleFolderPath,
             OutDir = "Build"
         };
 
@@ -140,48 +221,26 @@ public class Program
 
     /// <summary>Gets install directories with files to be installed.</summary>
     /// <returns>Array of install directories</returns>
-    private static Dir[] GetInstallInvetory()
+    private static Dir[] GetInstallInvetory(List<string> filePathList)
     {
+        List<string> directoryPathList = filePathList.Select(filePath => Path.GetDirectoryName(filePath)!).ToList();
+        List<string> normalizedDirectoryPathList = directoryPathList.Select(directory => Regex.Replace(directory, @".*AppData\\Roaming", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), RegexOptions.IgnoreCase)).ToList();
         List<Dir> directories = new List<Dir>();
 
-        List<File> bundleFiles = new List<File>
+        foreach (string directoryPath in normalizedDirectoryPathList)
+        {
+            List<string> currentFilePathList = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
+            List<File> files = new List<File>();
+
+            foreach (string currentFilePath in currentFilePathList)
             {
-                new File(PackageContentsFileName)
-            };
+                File file = new File(Path.GetFileName(currentFilePath));
+                files.Add(file);
+            }
 
-        List<File> cuixFiles = new List<File>
-            {
-                new File(Path.Combine("UI", CuixFileName))
-            };
-
-        // 2018 content
-        const string versionFolderName2018 = "2018";
-
-        List<File> contentFiles2018 = new List<File>
-            {
-                new File(Path.Combine("Contents", versionFolderName2018, MainDllName)),
-                new File(Path.Combine("Contents", versionFolderName2018,"Newtonsoft.Json.dll")),
-            };
-
-        Dir bundleDirectory = new Dir(CurrentAppFolderPath, bundleFiles.ToArray());
-        Dir cuixDirectory = new Dir(CuixFolderPath, cuixFiles.ToArray());
-        Dir contentsDirectory2018 = new Dir(Content2018FolderPath, contentFiles2018.ToArray());
-
-        // 2025 content
-        const string versionFolderName2025 = "2025";
-
-        List<File> contentFiles2025 = new List<File>
-            {
-                new File(Path.Combine("Contents", versionFolderName2025, MainDllName)),
-                new File(Path.Combine("Contents", versionFolderName2025,"Newtonsoft.Json.dll")),
-            };
-
-        Dir contentsDirectory2025 = new Dir(Content2025FolderPath, contentFiles2025.ToArray());
-
-        directories.Add(cuixDirectory);
-        directories.Add(bundleDirectory);
-        directories.Add(contentsDirectory2018);
-        directories.Add(contentsDirectory2025);
+            Dir dir = new Dir(directoryPath, files.ToArray());
+            directories.Add(dir);
+        }
 
         return directories.ToArray();
     }
