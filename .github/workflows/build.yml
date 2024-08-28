@@ -20,10 +20,19 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v1.1
 
       - name: Restore NuGet Packages
         run: nuget restore PSUCivil3DUtils.sln
 
       - name: Build solution Civil 3D 2019 Debug
-        run: msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug
+        run: msbuild PSUCivil3DUtils.sln -t:rebuild -property:Configuration=Civil3D2019Debug
