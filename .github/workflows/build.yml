@@ -1,13 +1,10 @@
 name: Build
 
 on:
-  push:
-    branches:
-      - '*'
-      - '*/*'
-      - '**'
-      - '!main'
-  workflow_dispatch:
+   push:
+     branches: [ master ]
+   pull_request:
+     branches: [ master ]
 
 concurrency: 
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,24 +23,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-            dotnet-version: 5.0.x
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
-     
       - name: Setup NuGet
         uses: NuGet/setup-nuget@v1.0.5
-        env:
-            ACTIONS_ALLOW_UNSECURE_COMMANDS: 'true'
 
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+      - name: Navigate to Workspace
+        run: cd $GITHUB_WORKSPACE
 
-      # - name: Restore Packages
-      #   run: nuget restore PSUCivil3DUtils.sln
+      - name: Restore Packages
+        run: nuget restore PSUCivil3DUtils.sln
 
       - name: Build solution Civil 3D 2019 Debug
-        run: msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug
