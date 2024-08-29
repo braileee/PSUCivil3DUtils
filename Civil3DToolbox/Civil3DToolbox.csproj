@@ -11,12 +11,6 @@
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
-	<PropertyGroup>
-		<ProjectGuid>{8E8018B0-2591-4FA6-A346-B66674B2DBA9}</ProjectGuid>
-		<AssemblyTitle>Civil3DToolbox</AssemblyTitle>
-		<TargetFramework>net48</TargetFramework>
-		<Product>Civil3DToolbox</Product>
-	</PropertyGroup>
 	<PropertyGroup />
 	<ItemGroup>
 		<Reference Include="Civil3DUtils">
