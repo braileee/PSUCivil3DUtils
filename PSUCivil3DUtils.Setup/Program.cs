@@ -123,15 +123,7 @@ public class Program
     {
         get
         {
-            return Path.Combine(Content2019FolderPath, MainDllName);
-        }
-    }
-
-    public static string MainDllName
-    {
-        get
-        {
-            return "HASSAutoCadPlugin.App.dll";
+            return Asm.GetAssembly(typeof(Program))!.Location;
         }
     }
 
@@ -139,7 +131,7 @@ public class Program
     {
         get
         {
-            return "HASSCADribbon.cuix";
+            return "civil3d_psu.cuix";
         }
     }
 
@@ -185,7 +177,7 @@ public class Program
     /// <summary>Produces MSI with digital signature.</summary>
     private static void Main()
     {
-        List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
+        List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith(".pdb") && !filePath.EndsWith(".dll.config")).ToList();
 
         string filepath = BuildMsi(filePathList);
     }
@@ -223,18 +215,17 @@ public class Program
     /// <returns>Array of install directories</returns>
     private static Dir[] GetInstallInvetory(List<string> filePathList)
     {
-        List<string> directoryPathList = filePathList.Select(filePath => Path.GetDirectoryName(filePath)!).ToList();
-        List<string> normalizedDirectoryPathList = directoryPathList.Select(directory => Regex.Replace(directory, @".*AppData\\Roaming", Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), RegexOptions.IgnoreCase)).ToList();
+        List<string> directoryPathList = filePathList.Select(filePath => Path.GetDirectoryName(filePath)!).Distinct().ToList();
         List<Dir> directories = new List<Dir>();
 
-        foreach (string directoryPath in normalizedDirectoryPathList)
+        foreach (string directoryPath in directoryPathList)
         {
             List<string> currentFilePathList = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
             List<File> files = new List<File>();
 
             foreach (string currentFilePath in currentFilePathList)
             {
-                File file = new File(Path.GetFileName(currentFilePath));
+                File file = new File(currentFilePath);
                 files.Add(file);
             }
 
@@ -251,7 +242,7 @@ public class Program
     {
         Asm assembly = Asm.LoadFrom(StartupAppDllPath);
 
-        return assembly.GetName().Version;
+        return assembly.GetName().Version!;
     }
 
     /// <summary>Gets install directory path.</summary>
@@ -285,7 +276,7 @@ public class Program
 
             if (!e.IsUISupressed)
             {
-                MessageBox.Show(e.Session.GetMainWindow(), "Setup had to be aborted because AutoCAD 3d installation was not found.");
+                MessageBox.Show(e.Session.GetMainWindow(), "Setup had to be aborted because AutoCAD installation was not found.");
             }
         }
 

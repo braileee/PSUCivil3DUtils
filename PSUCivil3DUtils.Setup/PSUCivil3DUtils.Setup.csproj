@@ -6,7 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
-    <Configurations>Debug;Release;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release</Configurations>
+    <Configurations>Debug;Release;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release;Installer</Configurations>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -14,7 +16,13 @@
     <NoWarn>NU1701;NU1702;IL3000</NoWarn>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2020Debug|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Installer|AnyCPU'">
+		<DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
+		<NoWarn>NU1701;NU1702;IL3000</NoWarn>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Civil3D2020Debug|AnyCPU'">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
     <NoWarn>NU1701;NU1702;IL3000</NoWarn>
   </PropertyGroup>
@@ -50,13 +58,17 @@
   </PropertyGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<!--<Exec Command="cd .\&#xD;&#xA;set ide=true&#xD;&#xA;dotnet &quot;$(TargetPath)&quot;" />-->
+		<Exec Command="cd .\&#xD;&#xA;set ide=true&#xD;&#xA;dotnet &quot;$(TargetPath)&quot;&#xD;&#xA;&#xD;&#xA;" />
 	</Target>
 
   <ItemGroup>
     <PackageReference Include="WixSharp.Core" Version="2.1.3">
       <Aliases></Aliases>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>

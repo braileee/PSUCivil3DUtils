@@ -37,3 +37,7 @@ jobs:
       - name: Build solution Civil 3D 2019 Debug
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug /p:TargetFramework=net47
+
+      - name: Build installer
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Installer /p:TargetFramework=net8.0-windows

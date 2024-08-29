@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release</Configurations>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release;Installer</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release'">
@@ -11,7 +11,10 @@
 		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
-	<PropertyGroup />
+	<PropertyGroup>
+	  <AssemblyVersion></AssemblyVersion>
+	  <FileVersion></FileVersion>
+	</PropertyGroup>
 	<ItemGroup>
 		<None Include="PackageContents.xml" />
 	</ItemGroup>
@@ -20,7 +23,10 @@
 		<Compile Remove="obj\Civil3D2022Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
 		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	</ItemGroup>
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
+	  <Exec Command="&#xD;&#xA;   xcopy &quot;$(ProjectDir)\PackageContents.xml&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\&quot; /F /R /Y /I&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\UI\&quot;  /F /R /Y /I&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(ProjectDir)\UI\civil3d_psu.cuix&quot; &quot;%25appdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\UI\&quot;  /F /R /Y /I&#xD;&#xA;  " />
 	</Target>
 </Project>
