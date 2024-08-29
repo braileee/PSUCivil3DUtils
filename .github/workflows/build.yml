@@ -32,7 +32,7 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Restore Packages
-        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2019Debug /p:TargetFramework=net47
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2019Debug
 
       - name: Build solution Civil 3D 2019 Debug
         run: | 
