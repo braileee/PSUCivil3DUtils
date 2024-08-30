@@ -41,6 +41,41 @@ jobs:
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Release /p:TargetFramework=net47
 
+      - name: Restore Packages Civil3D2020Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2020Release
+
+      - name: Build solution Civil3D2020Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2020Release /p:TargetFramework=net47
+
+      - name: Restore Packages Civil3D2021Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2021Release
+
+      - name: Build solution Civil3D2021Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2021Release /p:TargetFramework=net48
+
+      - name: Restore Packages Civil3D2022Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2022Release
+
+      - name: Build solution Civil3D2022Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2022Release /p:TargetFramework=net48
+
+      - name: Restore Packages Civil3D2023Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2023Release
+
+      - name: Build solution Civil3D2023Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2023Release /p:TargetFramework=net48
+
+      - name: Restore Packages Civil3D2024Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2024Release
+
+      - name: Build solution Civil3D2024Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2024Release /p:TargetFramework=net48
+
       - name: Restore Packages Installer
         run: dotnet msbuild /t:restore /p:Configuration=Installer
 
