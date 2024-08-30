@@ -363,3 +363,5 @@ MigrationBackup/
 FodyWeavers.xsd
 /Civil3DAlignmentStationCoordinatesTable/Files/Styles.bak
 *.msi
+/PSUCivil3DUtils.Setup/Build/PSU-Civil3D-Utils-AutoCAD-2019-2024-Win-Installer-1.0.0.1.wxs
+/PSUCivil3DUtils.Setup/Build/PSU-Civil3D-Utils-AutoCAD-2019-2024-Win-Installer-1.0.0.2.wxs
