@@ -31,16 +31,21 @@ jobs:
       - name: Navigate to Workspace
         run: cd $GITHUB_WORKSPACE
 
-      - name: Restore Packages
-        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2019Debug
-
-      - name: Build solution Civil 3D 2019 Debug
-        run: | 
-            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Debug /p:TargetFramework=net47
-
       - name: Install WiX
         run: dotnet tool install --global wix
+
+      - name: Restore Packages Civil3D2019Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2019Release
+
+      - name: Build solution Civil3D2019Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Release /p:TargetFramework=net47
 
       - name: Build installer
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Installer /p:TargetFramework=net8.0-windows
+
+      - uses: actions/upload-artifact@v4
+        with:
+            name: Installer
+            path: PSUCivil3DUtils.Setup/Build/*.msi
