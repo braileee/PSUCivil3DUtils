@@ -41,7 +41,10 @@ jobs:
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2019Release /p:TargetFramework=net47
 
-      - name: Build installer
+      - name: Restore Packages Installer
+        run: dotnet msbuild /t:restore /p:Configuration=Installer
+
+      - name: Build Installer
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Installer /p:TargetFramework=net8.0-windows
 
