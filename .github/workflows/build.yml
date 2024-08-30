@@ -48,7 +48,12 @@ jobs:
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Installer /p:TargetFramework=net8.0-windows
 
-      - uses: actions/upload-artifact@v4
+      # - uses: actions/upload-artifact@v4
+      #   with:
+      #       name: Installer
+      #       path: PSUCivil3DUtils.Setup/Build/*.msi
+
+      - name: Release
+        uses: softprops/action-gh-release@v2
         with:
-            name: Installer
-            path: PSUCivil3DUtils.Setup/Build/*.msi
+          files: PSUCivil3DUtils.Setup/Build/*.msi
