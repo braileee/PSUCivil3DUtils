@@ -141,16 +141,15 @@ public class Program
     /// <summary>Produces MSI with digital signature.</summary>
     private static void Main()
     {
-        List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith(".pdb") && !filePath.EndsWith(".dll.config")).ToList();
 
-        string filepath = BuildMsi(filePathList);
+        string filepath = BuildMsi();
     }
 
     /// <summary>Produces msi.</summary>
     /// <returns>Path to MSI file</returns>
-    private static string BuildMsi(List<string> filePathList)
+    private static string BuildMsi()
     {
-        Dir[] dirs = GetInstallInvetory(filePathList);
+        Dir[] dirs = GetInstallInvetory();
 
         Project project = new Project()
         {
@@ -179,23 +178,29 @@ public class Program
 
     /// <summary>Gets install directories with files to be installed.</summary>
     /// <returns>Array of install directories</returns>
-    private static Dir[] GetInstallInvetory(List<string> filePathList)
+    private static Dir[] GetInstallInvetory()
     {
-        List<string> directoryPathList = filePathList.Select(filePath => Path.GetDirectoryName(filePath)!).Distinct().ToList();
+        //List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith(".pdb") && !filePath.EndsWith(".dll.config")).ToList();
+
+        List<string> directoryPathList = Directory.GetDirectories(BundleFolderPath, "*", SearchOption.AllDirectories).ToList();
         List<Dir> directories = new List<Dir>();
 
         foreach (string directoryPath in directoryPathList)
         {
-            List<string> currentFilePathList = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
+            DirFiles dllFiles = new DirFiles(Path.Combine(directoryPath, "*.dll"));
+            DirFiles dwtFiles = new DirFiles(Path.Combine(directoryPath, "*.dwt"));
+            DirFiles dwgFiles = new DirFiles(Path.Combine(directoryPath, "*.dwg"));
+            DirFiles xlsxFiles = new DirFiles(Path.Combine(directoryPath, "*.xlsx"));
+            Dir dir = new Dir(new Id(directoryPath.Replace(BundleFolderPath, "")), dllFiles, dwtFiles, dwgFiles);
+           /* List<string> currentFilePathList = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
             List<File> files = new List<File>();
-
             foreach (string currentFilePath in currentFilePathList)
             {
                 File file = new File(currentFilePath);
                 files.Add(file);
             }
 
-            Dir dir = new Dir(directoryPath, files.ToArray());
+            Dir dir = new Dir(directoryPath, files.ToArray());*/
             directories.Add(dir);
         }
 
