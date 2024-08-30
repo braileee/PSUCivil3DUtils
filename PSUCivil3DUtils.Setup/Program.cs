@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 [assembly: InternalsVisibleTo(assemblyName: "PSUCivil3DUtils.Setup.aot")] // assembly name + '.aot suffix
 
@@ -170,6 +171,8 @@ public class Program
             PreventDowngradingVersions = VersionRange.NewerThanThis,
             NewerProductInstalledErrorMessage = "Newer version already installed",
         };
+
+        WixSharp.MSBuild.EmitAutoGenFiles = true;
 
         return Compiler.BuildMsi(project);
     }
