@@ -16,43 +16,6 @@ using System.Text.RegularExpressions;
 
 public class Program
 {
-    /* public List<string> ContentFiles
-     {
-         get
-         {
-             return new List<string>()
-             {
-                 "AutoCADUtils.dll",
-                 "Autofac.dll",
-                 "Civil3DAlignmentStationCoordinatesTable.dll",
-                 "Civil3DAssignPropertySets.dll",
-                 "Civil3DBatchExtractSolids.dll",
-                 "Civil3DCreateCogoPointOnSectionView.dll",
-                 "Civil3DExtractCorridorLinksToSurfaces.dll",
-                 "Civil3DIFCBatchImport.dll",
-                 "Civil3DLineSelfIntersectionCheck.dll",
-                 "Civil3DPropertyValuesReport.dll",
-                 "Civil3DSubassemblyAnnotations.dll",
-                 "Civil3DToolbox.dll",
-                 "Civil3DUtils.dll",
-                 "Civil3DWeedLines.dll",
-                 "ControlzEx.dll",
-                 "ExcelDataReader.DataSet.dll",
-                 "ExcelDataReader.dll",
-                 "MahApps.Metro.dll",
-                 "Microsoft.Bcl.AsyncInterfaces.dll",
-                 "Microsoft.Xaml.Behaviors.dll",
-                 "Prism.dll",
-                 "Prism.Wpf.dll",
-                 "System.Runtime.CompilerServices.Unsafe.dll",
-                 "System.Threading.Tasks.Extensions.dll",
-                 "Files\\Styles.dwg",
-                 "Template\\Styles.dwg",
-
-             };
-         }
-     }*/
-
     public static string ApplicationPluginsFolder { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Autodesk\\ApplicationPlugins\\";
 
     public static string BundleFolderPath
