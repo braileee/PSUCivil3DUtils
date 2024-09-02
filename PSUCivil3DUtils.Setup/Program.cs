@@ -27,62 +27,6 @@ public class Program
         }
     }
 
-    public static string Content2019FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2019");
-        }
-    }
-
-    public static string Content2020FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2020");
-        }
-    }
-
-    public static string Content2021FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2021");
-        }
-    }
-
-    public static string Content2022FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2022");
-        }
-    }
-
-    public static string Content2023FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2023");
-        }
-    }
-
-    public static string Content2024FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2024");
-        }
-    }
-
-    public static string Content2025FolderPath
-    {
-        get
-        {
-            return Path.Combine(ApplicationPluginsFolder, BundleName, "Contents", "2025");
-        }
-    }
-
     public static string StartupAppDllPath
     {
         get
@@ -104,22 +48,6 @@ public class Program
         get
         {
             return Path.Combine(BundleFolderPath, "UI");
-        }
-    }
-
-    public static string CuixFilePath
-    {
-        get
-        {
-            return Path.Combine(CuixFolderPath, CuixFileName);
-        }
-    }
-
-    public static string PackageContentsFileName
-    {
-        get
-        {
-            return "PackageContents.xml";
         }
     }
 
@@ -180,31 +108,11 @@ public class Program
     /// <returns>Array of install directories</returns>
     private static Dir[] GetInstallInvetory()
     {
-        //List<string> filePathList = Directory.GetFiles(BundleFolderPath, "*.*", SearchOption.AllDirectories).Where(filePath => !filePath.EndsWith(".pdb") && !filePath.EndsWith(".dll.config")).ToList();
+        Files files = Files.FromBuildDir(BundleFolderPath, ".dll|.dwt|.dwg|.xlsx|.xml|.cuix|.cui");
 
-        List<string> directoryPathList = Directory.GetDirectories(BundleFolderPath, "*", SearchOption.AllDirectories).ToList();
-        List<Dir> directories = new List<Dir>();
+        Dir dir = new Dir(BundleFolderPath, files);
 
-        foreach (string directoryPath in directoryPathList)
-        {
-            DirFiles dllFiles = new DirFiles(Path.Combine(directoryPath, "*.dll"));
-            DirFiles dwtFiles = new DirFiles(Path.Combine(directoryPath, "*.dwt"));
-            DirFiles dwgFiles = new DirFiles(Path.Combine(directoryPath, "*.dwg"));
-            DirFiles xlsxFiles = new DirFiles(Path.Combine(directoryPath, "*.xlsx"));
-            Dir dir = new Dir(new Id(directoryPath.Replace(BundleFolderPath, "")), dllFiles, dwtFiles, dwgFiles);
-           /* List<string> currentFilePathList = Directory.GetFiles(directoryPath, "*.*", SearchOption.TopDirectoryOnly).Where(filePath => !filePath.EndsWith("*.pdb") && !filePath.EndsWith("*.dll.config")).ToList();
-            List<File> files = new List<File>();
-            foreach (string currentFilePath in currentFilePathList)
-            {
-                File file = new File(currentFilePath);
-                files.Add(file);
-            }
-
-            Dir dir = new Dir(directoryPath, files.ToArray());*/
-            directories.Add(dir);
-        }
-
-        return directories.ToArray();
+        return new List<Dir>() { dir }.ToArray();
     }
 
     /// <summary>During generating installer it will retrieve version from assembly.</summary>
