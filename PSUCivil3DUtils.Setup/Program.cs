@@ -17,7 +17,7 @@ using System.Xml.Linq;
 
 public class Program
 {
-    public static string ApplicationPluginsFolder { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData)}\\Autodesk\\ApplicationPlugins\\";
+    public static string ApplicationPluginsFolder { get; } = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\\Autodesk\\ApplicationPlugins\\";
 
     public static string BundleFolderPath
     {
