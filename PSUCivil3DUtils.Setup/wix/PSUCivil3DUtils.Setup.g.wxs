@@ -6,7 +6,7 @@
     To suppress generation of this file remove `set ide=true` from the PostBuildEvent of the VS project
 </auto-generated>
 -->
-  <Package Compressed="yes" ProductCode="1b55b619-e05a-4aac-858c-92855c30e26f" Name="PSU Civil 3D Utils for AutoCAD 2019-2024" Language="1033" Version="1.0.0.3" UpgradeCode="1b55b619-e05a-4aac-858c-92854c30e26b" Manufacturer="SUPI" InstallerVersion="200">
+  <Package Compressed="yes" ProductCode="1b55b619-e05a-4aac-858c-92855c30e27f" Name="PSU Civil 3D Utils for AutoCAD 2019-2024" Language="1033" Version="1.0.0.19" UpgradeCode="1b55b619-e05a-4aac-858c-92854c30e26b" Manufacturer="SUPI" InstallerVersion="200">
     <SummaryInformation Codepage="Windows-1252" />
     <Media Id="1" Cabinet="_...tils20for20AutoCAD2020192d2024_.cab" EmbedCab="yes" />
 
@@ -1424,8 +1424,168 @@
         </Directory>
       </Directory>
 
-      <Directory Id="_2024_" Name="2024">
+      <Directory Id="_2023_" Name="2023">
         <Directory Id="Contents.4" Name="Contents">
+
+          <Component Id="Component.AutoCADUtils.dll_1063360420" Guid="1b55b619-e05a-4aac-858c-9285a6f32dd8">
+            <File Id="AutoCADUtils.dll_1063360420" Source="2023\Contents\AutoCADUtils.dll" />
+          </Component>
+
+          <Component Id="Component.Autofac.dll_3997847424" Guid="1b55b619-e05a-4aac-858c-9285e5b371d4">
+            <File Id="Autofac.dll_3997847424" Source="2023\Contents\Autofac.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DAlignmentStationCoordinatesTable.dll_3017280799" Guid="1b55b619-e05a-4aac-858c-92850882f2cb">
+            <File Id="Civil3DAlignmentStationCoordinatesTable.dll_3017280799" Source="2023\Contents\Civil3DAlignmentStationCoordinatesTable.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DAssignPropertySets.dll_2424843364" Guid="1b55b619-e05a-4aac-858c-9285d71edd49">
+            <File Id="Civil3DAssignPropertySets.dll_2424843364" Source="2023\Contents\Civil3DAssignPropertySets.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DBatchExtractSolids.dll_3375910417" Guid="1b55b619-e05a-4aac-858c-92851689bbe9">
+            <File Id="Civil3DBatchExtractSolids.dll_3375910417" Source="2023\Contents\Civil3DBatchExtractSolids.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DCreateCogoPointOnSectionView.dll_1427235201" Guid="1b55b619-e05a-4aac-858c-9285145befdf">
+            <File Id="Civil3DCreateCogoPointOnSectionView.dll_1427235201" Source="2023\Contents\Civil3DCreateCogoPointOnSectionView.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_3999155897" Guid="1b55b619-e05a-4aac-858c-9285f013ce8c">
+            <File Id="Civil3DExtractCorridorLinksToSurfaces.dll_3999155897" Source="2023\Contents\Civil3DExtractCorridorLinksToSurfaces.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DIFCBatchImport.dll_1276527040" Guid="1b55b619-e05a-4aac-858c-928549db676d">
+            <File Id="Civil3DIFCBatchImport.dll_1276527040" Source="2023\Contents\Civil3DIFCBatchImport.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_2204528233" Guid="1b55b619-e05a-4aac-858c-92856c6234a4">
+            <File Id="Civil3DLineSelfIntersectionCheck.dll_2204528233" Source="2023\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DPropertyValuesReport.dll_2331680594" Guid="1b55b619-e05a-4aac-858c-92859d999a08">
+            <File Id="Civil3DPropertyValuesReport.dll_2331680594" Source="2023\Contents\Civil3DPropertyValuesReport.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DSubassemblyAnnotations.dll_1837588243" Guid="1b55b619-e05a-4aac-858c-92857fb77915">
+            <File Id="Civil3DSubassemblyAnnotations.dll_1837588243" Source="2023\Contents\Civil3DSubassemblyAnnotations.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DToolbox.dll_4140255725" Guid="1b55b619-e05a-4aac-858c-92856b63c44b">
+            <File Id="Civil3DToolbox.dll_4140255725" Source="2023\Contents\Civil3DToolbox.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DUtils.dll_4131416480" Guid="1b55b619-e05a-4aac-858c-928573234cb0">
+            <File Id="Civil3DUtils.dll_4131416480" Source="2023\Contents\Civil3DUtils.dll" />
+          </Component>
+
+          <Component Id="Component.Civil3DWeedLines.dll_1126665962" Guid="1b55b619-e05a-4aac-858c-92856b12fb2b">
+            <File Id="Civil3DWeedLines.dll_1126665962" Source="2023\Contents\Civil3DWeedLines.dll" />
+          </Component>
+
+          <Component Id="Component.ControlzEx.dll_2071218114" Guid="1b55b619-e05a-4aac-858c-92851312746a">
+            <File Id="ControlzEx.dll_2071218114" Source="2023\Contents\ControlzEx.dll" />
+          </Component>
+
+          <Component Id="Component.ExcelDataReader.DataSet.dll_429634109" Guid="1b55b619-e05a-4aac-858c-9285e73e50e3">
+            <File Id="ExcelDataReader.DataSet.dll_429634109" Source="2023\Contents\ExcelDataReader.DataSet.dll" />
+          </Component>
+
+          <Component Id="Component.ExcelDataReader.dll_1608698036" Guid="1b55b619-e05a-4aac-858c-9285e1a2c238">
+            <File Id="ExcelDataReader.dll_1608698036" Source="2023\Contents\ExcelDataReader.dll" />
+          </Component>
+
+          <Component Id="Component.MahApps.Metro.dll_22644562" Guid="1b55b619-e05a-4aac-858c-928566681b4d">
+            <File Id="MahApps.Metro.dll_22644562" Source="2023\Contents\MahApps.Metro.dll" />
+          </Component>
+
+          <Component Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_2347004413" Guid="1b55b619-e05a-4aac-858c-9285a0d0e1a1">
+            <File Id="Microsoft.Bcl.AsyncInterfaces.dll_2347004413" Source="2023\Contents\Microsoft.Bcl.AsyncInterfaces.dll" />
+          </Component>
+
+          <Component Id="Component.Microsoft.Xaml.Behaviors.dll_1375757108" Guid="1b55b619-e05a-4aac-858c-9285f04af37a">
+            <File Id="Microsoft.Xaml.Behaviors.dll_1375757108" Source="2023\Contents\Microsoft.Xaml.Behaviors.dll" />
+          </Component>
+
+          <Component Id="Component.Prism.dll_2991224276" Guid="1b55b619-e05a-4aac-858c-92853228476c">
+            <File Id="Prism.dll_2991224276" Source="2023\Contents\Prism.dll" />
+          </Component>
+
+          <Component Id="Component.Prism.Wpf.dll_2076070979" Guid="1b55b619-e05a-4aac-858c-9285cf42d8a7">
+            <File Id="Prism.Wpf.dll_2076070979" Source="2023\Contents\Prism.Wpf.dll" />
+          </Component>
+
+          <Component Id="Component.System.Runtime.CompilerServices.Unsafe.dll_2479018814" Guid="1b55b619-e05a-4aac-858c-92859d283b96">
+            <File Id="System.Runtime.CompilerServices.Unsafe.dll_2479018814" Source="2023\Contents\System.Runtime.CompilerServices.Unsafe.dll" />
+          </Component>
+
+          <Component Id="Component.System.Threading.Tasks.Extensions.dll_2886245071" Guid="1b55b619-e05a-4aac-858c-92859ae1cdee">
+            <File Id="System.Threading.Tasks.Extensions.dll_2886245071" Source="2023\Contents\System.Threading.Tasks.Extensions.dll" />
+          </Component>
+
+          <Directory Id="de.4" Name="de">
+
+            <Component Id="Component.MahApps.Metro.resources.dll_4145837266" Guid="1b55b619-e05a-4aac-858c-9285befe9817">
+              <File Id="MahApps.Metro.resources.dll_4145837266" Source="2023\Contents\de\MahApps.Metro.resources.dll" />
+            </Component>
+
+          </Directory>
+
+          <Directory Id="Files.4" Name="Files">
+
+            <Component Id="Component.Styles.dwg_1780336356" Guid="1b55b619-e05a-4aac-858c-92858a3143ed">
+              <File Id="Styles.dwg_1780336356" Source="2023\Contents\Files\Styles.dwg" />
+            </Component>
+
+            <Directory Id="Civil3DAssignPropertySets.4" Name="Civil3DAssignPropertySets">
+
+              <Component Id="Component.PropertySetGroupsExample.xlsx_2305998033" Guid="1b55b619-e05a-4aac-858c-9285e70f591a">
+                <File Id="PropertySetGroupsExample.xlsx_2305998033" Source="2023\Contents\Files\Civil3DAssignPropertySets\PropertySetGroupsExample.xlsx" />
+              </Component>
+
+            </Directory>
+
+            <Directory Id="Template.4" Name="Template">
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Centimeters.dwt_2644239609" Guid="1b55b619-e05a-4aac-858c-9285c4f156b0">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Centimeters.dwt_2644239609" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Centimeters.dwt" />
+              </Component>
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Decimeters.dwt_1682061754" Guid="1b55b619-e05a-4aac-858c-92852f6fbcc8">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Decimeters.dwt_1682061754" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Decimeters.dwt" />
+              </Component>
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Feet.dwt_2554632264" Guid="1b55b619-e05a-4aac-858c-928548c470e0">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Feet.dwt_2554632264" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Feet.dwt" />
+              </Component>
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Inches.dwt_4059626470" Guid="1b55b619-e05a-4aac-858c-928523619b54">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Inches.dwt_4059626470" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Inches.dwt" />
+              </Component>
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Meters.dwt_479282889" Guid="1b55b619-e05a-4aac-858c-92852859be78">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Meters.dwt_479282889" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Meters.dwt" />
+              </Component>
+
+              <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Millimeters.dwt_2900186081" Guid="1b55b619-e05a-4aac-858c-92850b94f0bc">
+                <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Millimeters.dwt_2900186081" Source="2023\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Millimeters.dwt" />
+              </Component>
+
+            </Directory>
+          </Directory>
+        </Directory>
+
+        <Directory Id="UI.4" Name="UI">
+
+          <Component Id="Component.civil3d_psu.cuix_2671050132" Guid="1b55b619-e05a-4aac-858c-9285ec59e386">
+            <File Id="civil3d_psu.cuix_2671050132" Source="2023\UI\civil3d_psu.cuix" />
+          </Component>
+
+        </Directory>
+      </Directory>
+
+      <Directory Id="_2024_" Name="2024">
+        <Directory Id="Contents.5" Name="Contents">
 
           <Component Id="Component.AutoCADUtils.dll_882431800" Guid="1b55b619-e05a-4aac-858c-928531e61a69">
             <File Id="AutoCADUtils.dll_882431800" Source="2024\Contents\AutoCADUtils.dll" />
@@ -1523,7 +1683,7 @@
             <File Id="System.Threading.Tasks.Extensions.dll_1056384790" Source="2024\Contents\System.Threading.Tasks.Extensions.dll" />
           </Component>
 
-          <Directory Id="de.4" Name="de">
+          <Directory Id="de.5" Name="de">
 
             <Component Id="Component.MahApps.Metro.resources.dll_1874519929" Guid="1b55b619-e05a-4aac-858c-92856479fc9a">
               <File Id="MahApps.Metro.resources.dll_1874519929" Source="2024\Contents\de\MahApps.Metro.resources.dll" />
@@ -1531,13 +1691,13 @@
 
           </Directory>
 
-          <Directory Id="Files.4" Name="Files">
+          <Directory Id="Files.5" Name="Files">
 
             <Component Id="Component.Styles.dwg_2902360764" Guid="1b55b619-e05a-4aac-858c-92850572f0fa">
               <File Id="Styles.dwg_2902360764" Source="2024\Contents\Files\Styles.dwg" />
             </Component>
 
-            <Directory Id="Civil3DAssignPropertySets.4" Name="Civil3DAssignPropertySets">
+            <Directory Id="Civil3DAssignPropertySets.5" Name="Civil3DAssignPropertySets">
 
               <Component Id="Component.PropertySetGroupsExample.xlsx_529032395" Guid="1b55b619-e05a-4aac-858c-928505536775">
                 <File Id="PropertySetGroupsExample.xlsx_529032395" Source="2024\Contents\Files\Civil3DAssignPropertySets\PropertySetGroupsExample.xlsx" />
@@ -1545,7 +1705,7 @@
 
             </Directory>
 
-            <Directory Id="Template.4" Name="Template">
+            <Directory Id="Template.5" Name="Template">
 
               <Component Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Centimeters.dwt_1681123859" Guid="1b55b619-e05a-4aac-858c-928585865dd8">
                 <File Id="_Autodesk20Civil203D2028Metric2920NCS202d20Centimeters.dwt_1681123859" Source="2024\Contents\Files\Template\_Autodesk Civil 3D (Metric) NCS - Centimeters.dwt" />
@@ -1575,7 +1735,7 @@
           </Directory>
         </Directory>
 
-        <Directory Id="UI.4" Name="UI">
+        <Directory Id="UI.5" Name="UI">
 
           <Component Id="Component.civil3d_psu.cuix_253816867" Guid="1b55b619-e05a-4aac-858c-92852a0d862d">
             <File Id="civil3d_psu.cuix_253816867" Source="2024\UI\civil3d_psu.cuix" />
@@ -1588,8 +1748,8 @@
     <WixUI Id="WixUI_Minimal" xmlns="http://wixtoolset.org/schemas/v4/wxs/ui" />
 
     <Upgrade Id="1b55b619-e05a-4aac-858c-92854c30e26b">
-      <UpgradeVersion Minimum="0.0.0.0" Maximum="1.0.0.3" IncludeMinimum="yes" IncludeMaximum="yes" Property="UPGRADEFOUND" />
-      <UpgradeVersion Minimum="1.0.0.3" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="0.0.0.0" Maximum="1.0.0.19" IncludeMinimum="yes" IncludeMaximum="yes" Property="UPGRADEFOUND" />
+      <UpgradeVersion Minimum="1.0.0.19" IncludeMinimum="no" Property="NEWPRODUCTFOUND" />
     </Upgrade>
 
     <CustomAction Id="PreventDowngrading" Error="Newer version already installed" />
@@ -1929,6 +2089,40 @@
       <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Meters.dwt_2667579329" />
       <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Millimeters.dwt_2415296232" />
       <ComponentRef Id="Component.civil3d_psu.cuix_2419731915" />
+      <ComponentRef Id="Component.AutoCADUtils.dll_1063360420" />
+      <ComponentRef Id="Component.Autofac.dll_3997847424" />
+      <ComponentRef Id="Component.Civil3DAlignmentStationCoordinatesTable.dll_3017280799" />
+      <ComponentRef Id="Component.Civil3DAssignPropertySets.dll_2424843364" />
+      <ComponentRef Id="Component.Civil3DBatchExtractSolids.dll_3375910417" />
+      <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_1427235201" />
+      <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_3999155897" />
+      <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_1276527040" />
+      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_2204528233" />
+      <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_2331680594" />
+      <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_1837588243" />
+      <ComponentRef Id="Component.Civil3DToolbox.dll_4140255725" />
+      <ComponentRef Id="Component.Civil3DUtils.dll_4131416480" />
+      <ComponentRef Id="Component.Civil3DWeedLines.dll_1126665962" />
+      <ComponentRef Id="Component.ControlzEx.dll_2071218114" />
+      <ComponentRef Id="Component.ExcelDataReader.DataSet.dll_429634109" />
+      <ComponentRef Id="Component.ExcelDataReader.dll_1608698036" />
+      <ComponentRef Id="Component.MahApps.Metro.dll_22644562" />
+      <ComponentRef Id="Component.Microsoft.Bcl.AsyncInterfaces.dll_2347004413" />
+      <ComponentRef Id="Component.Microsoft.Xaml.Behaviors.dll_1375757108" />
+      <ComponentRef Id="Component.Prism.dll_2991224276" />
+      <ComponentRef Id="Component.Prism.Wpf.dll_2076070979" />
+      <ComponentRef Id="Component.System.Runtime.CompilerServices.Unsafe.dll_2479018814" />
+      <ComponentRef Id="Component.System.Threading.Tasks.Extensions.dll_2886245071" />
+      <ComponentRef Id="Component.MahApps.Metro.resources.dll_4145837266" />
+      <ComponentRef Id="Component.Styles.dwg_1780336356" />
+      <ComponentRef Id="Component.PropertySetGroupsExample.xlsx_2305998033" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Centimeters.dwt_2644239609" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Decimeters.dwt_1682061754" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Feet.dwt_2554632264" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Inches.dwt_4059626470" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Meters.dwt_479282889" />
+      <ComponentRef Id="Component._Autodesk20Civil203D2028Metric2920NCS202d20Millimeters.dwt_2900186081" />
+      <ComponentRef Id="Component.civil3d_psu.cuix_2671050132" />
       <ComponentRef Id="Component.AutoCADUtils.dll_882431800" />
       <ComponentRef Id="Component.Autofac.dll_1571727713" />
       <ComponentRef Id="Component.Civil3DAlignmentStationCoordinatesTable.dll_1509709143" />
