@@ -200,6 +200,11 @@ namespace Civil3DIFCBatchImport.ViewModels
             FolderPath = !File.Exists(Settings.Default.FolderPath) ? Environment.GetFolderPath(Environment.SpecialFolder.Desktop) : Settings.Default.FolderPath;
             FolderPath = FolderUtils.GetFolderPathExtendedWindow(FolderPath);
 
+            if (string.IsNullOrEmpty(FolderPath))
+            {
+                return;
+            }
+
             string[] ifcFilesArray = Directory.GetFiles(FolderPath, "*.ifc", SearchOption.AllDirectories);
 
             if (ifcFilesArray != null && ifcFilesArray.Length > 0)

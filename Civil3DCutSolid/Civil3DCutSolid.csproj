@@ -1,0 +1,226 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Configurations>Civil3D2019Debug;Civil3D2020Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Release</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release'">
+		<TargetFramework>net47</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2021Debug' Or '$(Configuration)'=='Civil3D2021Release' Or '$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyTitle>Civil3DCutSolid</AssemblyTitle>
+		<Product>Civil3DCutSolid</Product>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Autofac" Version="5.2.0" />
+		<PackageReference Include="ControlzEx" Version="4.4.0" />
+		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
+		<PackageReference Include="Microsoft.Bcl.AsyncInterfaces" Version="1.1.0" />
+		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
+		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="Prism.Wpf" Version="8.1.97" />
+		<PackageReference Include="System.Runtime.CompilerServices.Unsafe" Version="4.5.2" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.2" />
+	</ItemGroup>
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2019\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2019\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2019\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2019\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2019\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2019\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2020\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2020\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2020\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2020\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2020\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2020\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2021Debug' Or '$(Configuration)' == 'Civil3D2021Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2021\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2021\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2021\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2021\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2021\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2021\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2022\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2022\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2022\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2022\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2022\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2022\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2023\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2023\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2023\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2023\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2023\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2023\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2024\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2024\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2024\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2024\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2024\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2024\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Reference Include="PresentationCore" />
+		<Reference Include="PresentationFramework" />
+		<Reference Include="System.ComponentModel.Composition" />
+		<Reference Include="System.ComponentModel.DataAnnotations" />
+		<Reference Include="System.Configuration" />
+		<Reference Include="System.Web" />
+		<Reference Include="System.Web.Extensions" />
+		<Reference Include="System.Xaml" />
+		<Reference Include="System.Data.DataSetExtensions" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Net.Http" />
+		<Reference Include="WindowsBase" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Views\MainView.xaml.cs">
+			<DependentUpon>MainView.xaml</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Page Include="Views\MainView.xaml">
+			<Generator>MSBuild:Compile</Generator>
+			<SubType>Designer</SubType>
+		</Page>
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	</ItemGroup>
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E" />
+	</Target>
+</Project>

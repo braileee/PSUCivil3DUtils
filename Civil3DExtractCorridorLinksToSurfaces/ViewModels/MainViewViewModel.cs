@@ -62,17 +62,20 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
             set
             {
                 selectedCorridor = value;
-
-                LinkCodeWrappers.Clear();
-                LinkCodeWrappers.Add(new LinkCodeWrapper(_eventAggregator) { Name = "<Select All>", IsSelected = true });
-                LinkCodeWrappers.AddRange(SelectedCorridor.GetLinkCodes().Select(linkCode => new LinkCodeWrapper(_eventAggregator)
+                if (selectedCorridor != null)
                 {
-                    IsSelected = true,
-                    Name = linkCode
-                }).ToList());
 
-                UpdateCorridorSurfaceWrappers();
 
+                    LinkCodeWrappers.Clear();
+                    LinkCodeWrappers.Add(new LinkCodeWrapper(_eventAggregator) { Name = "<Select All>", IsSelected = true });
+                    LinkCodeWrappers.AddRange(SelectedCorridor.GetLinkCodes().Select(linkCode => new LinkCodeWrapper(_eventAggregator)
+                    {
+                        IsSelected = true,
+                        Name = linkCode
+                    }).ToList());
+
+                    UpdateCorridorSurfaceWrappers();
+                }
                 RaisePropertyChanged();
             }
         }
