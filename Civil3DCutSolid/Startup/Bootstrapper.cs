@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Civil3DCreateCogoPointOnSectionView.Views;
+using Civil3DCutSolid.Views;
 using Civil3DCutSolid.ViewModels;
 using Prism.Events;
 using System;
