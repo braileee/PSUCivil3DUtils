@@ -2,16 +2,7 @@
 using System.Runtime.CompilerServices;
 using WixSharp;
 using WixToolset.Dtf.WindowsInstaller;
-using File = WixSharp.File;
-using System.Reflection;
 using Asm = System.Reflection.Assembly;
-using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Xml.Linq;
 
 [assembly: InternalsVisibleTo(assemblyName: "PSUCivil3DUtils.Setup.aot")] // assembly name + '.aot suffix
 
@@ -110,7 +101,7 @@ public class Program
     {
         Files files = Files.FromBuildDir(BundleFolderPath, ".dll|.dwt|.dwg|.xlsx|.xml|.cuix|.cui");
 
-        Dir dir = new Dir(BundleFolderPath, files);
+        Dir dir = new(BundleFolderPath, files);
 
         return [dir];
     }
@@ -127,7 +118,7 @@ public class Program
     /// <summary>Gets install directory path.</summary>
     /// <param name="session">Session object</param>
     /// <returns>Path to install directory</returns>
-    private static string GetInstallDirectory(Session session = null)
+    private static string GetInstallDirectory(Session session = null!)
     {
         string installDirectory = "NotFound";
 
