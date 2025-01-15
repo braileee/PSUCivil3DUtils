@@ -49,13 +49,13 @@ public class Program
     public static Guid ProductGuid { get; } = new Guid("1B55B619-E05A-4AAC-858C-92854C30E26B");
 
     /// <summary>Set product name.</summary>
-    public static string ProductName { get; } = "PSU Civil 3D Utils for AutoCAD 2019-2024";
+    public static string ProductName { get; } = "PSU Civil 3D Utils for AutoCAD 2019-2025";
 
     /// <summary>Set installer title.</summary>
-    public static string InstallerTitle { get; } = "PSU Civil 3D Utils for AutoCAD 2019-2024 Installer";
+    public static string InstallerTitle { get; } = "PSU Civil 3D Utils for AutoCAD 2019-2025 Installer";
 
     /// <summary>Set installer output name template.</summary>
-    public static string InstallerName { get; } = "PSU-Civil3D-Utils-AutoCAD-2019-2024-Win-Installer";
+    public static string InstallerName { get; } = "PSU-Civil3D-Utils-AutoCAD-2019-2025-Win-Installer";
 
     /// <summary>Produces MSI with digital signature.</summary>
     private static void Main()

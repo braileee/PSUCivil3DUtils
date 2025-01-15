@@ -7,8 +7,8 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <Configurations>Installer</Configurations>
-    <AssemblyVersion>1.0.0.22</AssemblyVersion>
-    <FileVersion>1.0.0.22</FileVersion>
+    <AssemblyVersion>1.0.0.25</AssemblyVersion>
+    <FileVersion>1.0.0.25</FileVersion>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Installer|AnyCPU'">
