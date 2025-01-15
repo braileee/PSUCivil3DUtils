@@ -76,8 +76,15 @@ jobs:
         run: | 
             msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2024Release /p:TargetFramework=net48
 
+      - name: Restore Packages Civil3D2025Release
+        run: dotnet msbuild /t:restore /p:Configuration=Civil3D2025Release /p:TargetFramework=net8.0-windows
+
+      - name: Build solution Civil3D2025Release
+        run: | 
+            msbuild PSUCivil3DUtils.sln /p:Configuration=Civil3D2025Release /p:TargetFramework=net8.0-windows
+
       - name: Restore Packages Installer
-        run: dotnet msbuild /t:restore /p:Configuration=Installer
+        run: dotnet msbuild /t:restore /p:Configuration=Installer /p:TargetFramework=net8.0-windows
 
       - name: Build Installer
         run: | 
