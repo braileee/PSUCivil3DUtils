@@ -18,7 +18,7 @@
 		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release' Or'$(Configuration)'=='Civil3D2021Debug' Or '$(Configuration)'=='Civil3D2021Release' Or '$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
 		<PackageReference Include="Autofac" Version="5.2.0" />
 		<PackageReference Include="ControlzEx" Version="4.4.0" />
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
