@@ -112,7 +112,7 @@ public class Program
 
         Dir dir = new Dir(BundleFolderPath, files);
 
-        return new List<Dir>() { dir }.ToArray();
+        return [dir];
     }
 
     /// <summary>During generating installer it will retrieve version from assembly.</summary>
@@ -131,7 +131,7 @@ public class Program
     {
         string installDirectory = "NotFound";
 
-        if (System.IO.Directory.Exists(ApplicationPluginsFolder))
+        if (Directory.Exists(ApplicationPluginsFolder))
         {
             installDirectory = Path.Combine(ApplicationPluginsFolder, BundleName);
         }

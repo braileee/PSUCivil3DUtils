@@ -3,8 +3,6 @@ using Autodesk.AutoCAD.Runtime;
 using Autofac;
 using Civil3DPropertyValuesReport.Startup;
 using Civil3DPropertyValuesReport.Views;
-using System.Reflection;
-using System.Web.UI;
 
 namespace Civil3DPropertyValuesReport
 {

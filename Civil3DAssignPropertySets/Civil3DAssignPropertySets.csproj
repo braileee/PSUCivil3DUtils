@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release</Configurations>
+		<Configurations>Civil3D2019Debug;Civil3D2021Debug;Civil3D2022Debug;Civil3D2023Debug;Civil3D2024Debug;Civil3D2019Release;Civil3D2021Release;Civil3D2022Release;Civil3D2023Release;Civil3D2024Release;Civil3D2020Debug;Civil3D2020Release;Civil3D2025Debug;Civil3D2025Release</Configurations>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release'">
@@ -9,6 +9,13 @@
 
 	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2021Debug' Or '$(Configuration)'=='Civil3D2021Release' Or '$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
 		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Civil3D2025Debug' Or '$(Configuration)'=='Civil3D2025Release'">
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<UseWindowsForms>true</UseWindowsForms>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -187,6 +194,33 @@
 		</Reference>
 	</ItemGroup>
 
+	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2025Debug' Or '$(Configuration)' == 'Civil3D2025Release'">
+		<Reference Include="accoremgd">
+			<HintPath>..\Civil3DDlls\2025\accoremgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acdbmgd">
+			<HintPath>..\Civil3DDlls\2025\acdbmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="acmgd">
+			<HintPath>..\Civil3DDlls\2025\acmgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecBaseMgd">
+			<HintPath>..\Civil3DDlls\2025\AecBaseMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AeccDbMgd">
+			<HintPath>..\Civil3DDlls\2025\AeccDbMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="AecPropDataMgd">
+			<HintPath>..\Civil3DDlls\2025\AecPropDataMgd.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
@@ -202,28 +236,30 @@
 		<Reference Include="System.Net.Http" />
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
-	<ItemGroup>
+
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release' Or'$(Configuration)'=='Civil3D2021Debug' Or '$(Configuration)'=='Civil3D2021Release' Or '$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
 		<Compile Update="Views\MainView.xaml.cs">
 			<DependentUpon>MainView.xaml</DependentUpon>
 		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<Content Include="Files\Civil3DAssignPropertySets\PropertySetGroupsExample.xlsx">
-			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</Content>
-	</ItemGroup>
-	<ItemGroup>
+
 		<Page Include="Views\MainView.xaml">
 			<Generator>MSBuild:Compile</Generator>
 			<SubType>Designer</SubType>
 		</Page>
 	</ItemGroup>
+	
+	<ItemGroup>
+		<Content Include="Files\Civil3DAssignPropertySets\PropertySetGroupsExample.xlsx">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj" />
 		<ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E" />
+	  <Exec Command="if $(ConfigurationName) == Civil3D2019Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2025Debug xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2025\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;&#xD;&#xA;if $(ConfigurationName) == Civil3D2019Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2019\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2020Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2020\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2021Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2021\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2022Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2022\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2023Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2023\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2024Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2024\Contents\&quot; /F /R /Y /I /E&#xD;&#xA;if $(ConfigurationName) == Civil3D2025Release xcopy &quot;$(TargetDir)*.*&quot; &quot;%25programdata%25\Autodesk\ApplicationPlugins\PSU.Civil3D.Utils.bundle\2025\Contents\&quot; /F /R /Y /I /E" />
 	</Target>
 </Project>
