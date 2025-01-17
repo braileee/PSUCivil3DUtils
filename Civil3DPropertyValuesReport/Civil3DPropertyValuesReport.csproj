@@ -219,7 +219,7 @@
 		</Reference>
 	</ItemGroup>
 
-	<ItemGroup>
+	<ItemGroup Condition="'$(Configuration)'=='Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release' Or '$(Configuration)'=='Civil3D2020Debug' Or '$(Configuration)'=='Civil3D2020Release' Or'$(Configuration)'=='Civil3D2021Debug' Or '$(Configuration)'=='Civil3D2021Release' Or '$(Configuration)' == 'Civil3D2022Debug' Or '$(Configuration)' == 'Civil3D2022Release' Or '$(Configuration)' == 'Civil3D2023Debug' Or '$(Configuration)' == 'Civil3D2023Release' Or '$(Configuration)' == 'Civil3D2024Debug' Or '$(Configuration)' == 'Civil3D2024Release'">
 		<Reference Include="PresentationCore" />
 		<Reference Include="PresentationFramework" />
 		<Reference Include="System.ComponentModel.Composition" />
@@ -257,27 +257,6 @@
 		</None>
 	</ItemGroup>
 	
-	<ItemGroup>
-		<Compile Remove="TableExtensions.cs" />
-		<Compile Remove="obj\Civil3D2019\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2019\GeneratedInternalTypeHelper.g.cs" />
-		<Compile Remove="obj\Civil3D2019\GeneratedInternalTypeHelper.g.i.cs" />
-		<Compile Remove="obj\Civil3D2019Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2019Debug\GeneratedInternalTypeHelper.g.i.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\GeneratedInternalTypeHelper.g.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\GeneratedInternalTypeHelper.g.i.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\GeneratedInternalTypeHelper.g.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\GeneratedInternalTypeHelper.g.i.cs" />
-		<Compile Remove="obj\Civil3D2019\Views\MainView.g.cs" />
-		<Compile Remove="obj\Civil3D2019\Views\MainView.g.i.cs" />
-		<Compile Remove="obj\Civil3D2019Debug\Views\MainView.g.i.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\Views\MainView.g.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\Views\MainView.g.i.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\Views\MainView.g.i.cs" />
-	</ItemGroup>
 	<ItemGroup>
 	  <ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
 	</ItemGroup>

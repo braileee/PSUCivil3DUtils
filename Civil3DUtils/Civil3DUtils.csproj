@@ -418,13 +418,7 @@
 		<Reference Include="System.Net.Http" />
 		<Reference Include="WindowsBase" />
 	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Properties\Settings.Designer.cs">
-			<AutoGen>True</AutoGen>
-			<DesignTimeSharedInput>True</DesignTimeSharedInput>
-			<DependentUpon>Settings.settings</DependentUpon>
-		</Compile>
-	</ItemGroup>
+	
 	<ItemGroup>
 		<ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj" />
 	</ItemGroup>

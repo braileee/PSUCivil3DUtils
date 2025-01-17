@@ -23,11 +23,7 @@
 	<ItemGroup>
 		<None Include="PackageContents.xml" />
 	</ItemGroup>
-	<ItemGroup>
-		<Compile Remove="obj\Civil3D2019\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2022Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
-		<Compile Remove="obj\Civil3D2023Debug\.NETFramework,Version=v4.7.AssemblyAttributes.cs" />
-	</ItemGroup>
+	
 	<ItemGroup>
 	  <Folder Include="Properties\" />
 	</ItemGroup>
