@@ -293,5 +293,43 @@ namespace Civil3DToolbox
             }
         }
 
+        [CommandMethod("PSV", "SetMinMaxElevationsSectionViews", CommandFlags.Modal)]
+        public static void SetMinMaxElevationsSectionViews()
+        {
+            try
+            {
+                List<SectionView> sectionViews = SelectionUtils.GetElements<SectionView>("Select section views");
+
+                string minElevationString = PromptUtils.PromptString("Input min elevation:");
+                double minElevation = NumbersUtils.ParseStringToDouble(minElevationString);
+
+                string maxElevationString = PromptUtils.PromptString("Input max elevation:");
+                double maxElevation = NumbersUtils.ParseStringToDouble(maxElevationString);
+
+                if (minElevation > maxElevation)
+                {
+                    MessageBox.Show("Min elevation must be less than max elevation", "Error");
+                    return;
+                }
+
+                using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (SectionView sectionView in sectionViews)
+                    {
+                        SectionView sectionViewOpened = transaction.GetObject(sectionView.Id, OpenMode.ForWrite, false, true) as SectionView;
+                        sectionViewOpened.IsElevationRangeAutomatic = false;
+                        sectionViewOpened.ElevationMin = minElevation;
+                        sectionViewOpened.ElevationMax = maxElevation;
+                    }
+
+                    transaction.Commit();
+                }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
     }
 }

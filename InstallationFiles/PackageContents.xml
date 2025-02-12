@@ -50,8 +50,32 @@
 						 Description="GetPolylineSelfintersection" />
 
 				<Command Local="ReversePolylineElevation"
-						 Global="ReversePolylineElevation"
-						 Description="ReversePolylineElevation" />
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+				
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
 			</Commands>
 		</ComponentEntry>
 
@@ -181,6 +205,38 @@
 				<Command Local="BindXrefsForDwgsInFolder"
 						 Global="BindXrefsForDwgsInFolder"
 						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
 			</Commands>
 		</ComponentEntry>
 
@@ -312,6 +368,38 @@
 				<Command Local="BindXrefsForDwgsInFolder"
 						 Global="BindXrefsForDwgsInFolder"
 						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
 			</Commands>
 		</ComponentEntry>
 
@@ -448,8 +536,32 @@
 						 Description="GetPolylineSelfintersection" />
 
 				<Command Local="ReversePolylineElevation"
-						 Global="ReversePolylineElevation"
-						 Description="ReversePolylineElevation" />
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
 			</Commands>
 		</ComponentEntry>
 
@@ -585,8 +697,32 @@
 						 Description="GetPolylineSelfintersection" />
 
 				<Command Local="ReversePolylineElevation"
-						 Global="ReversePolylineElevation"
-						 Description="ReversePolylineElevation" />
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
 			</Commands>
 		</ComponentEntry>
 
