@@ -163,6 +163,328 @@
 		</ComponentEntry>
 	</Components>
 
+	<!--Civil 3D 2020-->
+	<Components>
+		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R23.1" SeriesMax="R23.1"/>
+
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2019/UI/civil3d_psu.cuix" />
+
+		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
+						AppDescription="Civil3DAlignmentStationCoordinatesTable"
+						ModuleName="./2019/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAlignmentStationCoordinatesTable"
+						 Global="Civil3DAlignmentStationCoordinatesTable"
+						 Description="Civil3DAlignmentStationCoordinatesTable" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DSubassemblyAnnotations"
+						AppDescription="Civil3DSubassemblyAnnotations"
+						ModuleName="./2019/Contents/Civil3DSubassemblyAnnotations.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DSubassemblyAnnotations"
+						 Global="Civil3DSubassemblyAnnotations"
+						 Description="Civil3DSubassemblyAnnotations" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DToolbox"
+						AppDescription="Civil3DToolbox"
+						ModuleName="./2019/Contents/Civil3DToolbox.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="ReverseTextElevation"
+						 Global="ReverseTextElevation"
+						 Description="ReverseTextElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2019/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
+						 Global="Civil3DExtractCorridorLinksToSurfaces"
+						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2019/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+				AppDescription="Civil3DCreateCogoPointOnSectionView"
+				ModuleName="./2019/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+				AppDescription="Civil3DIFCBatchImport"
+				ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+				AppDescription="Civil3DLineSelfIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2019/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="MahApps.Metro"
+				AppDescription="MahApps.Metro"
+				ModuleName="./2019/Contents/MahApps.Metro.dll"
+				LoadOnAutoCADStartup ="true" >
+		</ComponentEntry>
+	</Components>
+
+	<!--Civil 3D 2021-->
+	<Components>
+		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.0" SeriesMax="R24.0"/>
+
+		<ComponentEntry AppName="PSUCivil3D"
+						AppDescription="PSU Civil 3D Utils"
+						ModuleName="./2019/UI/civil3d_psu.cuix" />
+
+		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
+						AppDescription="Civil3DAlignmentStationCoordinatesTable"
+						ModuleName="./2019/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAlignmentStationCoordinatesTable"
+						 Global="Civil3DAlignmentStationCoordinatesTable"
+						 Description="Civil3DAlignmentStationCoordinatesTable" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DSubassemblyAnnotations"
+						AppDescription="Civil3DSubassemblyAnnotations"
+						ModuleName="./2019/Contents/Civil3DSubassemblyAnnotations.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DSubassemblyAnnotations"
+						 Global="Civil3DSubassemblyAnnotations"
+						 Description="Civil3DSubassemblyAnnotations" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DToolbox"
+						AppDescription="Civil3DToolbox"
+						ModuleName="./2019/Contents/Civil3DToolbox.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="ReverseTextElevation"
+						 Global="ReverseTextElevation"
+						 Description="ReverseTextElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="GetPolylineSelfintersection"
+						 Global="GetPolylineSelfintersection"
+						 Description="GetPolylineSelfintersection" />
+
+				<Command Local="ReversePolylineElevation"
+					 Global="ReversePolylineElevation"
+					 Description="ReversePolylineElevation" />
+
+				<Command Local="ReversePolyline2dElevation"
+						 Global="ReversePolyline2dElevation"
+						 Description="ReversePolyline2dElevation" />
+
+				<Command Local="BindXrefsForDwgsInFolder"
+						 Global="BindXrefsForDwgsInFolder"
+						 Description="BindXrefsForDwgsInFolder" />
+
+				<Command Local="MoveSolidsInsertionPointToTinSurface"
+						 Global="MoveSolidsInsertionPointToTinSurface"
+						 Description="MoveSolidsInsertionPointToTinSurface" />
+
+				<Command Local="AddNumberSuffixToRawDescriptionPoint"
+						 Global="AddNumberSuffixToRawDescriptionPoint"
+						 Description="AddNumberSuffixToRawDescriptionPoint" />
+
+				<Command Local="CreateCOGOPointsFromCircles"
+						 Global="CreateCOGOPointsFromCircles"
+						 Description="CreateCOGOPointsFromCircles" />
+
+				<Command Local="SetMinMaxElevationsSectionViews"
+						 Global="SetMinMaxElevationsSectionViews"
+						 Description="SetMinMaxElevationsSectionViews" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DAssignPropertySets"
+						AppDescription="Civil3DAssignPropertySets"
+						ModuleName="./2019/Contents/Civil3DAssignPropertySets.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DAssignPropertySets"
+						 Global="Civil3DAssignPropertySets"
+						 Description="Civil3DAssignPropertySets" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
+						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
+						ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
+						 Global="Civil3DExtractCorridorLinksToSurfaces"
+						 Description="Civil3DExtractCorridorLinksToSurfaces" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DPropertyValuesReport"
+						AppDescription="Civil3DPropertyValuesReport"
+						ModuleName="./2019/Contents/Civil3DPropertyValuesReport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DPropertyValuesReport"
+						 Global="Civil3DPropertyValuesReport"
+						 Description="Civil3DPropertyValuesReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
+				AppDescription="Civil3DCreateCogoPointOnSectionView"
+				ModuleName="./2019/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCreateCogoPointOnSectionView"
+						 Global="Civil3DCreateCogoPointOnSectionView"
+						 Description="Civil3DCreateCogoPointOnSectionView" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DIFCBatchImport"
+				AppDescription="Civil3DIFCBatchImport"
+				ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DIFCBatchImport"
+						 Global="Civil3DIFCBatchImport"
+						 Description="Civil3DIFCBatchImport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
+				AppDescription="Civil3DLineSelfIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DLineSelfIntersectionCheck"
+						 Global="Civil3DLineSelfIntersectionCheck"
+						 Description="Civil3DLineSelfIntersectionCheck" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DWeedLines"
+						AppDescription="Civil3DWeedLines"
+						ModuleName="./2019/Contents/Civil3DWeedLines.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DWeedLines"
+						 Global="Civil3DWeedLines"
+						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="MahApps.Metro"
+				AppDescription="MahApps.Metro"
+				ModuleName="./2019/Contents/MahApps.Metro.dll"
+				LoadOnAutoCADStartup ="true" >
+		</ComponentEntry>
+	</Components>
+
 	<!--Civil 3D 2022-->
 	<Components>
 		<RuntimeRequirements OS="Win64" Platform="Civil3D" SeriesMin="R24.1" SeriesMax="R24.1"/>
