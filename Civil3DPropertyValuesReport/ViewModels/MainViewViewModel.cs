@@ -18,6 +18,8 @@ using System.Windows;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using AutoCADUtils.Utils;
+using System.IO;
 
 namespace Civil3DPropertyValuesReport.ViewModels
 {
@@ -37,12 +39,32 @@ namespace Civil3DPropertyValuesReport.ViewModels
             RoundingSigns = new List<string> { "0", "0.0", "0.00", "0.000", "0.0000" };
             SelectedRoundingSign = RoundingSigns.FirstOrDefault(sign => sign == "0.00");
 
-            ExportCommand = new DelegateCommand(OnExportCommand);
+            ExportToCsvCommand = new DelegateCommand(OnExportToCsvCommand);
         }
 
-        private void OnExportCommand()
+        private void OnExportToCsvCommand()
         {
-            MessageBox.Show("Not implemented", "Error");
+            try
+            {
+                string folderPath = FolderUtils.GetFolderPathExtendedWindow(Environment.SpecialFolder.Desktop);
+
+                if (string.IsNullOrEmpty(folderPath))
+                {
+                    return;
+                }
+
+                string selectedElementFilePath = Path.Combine(folderPath, "SelectedElements.csv");
+                string totalElementFilePath = Path.Combine(folderPath, "TotalElements.csv");
+                string selectedLineElementsFilePath = Path.Combine(folderPath, "SelectedLineElements.csv");
+
+                CsvExporter.ExportToCsv(SelectedElements, selectedElementFilePath);
+                CsvExporter.ExportToCsv(TotalElements, totalElementFilePath);
+                CsvExporter.ExportToCsv(SelectedLineElements, selectedLineElementsFilePath);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Error saving CSV files", "Error");
+            }
         }
 
         private void ActiveDocumentImpliedSelectionChanged(object sender, EventArgs e)
@@ -178,6 +200,7 @@ namespace Civil3DPropertyValuesReport.ViewModels
         }
 
         public DelegateCommand ExportCommand { get; }
+        public DelegateCommand ExportToCsvCommand { get; }
 
         public int SelectedRoundingValue
         {

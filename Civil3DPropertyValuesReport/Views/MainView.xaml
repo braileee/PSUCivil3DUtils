@@ -60,8 +60,12 @@
 
                     <Label Content="Rounding to"/>
                     <ComboBox ItemsSource="{Binding RoundingSigns}"
-                  SelectedItem="{Binding SelectedRoundingSign}"
-                  Width="100"/>
+                              SelectedItem="{Binding SelectedRoundingSign}"
+                              Width="100"/>
+
+                    <Button Content="Export to CSV"
+                            Command="{Binding ExportToCsvCommand}"
+                            Margin="5 0 5 0"/>
                 </StackPanel>
 
                 <StackPanel DockPanel.Dock="Top" 
