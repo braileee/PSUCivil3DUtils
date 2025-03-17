@@ -32,7 +32,10 @@ jobs:
         run: cd $GITHUB_WORKSPACE
 
       - name: Install WiX
-        run: dotnet tool install --global wix
+        run: dotnet tool install --global wix --version 5.0.2
+
+      - name: Install WiX Extensions
+        run: wix extension add -g WixToolset.UI.wixext/5.0.2
 
       - name: Restore Packages Civil3D2019Release
         run: dotnet msbuild /t:restore /p:Configuration=Civil3D2019Release
