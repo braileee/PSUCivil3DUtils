@@ -207,11 +207,27 @@ namespace AutoCADUtils
             return LineSegment3dUtils.GetSelfIntersectionPoints(lines, tolerance);
         }
 
+        public static List<Point3d> GetIntersectionPoints(this Polyline3d polyline1, Polyline3d polyline2, int tolerance)
+        {
+            List<LineSegment3d> lines1 = polyline1.GetSegments(tolerance);
+            List<LineSegment3d> lines2 = polyline2.GetSegments(tolerance);
+
+            return LineSegment3dUtils.GetIntersectionPoints(lines1, lines2, tolerance);
+        }
+
         public static List<Point3d> GetSelfIntersectionPointsBy2d(this Polyline3d polyline, int tolerance, double elevation)
         {
             List<LineSegment3d> lines = polyline.GetSegmentsWithElevation(tolerance, elevation);
 
             return LineSegment3dUtils.GetSelfIntersectionPoints(lines, tolerance);
+        }
+
+        public static List<Point3d> GetIntersectionPointsBy2d(this Polyline3d polyline, Polyline3d otherPolyline, int tolerance, double elevation)
+        {
+            List<LineSegment3d> lines1 = polyline.GetSegmentsWithElevation(tolerance, elevation);
+            List<LineSegment3d> lines2 = otherPolyline.GetSegmentsWithElevation(tolerance, elevation);
+
+            return LineSegment3dUtils.GetIntersectionPoints(lines1, lines2, tolerance);
         }
 
         public static List<Point3d> GetSelfIntersectionPoints(this Polyline polyline, int tolerance)
@@ -221,6 +237,19 @@ namespace AutoCADUtils
             polyline.GetSegments(ref lines, ref arcs);
 
             return LineSegment3dUtils.GetSelfIntersectionPoints(lines, arcs, tolerance);
+        }
+
+        public static List<Point3d> GetIntersectionPoints(this Polyline polyline1, Polyline polyline2, int tolerance)
+        {
+            List<CircularArc3d> arcs1 = new List<CircularArc3d>();
+            List<LineSegment3d> lines1 = new List<LineSegment3d>();
+            polyline1.GetSegments(ref lines1, ref arcs1);
+
+            List<CircularArc3d> arcs2 = new List<CircularArc3d>();
+            List<LineSegment3d> lines2 = new List<LineSegment3d>();
+            polyline2.GetSegments(ref lines2, ref arcs2);
+
+            return LineSegment3dUtils.GetIntersectionPoints(lines1, arcs1, lines2, arcs2, tolerance);
         }
     }
 }

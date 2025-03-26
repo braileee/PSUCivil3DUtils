@@ -51,8 +51,8 @@
             <File Id="Civil3DIFCBatchImport.dll_2727741523" Source="2019\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_3012941695" Guid="1b55b619-e05a-4aac-858c-928564d49f54">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_3012941695" Source="2019\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_3012941695" Guid="1b55b619-e05a-4aac-858c-928564d49f54">
+            <File Id="Civil3DLineIntersectionCheck.dll_3012941695" Source="2019\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_4229907366" Guid="1b55b619-e05a-4aac-858c-92858c6c865c">
@@ -595,8 +595,8 @@
             <File Id="Civil3DIFCBatchImport.dll_3159178924" Source="2020\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_1455914468" Guid="1b55b619-e05a-4aac-858c-92857255827f">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_1455914468" Source="2020\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_1455914468" Guid="1b55b619-e05a-4aac-858c-92857255827f">
+            <File Id="Civil3DLineIntersectionCheck.dll_1455914468" Source="2020\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_885274474" Guid="1b55b619-e05a-4aac-858c-9285e3a85d82">
@@ -1139,8 +1139,8 @@
             <File Id="Civil3DIFCBatchImport.dll_3330497782" Source="2021\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_1574685614" Guid="1b55b619-e05a-4aac-858c-9285d6ba6d72">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_1574685614" Source="2021\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_1574685614" Guid="1b55b619-e05a-4aac-858c-9285d6ba6d72">
+            <File Id="Civil3DLineIntersectionCheck.dll_1574685614" Source="2021\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_2246047834" Guid="1b55b619-e05a-4aac-858c-928547e4c6be">
@@ -1299,8 +1299,8 @@
             <File Id="Civil3DIFCBatchImport.dll_1040570184" Source="2022\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_2798532995" Guid="1b55b619-e05a-4aac-858c-92852d8926b7">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_2798532995" Source="2022\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_2798532995" Guid="1b55b619-e05a-4aac-858c-92852d8926b7">
+            <File Id="Civil3DLineIntersectionCheck.dll_2798532995" Source="2022\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_1948164228" Guid="1b55b619-e05a-4aac-858c-9285bdf08d6a">
@@ -1459,8 +1459,8 @@
             <File Id="Civil3DIFCBatchImport.dll_2267913386" Source="2023\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_1199085367" Guid="1b55b619-e05a-4aac-858c-9285805e7791">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_1199085367" Source="2023\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_1199085367" Guid="1b55b619-e05a-4aac-858c-9285805e7791">
+            <File Id="Civil3DLineIntersectionCheck.dll_1199085367" Source="2023\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_2093336924" Guid="1b55b619-e05a-4aac-858c-9285b7995e20">
@@ -1623,8 +1623,8 @@
             <File Id="Civil3DIFCBatchImport.dll_2683744162" Source="2024\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_1781479220" Guid="1b55b619-e05a-4aac-858c-9285fc855752">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_1781479220" Source="2024\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_1781479220" Guid="1b55b619-e05a-4aac-858c-9285fc855752">
+            <File Id="Civil3DLineIntersectionCheck.dll_1781479220" Source="2024\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_2134479136" Guid="1b55b619-e05a-4aac-858c-9285e645a5b3">
@@ -1787,8 +1787,8 @@
             <File Id="Civil3DIFCBatchImport.dll_2034663976" Source="2025\Contents\Civil3DIFCBatchImport.dll" />
           </Component>
 
-          <Component Id="Component.Civil3DLineSelfIntersectionCheck.dll_1220414795" Guid="1b55b619-e05a-4aac-858c-928579f55b98">
-            <File Id="Civil3DLineSelfIntersectionCheck.dll_1220414795" Source="2025\Contents\Civil3DLineSelfIntersectionCheck.dll" />
+          <Component Id="Component.Civil3DLineIntersectionCheck.dll_1220414795" Guid="1b55b619-e05a-4aac-858c-928579f55b98">
+            <File Id="Civil3DLineIntersectionCheck.dll_1220414795" Source="2025\Contents\Civil3DLineIntersectionCheck.dll" />
           </Component>
 
           <Component Id="Component.Civil3DPropertyValuesReport.dll_2106707908" Guid="1b55b619-e05a-4aac-858c-92858fb4eab4">
@@ -1929,7 +1929,7 @@
       <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_3214049545" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_2061219684" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_2727741523" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_3012941695" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_3012941695" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_4229907366" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_888141093" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_553408091" />
@@ -2059,7 +2059,7 @@
       <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_2728060029" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_3777688363" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_3159178924" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_1455914468" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_1455914468" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_885274474" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_1035302188" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_2029454837" />
@@ -2189,7 +2189,7 @@
       <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_2922885307" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_1058275902" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_3330497782" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_1574685614" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_1574685614" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_2246047834" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_3930354982" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_1116000933" />
@@ -2223,7 +2223,7 @@
       <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_25103819" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_258506826" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_1040570184" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_2798532995" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_2798532995" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_1948164228" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_3680298219" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_2598689795" />
@@ -2257,7 +2257,7 @@
       <ComponentRef Id="Component.Civil3DCreateCogoPointOnSectionView.dll_1200687507" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_4230597800" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_2267913386" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_1199085367" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_1199085367" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_2093336924" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_3415448501" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_4075881454" />
@@ -2292,7 +2292,7 @@
       <ComponentRef Id="Component.Civil3DCutSolid.dll_1708172770" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_2312106334" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_2683744162" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_1781479220" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_1781479220" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_2134479136" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_2230643331" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_1157396739" />
@@ -2327,7 +2327,7 @@
       <ComponentRef Id="Component.Civil3DCutSolid.dll_851309212" />
       <ComponentRef Id="Component.Civil3DExtractCorridorLinksToSurfaces.dll_1769461324" />
       <ComponentRef Id="Component.Civil3DIFCBatchImport.dll_2034663976" />
-      <ComponentRef Id="Component.Civil3DLineSelfIntersectionCheck.dll_1220414795" />
+      <ComponentRef Id="Component.Civil3DLineIntersectionCheck.dll_1220414795" />
       <ComponentRef Id="Component.Civil3DPropertyValuesReport.dll_2106707908" />
       <ComponentRef Id="Component.Civil3DSubassemblyAnnotations.dll_2632764480" />
       <ComponentRef Id="Component.Civil3DToolbox.dll_1458844732" />

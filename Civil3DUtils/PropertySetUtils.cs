@@ -354,6 +354,33 @@ namespace Civil3DUtils
             int propId = propSet.PropertyNameToId(propertyDefinition.Name);
             try
             {
+                propSet.SetAt(propId,value);
+            }
+            catch (Exception)
+            { }
+
+        }
+
+        public static void SetValueToProperty(PropertySetDefinition propertySetDefinition,
+                               PropertyDefinition propertyDefinition,
+                               DBObject obj, object value)
+        {
+            if (propertySetDefinition == null || propertyDefinition == null)
+            {
+                return;
+            }
+
+            PropertySet propSet = GetPropertySet(propertySetDefinition, obj);
+
+            if (propSet == null)
+            {
+                PropertyDataServices.AddPropertySet(obj, propertySetDefinition.Id);
+                propSet = GetPropertySet(propertySetDefinition, obj);
+            }
+
+            int propId = propSet.PropertyNameToId(propertyDefinition.Name);
+            try
+            {
                 propSet.SetAt(propId, value);
             }
             catch (Exception)

@@ -149,29 +149,46 @@ namespace Civil3DAssignPropertySets.ViewModels
                         }
                     }
 
-                    foreach (DBObject destinationElement in DestinationElements)
+                    using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
                     {
-                        foreach (var setPerPropertiesItem in setPerProperties)
+                        foreach (DBObject destinationElement in DestinationElements)
                         {
-                            foreach (var property in setPerPropertiesItem.Value)
+                            foreach (var setPerPropertiesItem in setPerProperties)
                             {
-                                ElementWrapper elementWrapper = elementsWrappers.FirstOrDefault(item => item.PropertySetDefinition.Name == setPerPropertiesItem.Key.Name && item.PropertyDefinition.Name == property.Name);
-
-                                if (elementWrapper != null)
+                                foreach (var property in setPerPropertiesItem.Value)
                                 {
+                                    ElementWrapper elementWrapper = elementsWrappers.FirstOrDefault(item => item.PropertySetDefinition.Name == setPerPropertiesItem.Key.Name && item.PropertyDefinition.Name == property.Name);
+
+                                    if (elementWrapper == null)
+                                    {
+                                        continue;
+                                    }
+
+                                    DBObject destinationElementOpened = destinationElement;
+
+                                    if (!destinationElement.IsWriteEnabled)
+                                    {
+                                        destinationElementOpened = transaction.GetObject(destinationElement.Id, OpenMode.ForWrite, false, true);
+                                    }
+
+                                    string valueString = elementWrapper.Value as string;
+
                                     switch (property.DataType)
                                     {
                                         case Autodesk.Aec.PropertyData.DataType.Integer:
-                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (int)elementWrapper.Value);
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElementOpened, NumbersUtils.ParseStringToInt(valueString));
                                             break;
                                         case Autodesk.Aec.PropertyData.DataType.Real:
-                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (double)elementWrapper.Value);
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElementOpened, NumbersUtils.ParseStringToDouble(valueString));
                                             break;
                                         case Autodesk.Aec.PropertyData.DataType.Text:
-                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (string)elementWrapper.Value);
+                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElementOpened, valueString);
                                             break;
                                         case Autodesk.Aec.PropertyData.DataType.TrueFalse:
-                                            PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElement, (int)elementWrapper.Value);
+                                            if (bool.TryParse(valueString, out bool result))
+                                            {
+                                                PropertySetUtils.SetValueToProperty(setPerPropertiesItem.Key, property, destinationElementOpened, result);
+                                            }
                                             break;
                                         case Autodesk.Aec.PropertyData.DataType.AutoIncrement:
                                             break;
@@ -184,10 +201,11 @@ namespace Civil3DAssignPropertySets.ViewModels
                                         default:
                                             break;
                                     }
-
                                 }
                             }
                         }
+
+                        transaction.Commit();
                     }
 
                     MessageBox.Show("Done");

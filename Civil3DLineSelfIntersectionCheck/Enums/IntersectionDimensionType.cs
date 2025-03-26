@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DLineSelfIntersectionCheck.Enums
+namespace Civil3DLineIntersectionCheck.Enums
 {
-    public enum IntersectionDetection
+    public enum IntersectionDimensionType
     {
         ThreeDimensional,
         TwoDimensional

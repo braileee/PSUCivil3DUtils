@@ -134,14 +134,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -295,14 +295,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -456,14 +456,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2019/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2019/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -618,14 +618,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2022/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2022/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -780,14 +780,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-						AppDescription="Civil3DLineSelfIntersectionCheck"
-						ModuleName="./2023/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+						AppDescription="Civil3DLineIntersectionCheck"
+						ModuleName="./2023/Contents/Civil3DLineIntersectionCheck.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -942,14 +942,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2024/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2024/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 
@@ -1103,14 +1103,14 @@
 			</Commands>
 		</ComponentEntry>
 
-		<ComponentEntry AppName="Civil3DLineSelfIntersectionCheck"
-				AppDescription="Civil3DLineSelfIntersectionCheck"
-				ModuleName="./2025/Contents/Civil3DLineSelfIntersectionCheck.dll"
+		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
+				AppDescription="Civil3DLineIntersectionCheck"
+				ModuleName="./2025/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
-				<Command Local="Civil3DLineSelfIntersectionCheck"
-						 Global="Civil3DLineSelfIntersectionCheck"
-						 Description="Civil3DLineSelfIntersectionCheck" />
+				<Command Local="Civil3DLineIntersectionCheck"
+						 Global="Civil3DLineIntersectionCheck"
+						 Description="Civil3DLineIntersectionCheck" />
 			</Commands>
 		</ComponentEntry>
 

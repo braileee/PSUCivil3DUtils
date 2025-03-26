@@ -88,7 +88,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DIFCBatchImport", "Ci
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{C21990CC-EAF7-45ED-A84D-8FB4EED05C15}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DLineSelfIntersectionCheck", "Civil3DLineSelfIntersectionCheck\Civil3DLineSelfIntersectionCheck.csproj", "{37334637-C1B9-4EA5-B4E4-65E8619A54FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Civil3DLineIntersectionCheck", "Civil3DLineSelfIntersectionCheck\Civil3DLineIntersectionCheck.csproj", "{37334637-C1B9-4EA5-B4E4-65E8619A54FB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D366AA9D-72E7-420F-AE21-03EAFD001403} = {D366AA9D-72E7-420F-AE21-03EAFD001403}
 	EndProjectSection

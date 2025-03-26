@@ -76,11 +76,26 @@ namespace Civil3DUtils
             return LineSegment3dUtils.GetSelfIntersectionPoints(segments, tolerance);
         }
 
+        public static List<Point3d> GetIntersectionPoints(this FeatureLine featureLine, FeatureLine otherFeatureLine, int tolerance)
+        {
+            List<LineSegment3d> segments1 = featureLine.GetSegments(tolerance);
+            List<LineSegment3d> segments2 = otherFeatureLine.GetSegments(tolerance);
+
+            return LineSegment3dUtils.GetIntersectionPoints(segments1, segments2, tolerance);
+        }
+
         public static List<Point3d> GetSelfIntersectionPointsBy2d(this FeatureLine featureLine, int tolerance, double elevation)
         {
             List<LineSegment3d> lines = featureLine.GetSegmentsWithElevation(tolerance, elevation);
-
             return LineSegment3dUtils.GetSelfIntersectionPoints(lines, tolerance);
+        }
+
+        public static List<Point3d> GetIntersectionPointsBy2d(this FeatureLine featureLine, FeatureLine otherFeatureLine, int tolerance, double elevation)
+        {
+            List<LineSegment3d> lines1 = featureLine.GetSegmentsWithElevation(tolerance, elevation);
+            List<LineSegment3d> lines2 = otherFeatureLine.GetSegmentsWithElevation(tolerance, elevation);
+
+            return LineSegment3dUtils.GetIntersectionPoints(lines1, lines2, tolerance);
         }
     }
 }

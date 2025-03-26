@@ -108,5 +108,10 @@ namespace AutoCADUtils
         {
             return $"{Math.Round(point.X, tolerance)};{Math.Round(point.Y, tolerance)};{Math.Round(point.Z, tolerance)}";
         }
+
+        public static Point3d ToElevation(this Point3d point, double elevation)
+        {
+            return new Point3d(point.X, point.Y, elevation);
+        }
     }
 }
