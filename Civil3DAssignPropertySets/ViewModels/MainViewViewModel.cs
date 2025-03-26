@@ -23,6 +23,7 @@ using Civil3DAssignPropertySets.Models;
 using Civil3DUtils;
 using System.Reflection;
 using Autodesk.Aec.PropertyData.DatabaseServices;
+using System.Text;
 
 namespace Civil3DAssignPropertySets.ViewModels
 {
@@ -332,6 +333,15 @@ namespace Civil3DAssignPropertySets.ViewModels
                 {
                     return;
                 }
+
+                if (FileUtils.IsFileLocked(ExcelFilePath))
+                {
+                    MessageBox.Show("Please close the selected Excel file an try again.", "Error");
+                    return;
+                }
+
+                var enc = CodePagesEncodingProvider.Instance.GetEncoding(1252);
+                Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
                 using (var stream = File.Open(ExcelFilePath, FileMode.Open, FileAccess.Read))
                 {

@@ -182,33 +182,50 @@ namespace Civil3DExtractCorridorLinksToSurfaces.ViewModels
 
         private void OnDeleteSelectedCommand()
         {
+            UpdateCorridorSurfaceWrappers();
+
             using (AutocadDocumentService.LockActiveDocument())
             {
-
                 using (Transaction transaction = AutocadDocumentService.TransactionManager.StartTransaction())
                 {
-                    foreach (CorridorSurfaceWrapper corridorSurfaceWrapper in CorridorSurfaceWrappers.Where(corridorSurface => corridorSurface.IsSelected))
-                    {
-                        CorridorSurface surface = corridorSurfaceWrapper.Surface;
-                        Corridor corridor = corridorSurfaceWrapper.Corridor;
-
-                        if (!corridor.IsWriteEnabled)
-                        {
-                            corridor = transaction.GetObject(corridor.Id, OpenMode.ForWrite, false, true) as Corridor;
-                        }
-
-                        if (surface == null)
-                        {
-                            continue;
-                        }
-
-                        corridor.CorridorSurfaces.Remove(surface);
-                    }
-
-                    UpdateCorridorSurfaceWrappers();
+                    // Delete surfaces multiple times because of the API bug
+                    DeleteSelectedSurfaces(transaction);
+                    DeleteSelectedSurfaces(transaction);
+                    DeleteSelectedSurfaces(transaction);
+                    DeleteSelectedSurfaces(transaction);
                     transaction.Commit();
                 }
             }
+        }
+
+        private void DeleteSelectedSurfaces(Transaction transaction)
+        {
+            List<CorridorSurfaceWrapper> corridorSurfaces = CorridorSurfaceWrappers.Where(corridorSurface => corridorSurface.IsSelected).ToList();
+
+            foreach (CorridorSurfaceWrapper corridorSurfaceWrapper in corridorSurfaces)
+            {
+                CorridorSurface surface = corridorSurfaceWrapper.Surface;
+                Corridor corridor = corridorSurfaceWrapper.Corridor;
+
+                if (!corridor.IsWriteEnabled)
+                {
+                    corridor = transaction.GetObject(corridor.Id, OpenMode.ForWrite, false, true) as Corridor;
+                }
+
+                if (surface == null)
+                {
+                    continue;
+                }
+
+                corridor.CorridorSurfaces.Remove(surface);
+
+                if (corridor.CorridorSurfaces.Contains(surface))
+                {
+                    corridor.CorridorSurfaces.Remove(surface);
+                }
+            }
+
+            UpdateCorridorSurfaceWrappers();
         }
 
         private void OnSelectAllSurfacesEvent(bool selectAll)

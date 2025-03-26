@@ -76,6 +76,7 @@
                 </StackPanel>
 
                 <DataGrid ItemsSource="{Binding SelectedElements}" 
+                          SelectedItem="{Binding SelectedElement}"
               AutoGenerateColumns="False" 
               IsReadOnly="True"
               DockPanel.Dock="Top"

@@ -98,5 +98,53 @@ namespace AutoCADUtils
 
             Editor.SetCurrentView(view);
         }
+
+        public static void ZoomAndSelect(Entity oEntity)
+        {
+            if (oEntity == null)
+            {
+                return;
+            }
+
+            // Extract its extents
+            Extents3d entityExtents;
+            using (Transaction tr = Database.TransactionManager.StartTransaction())
+            {
+                entityExtents = oEntity.GeometricExtents;
+
+                entityExtents.TransformBy(Editor.CurrentUserCoordinateSystem.Inverse());
+                Point2d min2d = new Point2d(entityExtents.MinPoint.X, entityExtents.MinPoint.Y);
+                Point2d max2d = new Point2d(entityExtents.MaxPoint.X, entityExtents.MaxPoint.Y);
+                ViewTableRecord view = new ViewTableRecord();
+                view.CenterPoint = min2d + ((max2d - min2d) / 2.0);
+                view.Height = max2d.Y - min2d.Y;
+                view.Width = max2d.X - min2d.X;
+                Editor.SetCurrentView(view);
+                Editor.SetImpliedSelection(new ObjectId[] { oEntity.Id });
+                tr.Commit();
+            }
+        }
+
+        public static void Zoom(Entity oEntity)
+        {
+            if (oEntity == null)
+            {
+                return;
+            }
+
+            // Extract its extents
+            Extents3d entityExtents;
+
+            entityExtents = oEntity.GeometricExtents;
+
+            entityExtents.TransformBy(Editor.CurrentUserCoordinateSystem.Inverse());
+            Point2d min2d = new Point2d(entityExtents.MinPoint.X, entityExtents.MinPoint.Y);
+            Point2d max2d = new Point2d(entityExtents.MaxPoint.X, entityExtents.MaxPoint.Y);
+            ViewTableRecord view = new ViewTableRecord();
+            view.CenterPoint = min2d + ((max2d - min2d) / 2.0);
+            view.Height = max2d.Y - min2d.Y;
+            view.Width = max2d.X - min2d.X;
+            Editor.SetCurrentView(view);
+        }
     }
 }

@@ -141,8 +141,28 @@ namespace Civil3DPropertyValuesReport.ViewModels
         }
 
         public ObservableCollection<ElementWrapper> SelectedElements { get; set; } = new ObservableCollection<ElementWrapper>();
+        public ElementWrapper SelectedElement
+        {
+            get
+            {
+                return selectedElement;
+            }
+            set
+            {
+                selectedElement = value;
+
+                if(selectedElement != null)
+                {
+                    AutocadDocumentService.Zoom(selectedElement.DbObject as Acad.Entity);
+                }
+                
+                RaisePropertyChanged();
+            }
+        }
 
         private LineSegmentWrapper selectedLineElement;
+        private ElementWrapper selectedElement;
+
         public LineSegmentWrapper SelectedLineElement
         {
             get { return selectedLineElement; }
