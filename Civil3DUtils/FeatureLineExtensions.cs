@@ -63,7 +63,7 @@ namespace Civil3DUtils
                     continue;
                 }
 
-                LineSegment3d segment = new LineSegment3d(flattenPreviousPoint, currentPoint);
+                LineSegment3d segment = new LineSegment3d(flattenPreviousPoint, flattenCurrentPoint);
                 segments.Add(segment);
             }
 

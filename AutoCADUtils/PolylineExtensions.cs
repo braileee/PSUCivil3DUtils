@@ -38,6 +38,34 @@ namespace AutoCADUtils
             }
         }
 
+        public static void GetSegments(this Polyline polyline, ref List<LineSegment3d> lines, ref List<CircularArc3d> arcs, double elevation)
+        {
+            for (int i = 0; i < polyline.NumberOfVertices - 1; i++)
+            {
+                switch (polyline.GetSegmentType(i))
+                {
+                    case SegmentType.Line:
+                        LineSegment3d line = polyline.GetLineSegmentAt(i);
+                        LineSegment3d flattenLine = new(line.StartPoint.ToElevation(elevation), line.EndPoint.ToElevation(elevation));
+                        lines.Add(flattenLine);
+                        break;
+                    case SegmentType.Arc:
+                        CircularArc3d arc = polyline.GetArcSegmentAt(i);
+                        CircularArc3d flattenArc = new(arc.Center.ToElevation(elevation), arc.Normal, arc.Radius);
+                        arcs.Add(flattenArc);
+                        break;
+                    case SegmentType.Coincident:
+                        break;
+                    case SegmentType.Point:
+                        break;
+                    case SegmentType.Empty:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
         public static List<PolylineVertex3d> GetVertexes(this Polyline3d polyline)
         {
             List<PolylineVertex3d> vertexes = new List<PolylineVertex3d>();
@@ -112,7 +140,7 @@ namespace AutoCADUtils
             List<PolylineVertex3d> vertexes = polyline.GetVertexes();
             List<LineSegment3d> segments = new List<LineSegment3d>();
 
-            if (vertexes.Count < 4)
+            if (vertexes.Count < 2)
             {
                 return segments;
             }
@@ -156,7 +184,7 @@ namespace AutoCADUtils
             List<PolylineVertex3d> vertexes = polyline.GetVertexes();
             List<LineSegment3d> segments = new List<LineSegment3d>();
 
-            if (vertexes.Count < 4)
+            if (vertexes.Count < 2)
             {
                 return segments;
             }
@@ -239,6 +267,16 @@ namespace AutoCADUtils
             return LineSegment3dUtils.GetSelfIntersectionPoints(lines, arcs, tolerance);
         }
 
+        public static List<Point3d> GetSelfIntersectionPointsBy2d(this Polyline polyline, int tolerance, double elevation)
+        {
+            List<CircularArc3d> arcs = new List<CircularArc3d>();
+            List<LineSegment3d> lines = new List<LineSegment3d>();
+            polyline.GetSegments(ref lines, ref arcs, elevation);
+
+            return LineSegment3dUtils.GetSelfIntersectionPoints(lines, arcs, tolerance);
+        }
+
+
         public static List<Point3d> GetIntersectionPoints(this Polyline polyline1, Polyline polyline2, int tolerance)
         {
             List<CircularArc3d> arcs1 = new List<CircularArc3d>();
@@ -250,6 +288,19 @@ namespace AutoCADUtils
             polyline2.GetSegments(ref lines2, ref arcs2);
 
             return LineSegment3dUtils.GetIntersectionPoints(lines1, arcs1, lines2, arcs2, tolerance);
+        }
+
+        public static List<Point3d> GetIntersectionPointsBy2d(this Polyline polyline1, Polyline polyline2, int tolerance, double elevation)
+        {
+            List<CircularArc3d> arcs1 = new List<CircularArc3d>();
+            List<LineSegment3d> lines1 = new List<LineSegment3d>();
+            polyline1.GetSegments(ref lines1, ref arcs1, elevation);
+
+            List<CircularArc3d> arcs2 = new List<CircularArc3d>();
+            List<LineSegment3d> lines2 = new List<LineSegment3d>();
+            polyline2.GetSegments(ref lines2, ref arcs2, elevation);
+
+            return LineSegment3dUtils.GetIntersectionPointsBy2d(lines1, arcs1, lines2, arcs2, tolerance, elevation);
         }
     }
 }

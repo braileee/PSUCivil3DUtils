@@ -191,6 +191,17 @@ namespace AutoCADUtils.Utils
             return intersectionPoints.Values.ToList();
         }
 
+        public static List<Point3d> GetIntersectionPointsBy2d(List<LineSegment3d> linesSet1, List<CircularArc3d> arcsSet1, List<LineSegment3d> linesSet2, List<CircularArc3d> arcsSet2, int tolerance, double elevation)
+        {
+            List<LineSegment3d> lineSet1Flat = linesSet1.Select(line => new LineSegment3d(line.StartPoint.ToElevation(elevation), line.EndPoint.ToElevation(elevation))).ToList();
+            List<LineSegment3d> lineSet2Flat = linesSet2.Select(line => new LineSegment3d(line.StartPoint.ToElevation(elevation), line.EndPoint.ToElevation(elevation))).ToList();
+
+            List<CircularArc3d> arcSet1Flat = arcsSet1.Select(arc => new CircularArc3d(arc.Center.ToElevation(0), arc.Normal, arc.Radius)).ToList();
+            List<CircularArc3d> arcSet2Flat = arcsSet2.Select(arc => new CircularArc3d(arc.Center.ToElevation(0), arc.Normal, arc.Radius)).ToList();
+
+           return GetIntersectionPoints(lineSet1Flat, arcSet1Flat, lineSet2Flat, arcSet2Flat, tolerance);
+        }
+
         public static List<Point3d> GetIntersectionPoints(List<LineSegment3d> linesSet1, List<CircularArc3d> arcsSet1, List<LineSegment3d> linesSet2, List<CircularArc3d> arcsSet2, int tolerance)
         {
             Dictionary<string, Point3d> intersectionPoints = new Dictionary<string, Point3d>();

@@ -61,7 +61,15 @@ namespace Civil3DLineIntersectionCheck
 
                         if (intersectionCheckType == IntersectionCheckType.SelfCheck)
                         {
-                            currentIntersectionPoints = polyline.GetSelfIntersectionPoints(tolerance);
+                            if (intersectionDimensionType == IntersectionDimensionType.ThreeDimensional)
+                            {
+                                currentIntersectionPoints = polyline.GetSelfIntersectionPoints(tolerance);
+                            }
+                            else
+                            {
+                                currentIntersectionPoints = polyline.GetSelfIntersectionPointsBy2d(tolerance, elevation: 0);
+                            }
+
                             intersectionPoints.AddRange(currentIntersectionPoints);
                         }
                         else
@@ -75,7 +83,15 @@ namespace Civil3DLineIntersectionCheck
                                     continue;
                                 }
 
-                                currentIntersectionPoints = polyline.GetIntersectionPoints(polylineToCheck, tolerance);
+                                if (intersectionDimensionType == IntersectionDimensionType.ThreeDimensional)
+                                {
+                                    currentIntersectionPoints = polyline.GetIntersectionPoints(polylineToCheck, tolerance);
+                                }
+                                else
+                                {
+                                    currentIntersectionPoints = polyline.GetIntersectionPointsBy2d(polylineToCheck, tolerance, elevation: 0);
+                                }
+
                                 intersectionPoints.AddRange(currentIntersectionPoints);
                                 currentIntersectionPoints.Clear();
                             }
@@ -205,8 +221,7 @@ namespace Civil3DLineIntersectionCheck
                     }
                 }
 
-                intersectionPoints = intersectionPoints.DistinctBy(point => $"{Math.Round(point.X)}, {Math.Round(point.Y)}, {Math.Round(point.Z)}").ToList();
-
+                intersectionPoints = intersectionPoints.DistinctBy(point => $"{Math.Round(point.X, Constants.Accurracy)}, {Math.Round(point.Y, Constants.Accurracy)}, {Math.Round(point.Z, Constants.Accurracy)}").ToList();
                 PointGroup pointGroup = CogoPointUtils.CreateCogoPointGroup(pointsGroupName);
                 CogoPointUtils.CreateCogoPoints(intersectionPoints, pointsGroupName);
 

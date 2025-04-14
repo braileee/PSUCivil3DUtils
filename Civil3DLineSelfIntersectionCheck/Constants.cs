@@ -14,6 +14,8 @@ namespace Civil3DLineIntersectionCheck
         public const string LineIntersectionPointsGroupName = "Line Intersection Points";
 
         public const string IntersectionBetweenLinesCheck = "BetweenLines";
-        public const string IntersectionSelfCheck = "LineSelfCheck";
+        public const string IntersectionSelfCheck = "SelfCheck";
+
+        public const int Accurracy = 8;
     }
 }
