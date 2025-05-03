@@ -221,7 +221,7 @@ namespace Civil3DLineIntersectionCheck
                     }
                 }
 
-                intersectionPoints = intersectionPoints.DistinctBy(point => $"{Math.Round(point.X, Constants.Accurracy)}, {Math.Round(point.Y, Constants.Accurracy)}, {Math.Round(point.Z, Constants.Accurracy)}").ToList();
+                intersectionPoints = intersectionPoints.GroupBy(point => $"{Math.Round(point.X, Constants.Accurracy)}, {Math.Round(point.Y, Constants.Accurracy)}, {Math.Round(point.Z, Constants.Accurracy)}").Select(item => item.First()).ToList();
                 PointGroup pointGroup = CogoPointUtils.CreateCogoPointGroup(pointsGroupName);
                 CogoPointUtils.CreateCogoPoints(intersectionPoints, pointsGroupName);
 

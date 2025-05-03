@@ -20,6 +20,16 @@
 	  <AssemblyVersion></AssemblyVersion>
 	  <FileVersion></FileVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Remove="UI\civil3d_psu.cuix" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Content Include="UI\civil3d_psu.cuix">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 	<ItemGroup>
 		<None Include="PackageContents.xml" />
 	</ItemGroup>

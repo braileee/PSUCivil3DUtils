@@ -30,6 +30,7 @@
 		<PackageReference Include="MahApps.Metro" Version="2.4.9" />
 		<PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.31" />
 		<PackageReference Include="Prism.Core" Version="8.1.97" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="4.7.0" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(Configuration)' == 'Civil3D2019Debug' Or '$(Configuration)'=='Civil3D2019Release'">

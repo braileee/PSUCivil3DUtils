@@ -46,12 +46,12 @@ namespace AutoCADUtils
                 {
                     case SegmentType.Line:
                         LineSegment3d line = polyline.GetLineSegmentAt(i);
-                        LineSegment3d flattenLine = new(line.StartPoint.ToElevation(elevation), line.EndPoint.ToElevation(elevation));
+                        LineSegment3d flattenLine = new LineSegment3d(line.StartPoint.ToElevation(elevation), line.EndPoint.ToElevation(elevation));
                         lines.Add(flattenLine);
                         break;
                     case SegmentType.Arc:
                         CircularArc3d arc = polyline.GetArcSegmentAt(i);
-                        CircularArc3d flattenArc = new(arc.Center.ToElevation(elevation), arc.Normal, arc.Radius);
+                        CircularArc3d flattenArc = new CircularArc3d(arc.Center.ToElevation(elevation), arc.Normal, arc.Radius);
                         arcs.Add(flattenArc);
                         break;
                     case SegmentType.Coincident:
