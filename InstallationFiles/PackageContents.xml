@@ -156,6 +156,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DDataExport"
+						AppDescription="Civil3DDataExport"
+						ModuleName="./2019/Contents/Civil3DDataExport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
@@ -169,11 +180,11 @@
 
 		<ComponentEntry AppName="PSUCivil3D"
 						AppDescription="PSU Civil 3D Utils"
-						ModuleName="./2019/UI/civil3d_psu.cuix" />
+						ModuleName="./2020/UI/civil3d_psu.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
-						ModuleName="./2019/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						ModuleName="./2020/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DAlignmentStationCoordinatesTable"
@@ -184,7 +195,7 @@
 
 		<ComponentEntry AppName="Civil3DSubassemblyAnnotations"
 						AppDescription="Civil3DSubassemblyAnnotations"
-						ModuleName="./2019/Contents/Civil3DSubassemblyAnnotations.dll"
+						ModuleName="./2020/Contents/Civil3DSubassemblyAnnotations.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DSubassemblyAnnotations"
@@ -195,7 +206,7 @@
 
 		<ComponentEntry AppName="Civil3DToolbox"
 						AppDescription="Civil3DToolbox"
-						ModuleName="./2019/Contents/Civil3DToolbox.dll"
+						ModuleName="./2020/Contents/Civil3DToolbox.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="ReverseTextElevation"
@@ -242,7 +253,7 @@
 
 		<ComponentEntry AppName="Civil3DAssignPropertySets"
 						AppDescription="Civil3DAssignPropertySets"
-						ModuleName="./2019/Contents/Civil3DAssignPropertySets.dll"
+						ModuleName="./2020/Contents/Civil3DAssignPropertySets.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DAssignPropertySets"
@@ -253,7 +264,7 @@
 
 		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
 						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
-						ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						ModuleName="./2020/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
@@ -264,7 +275,7 @@
 
 		<ComponentEntry AppName="Civil3DPropertyValuesReport"
 						AppDescription="Civil3DPropertyValuesReport"
-						ModuleName="./2019/Contents/Civil3DPropertyValuesReport.dll"
+						ModuleName="./2020/Contents/Civil3DPropertyValuesReport.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DPropertyValuesReport"
@@ -275,7 +286,7 @@
 
 		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
 				AppDescription="Civil3DCreateCogoPointOnSectionView"
-				ModuleName="./2019/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				ModuleName="./2020/Contents/Civil3DCreateCogoPointOnSectionView.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DCreateCogoPointOnSectionView"
@@ -286,7 +297,7 @@
 
 		<ComponentEntry AppName="Civil3DIFCBatchImport"
 				AppDescription="Civil3DIFCBatchImport"
-				ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+				ModuleName="./2020/Contents/Civil3DIFCBatchImport.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DIFCBatchImport"
@@ -297,7 +308,7 @@
 
 		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
 				AppDescription="Civil3DLineIntersectionCheck"
-				ModuleName="./2019/Contents/Civil3DLineIntersectionCheck.dll"
+				ModuleName="./2020/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DLineIntersectionCheck"
@@ -308,7 +319,7 @@
 
 		<ComponentEntry AppName="Civil3DWeedLines"
 						AppDescription="Civil3DWeedLines"
-						ModuleName="./2019/Contents/Civil3DWeedLines.dll"
+						ModuleName="./2020/Contents/Civil3DWeedLines.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DWeedLines"
@@ -317,9 +328,20 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DDataExport"
+						AppDescription="Civil3DDataExport"
+						ModuleName="./2020/Contents/Civil3DDataExport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
+			</Commands>
+		</ComponentEntry>
+		
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
-				ModuleName="./2019/Contents/MahApps.Metro.dll"
+				ModuleName="./2020/Contents/MahApps.Metro.dll"
 				LoadOnAutoCADStartup ="true" >
 		</ComponentEntry>
 	</Components>
@@ -330,11 +352,11 @@
 
 		<ComponentEntry AppName="PSUCivil3D"
 						AppDescription="PSU Civil 3D Utils"
-						ModuleName="./2019/UI/civil3d_psu.cuix" />
+						ModuleName="./2021/UI/civil3d_psu.cuix" />
 
 		<ComponentEntry AppName="Civil3DAlignmentStationCoordinatesTable"
 						AppDescription="Civil3DAlignmentStationCoordinatesTable"
-						ModuleName="./2019/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
+						ModuleName="./2021/Contents/Civil3DAlignmentStationCoordinatesTable.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DAlignmentStationCoordinatesTable"
@@ -345,7 +367,7 @@
 
 		<ComponentEntry AppName="Civil3DSubassemblyAnnotations"
 						AppDescription="Civil3DSubassemblyAnnotations"
-						ModuleName="./2019/Contents/Civil3DSubassemblyAnnotations.dll"
+						ModuleName="./2021/Contents/Civil3DSubassemblyAnnotations.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DSubassemblyAnnotations"
@@ -356,7 +378,7 @@
 
 		<ComponentEntry AppName="Civil3DToolbox"
 						AppDescription="Civil3DToolbox"
-						ModuleName="./2019/Contents/Civil3DToolbox.dll"
+						ModuleName="./2021/Contents/Civil3DToolbox.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="ReverseTextElevation"
@@ -403,7 +425,7 @@
 
 		<ComponentEntry AppName="Civil3DAssignPropertySets"
 						AppDescription="Civil3DAssignPropertySets"
-						ModuleName="./2019/Contents/Civil3DAssignPropertySets.dll"
+						ModuleName="./2021/Contents/Civil3DAssignPropertySets.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DAssignPropertySets"
@@ -414,7 +436,7 @@
 
 		<ComponentEntry AppName="Civil3DExtractCorridorLinksToSurfaces"
 						AppDescription="Civil3DExtractCorridorLinksToSurfaces"
-						ModuleName="./2019/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
+						ModuleName="./2021/Contents/Civil3DExtractCorridorLinksToSurfaces.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DExtractCorridorLinksToSurfaces"
@@ -425,7 +447,7 @@
 
 		<ComponentEntry AppName="Civil3DPropertyValuesReport"
 						AppDescription="Civil3DPropertyValuesReport"
-						ModuleName="./2019/Contents/Civil3DPropertyValuesReport.dll"
+						ModuleName="./2021/Contents/Civil3DPropertyValuesReport.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DPropertyValuesReport"
@@ -436,7 +458,7 @@
 
 		<ComponentEntry AppName="Civil3DCreateCogoPointOnSectionView"
 				AppDescription="Civil3DCreateCogoPointOnSectionView"
-				ModuleName="./2019/Contents/Civil3DCreateCogoPointOnSectionView.dll"
+				ModuleName="./2021/Contents/Civil3DCreateCogoPointOnSectionView.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DCreateCogoPointOnSectionView"
@@ -447,7 +469,7 @@
 
 		<ComponentEntry AppName="Civil3DIFCBatchImport"
 				AppDescription="Civil3DIFCBatchImport"
-				ModuleName="./2019/Contents/Civil3DIFCBatchImport.dll"
+				ModuleName="./2021/Contents/Civil3DIFCBatchImport.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DIFCBatchImport"
@@ -458,7 +480,7 @@
 
 		<ComponentEntry AppName="Civil3DLineIntersectionCheck"
 				AppDescription="Civil3DLineIntersectionCheck"
-				ModuleName="./2019/Contents/Civil3DLineIntersectionCheck.dll"
+				ModuleName="./2021/Contents/Civil3DLineIntersectionCheck.dll"
 				LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DLineIntersectionCheck"
@@ -469,7 +491,7 @@
 
 		<ComponentEntry AppName="Civil3DWeedLines"
 						AppDescription="Civil3DWeedLines"
-						ModuleName="./2019/Contents/Civil3DWeedLines.dll"
+						ModuleName="./2021/Contents/Civil3DWeedLines.dll"
 						LoadOnCommandInvocation ="True" LoadOnRequest="True">
 			<Commands GroupName="PSV">
 				<Command Local="Civil3DWeedLines"
@@ -478,9 +500,20 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DDataExport"
+						AppDescription="Civil3DDataExport"
+						ModuleName="./2021/Contents/Civil3DDataExport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
+			</Commands>
+		</ComponentEntry>
+		
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
-				ModuleName="./2019/Contents/MahApps.Metro.dll"
+				ModuleName="./2021/Contents/MahApps.Metro.dll"
 				LoadOnAutoCADStartup ="true" >
 		</ComponentEntry>
 	</Components>
@@ -637,6 +670,17 @@
 				<Command Local="Civil3DWeedLines"
 						 Global="Civil3DWeedLines"
 						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DDataExport"
+				AppDescription="Civil3DDataExport"
+				ModuleName="./2022/Contents/Civil3DDataExport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
 			</Commands>
 		</ComponentEntry>
 
@@ -802,6 +846,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DDataExport"
+		AppDescription="Civil3DDataExport"
+		ModuleName="./2023/Contents/Civil3DDataExport.dll"
+		LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"
@@ -964,6 +1019,17 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DDataExport"
+						AppDescription="Civil3DDataExport"
+						ModuleName="./2024/Contents/Civil3DDataExport.dll"
+						LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2024/Contents/MahApps.Metro.dll"
@@ -1122,6 +1188,17 @@
 				<Command Local="Civil3DWeedLines"
 						 Global="Civil3DWeedLines"
 						 Description="Civil3DWeedLines" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DDataExport"
+				AppDescription="Civil3DDataExport"
+				ModuleName="./2025/Contents/Civil3DDataExport.dll"
+				LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DDataExport"
+						 Global="Civil3DDataExport"
+						 Description="Civil3DDataExport" />
 			</Commands>
 		</ComponentEntry>
 
