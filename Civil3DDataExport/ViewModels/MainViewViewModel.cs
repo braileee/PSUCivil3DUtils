@@ -164,6 +164,7 @@ namespace Civil3DDataExport.ViewModels
                 selectedProfile = value;
 
                 Properties.Settings.Default.SelectedProfile = SelectedProfile?.Name;
+                Properties.Settings.Default.Save();
 
                 RaisePropertyChanged();
             }
@@ -246,6 +247,7 @@ namespace Civil3DDataExport.ViewModels
                     }
 
                     Properties.Settings.Default.SelectedAlignment = SelectedAlignment?.Name;
+                    Properties.Settings.Default.Save(); 
                 }
 
                 RaisePropertyChanged();
