@@ -33,7 +33,7 @@
                     <TextBox Text="{Binding EndStation}" Margin="2" />
 
                     <Label Content="Horizontal Offset"/>
-                    <TextBox Text="{Binding PlanOffset}" Margin="2" />
+                    <TextBox Text="{Binding PlanOffset}" ToolTip="Positive value - right side, negative value - left side. The side is calculated from start to end of the alignment" Margin="2" />
 
                     <Label Content="Vertical Offset"/>
                     <TextBox Text="{Binding VerticalOffset}" Margin="2" />
