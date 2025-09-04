@@ -23,6 +23,9 @@ namespace Civil3DDataExport.ViewModels
             PlanOffset = Properties.Settings.Default.PlanOffset;
             VerticalOffset = Properties.Settings.Default.VerticalOffset;
 
+            SelectedAlignment = Alignments.FirstOrDefault(item => item.Name == Properties.Settings.Default.SelectedAlignment);
+            SelectedProfile = Profiles?.FirstOrDefault(item => item.Name == Properties.Settings.Default.SelectedProfile);
+
             ExportCommand = new DelegateCommand(OnExportCommand);
             Log = log;
         }
@@ -159,6 +162,9 @@ namespace Civil3DDataExport.ViewModels
             set
             {
                 selectedProfile = value;
+
+                Properties.Settings.Default.SelectedProfile = SelectedProfile?.Name;
+
                 RaisePropertyChanged();
             }
         }
@@ -230,6 +236,7 @@ namespace Civil3DDataExport.ViewModels
             {
                 selectedAlignment = value;
 
+
                 if (selectedAlignment != null)
                 {
                     using (Transaction transaction = App.TransactionManager.StartTransaction())
@@ -237,6 +244,8 @@ namespace Civil3DDataExport.ViewModels
                         Profiles = AlignmentUtils.GetProfilesOfAlignment(selectedAlignment, transaction, OpenMode.ForRead);
                         transaction.Commit();
                     }
+
+                    Properties.Settings.Default.SelectedAlignment = SelectedAlignment?.Name;
                 }
 
                 RaisePropertyChanged();

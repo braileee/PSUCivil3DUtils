@@ -82,5 +82,29 @@ namespace Civil3DDataExport.Properties {
                 this["VerticalOffset"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedAlignment {
+            get {
+                return ((string)(this["SelectedAlignment"]));
+            }
+            set {
+                this["SelectedAlignment"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string SelectedProfile {
+            get {
+                return ((string)(this["SelectedProfile"]));
+            }
+            set {
+                this["SelectedProfile"] = value;
+            }
+        }
     }
 }
