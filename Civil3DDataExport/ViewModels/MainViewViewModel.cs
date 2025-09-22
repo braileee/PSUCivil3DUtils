@@ -248,6 +248,9 @@ namespace Civil3DDataExport.ViewModels
 
                     Properties.Settings.Default.SelectedAlignment = SelectedAlignment?.Name;
                     Properties.Settings.Default.Save(); 
+
+                    StartStation = SelectedAlignment.StartingStation;
+                    EndStation = SelectedAlignment.EndingStation;
                 }
 
                 RaisePropertyChanged();
