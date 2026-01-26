@@ -1,0 +1,14 @@
+{
+	"Structure": {
+		"SlopeData": {
+			"SlopeLeft": "Slope_Left",
+			"SlopeRight": "Slope_Right",
+			"SlopeCommon": "Slope"
+		},
+		"WidthData": {
+			"CalcualationWidthLinkCodes": [
+			"WidthCalculation"
+			]
+		}
+	}
+}

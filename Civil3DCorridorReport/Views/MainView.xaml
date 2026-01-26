@@ -1,0 +1,23 @@
+﻿<Window x:Class="Civil3DCorridorReport.Views.MainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Civil3DCorridorReport.Views"
+             xmlns:metro="http://metro.mahapps.com/winfx/xaml/controls"     
+             mc:Ignorable="d" 
+             SizeToContent="WidthAndHeight"
+             Title="Corridor Report">
+    <StackPanel>
+        <Label Content="Select Corridor:" Margin="2"/>
+        <ComboBox Margin="2" Width="200" HorizontalAlignment="Left" 
+                  ItemsSource="{Binding Corridors}"
+                  SelectedItem="{Binding SelectedCorridor}"
+                  DisplayMemberPath="Name"/>
+
+        <Button Content="Generate Report" 
+                Command="{Binding GenerateReportCommand}"
+                Margin="2" 
+                HorizontalAlignment="Stretch" />
+    </StackPanel>
+</Window>

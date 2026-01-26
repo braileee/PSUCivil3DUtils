@@ -1,5 +1,6 @@
 ﻿using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,5 +65,26 @@ namespace AutoCADUtils.Utils
 
             return string.Empty;
         }
+
+        public static Point3d? PromptPoint()
+        {
+            var doc = Application.DocumentManager.MdiActiveDocument;
+            var ed = doc.Editor;
+
+            // Prompt the user
+            PromptPointOptions ppo = new PromptPointOptions("\nSelect a point: ");
+            PromptPointResult ppr = ed.GetPoint(ppo);
+
+            if (ppr.Status != PromptStatus.OK)
+            {
+                ed.WriteMessage("\nPoint selection canceled.");
+                return null;
+            }
+
+            Point3d pickedPoint = ppr.Value;
+
+            return pickedPoint;
+        }
+
     }
 }

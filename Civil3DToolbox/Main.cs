@@ -2,9 +2,12 @@
 using AutoCADUtils.Utils;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
+using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
+using Civil3DToolbox.Models;
 using Civil3DUtils.Utils;
 using System;
 using System.Collections.Generic;
@@ -328,6 +331,82 @@ namespace Civil3DToolbox
             catch (System.Exception exception)
             {
                 MessageBox.Show(exception.Message);
+            }
+        }
+
+        [CommandMethod("PSV", "ConvertGeotiffToDemSurface", CommandFlags.Modal)]
+        public static void ConvertGeotiffToDemSurface()
+        {
+            try
+            {
+                Log log = new Log(AssemblyUtils.GetFolder(typeof(Main)), "ConvertGeotiffToDemSurface");
+
+                Document acadDoc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Editor ed = acadDoc.Editor;
+                Database db = acadDoc.Database;
+                CivilDocument civDoc = CivilApplication.ActiveDocument;
+
+                // Ask user for folder path
+                PromptResult folderRes = ed.GetString(
+                    "\nEnter folder path with \"\" containing GEOTIFF files (*.tif): ");
+                if (folderRes.Status != PromptStatus.OK)
+                    return;
+
+                string folder = folderRes.StringResult.Trim('"');
+                if (!Directory.Exists(folder))
+                {
+                    ed.WriteMessage("\nFolder does not exist.");
+                    return;
+                }
+
+                string[] demFiles = Directory.GetFiles(folder, "*.tif",
+                    SearchOption.TopDirectoryOnly);
+
+                log.Information("Folder selected: " + folder);
+                log.Information("Number of DEM files found: " + demFiles.Length);
+
+                if (demFiles.Length == 0)
+                {
+                    log.Error("\nNo DEM files found.");
+                    ed.WriteMessage("\nNo DEM files found.");
+                    return;
+                }
+
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        // Pick a surface style (adjust index as needed)
+                        ObjectId styleId = civDoc.Styles.SurfaceStyles[0];
+
+                        foreach (string demPath in demFiles)
+                        {
+                            log.Information($"Add DEM from {demPath}");
+
+                            string name = Path.GetFileNameWithoutExtension(demPath);
+
+                            ed.WriteMessage($"\nAdd surface: {name}");
+
+                            // Create a GridSurface directly from DEM
+                            GridSurface.CreateFromDEM(demPath, styleId);
+                        }
+
+                        tr.Commit();
+                        ed.WriteMessage(
+                            $"\nCreated {demFiles.Length} DEM surfaces successfully.");
+                        log.Information("Successfully finished");
+                    }
+                    catch (System.Exception ex)
+                    {
+                        log.Error($"Error: {ex.Message} {ex.StackTrace}");
+                        ed.WriteMessage($"\nError: {ex.Message}");
+                    }
+                }
+
+            }
+            catch (System.Exception)
+            {
+
             }
         }
     }
