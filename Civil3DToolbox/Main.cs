@@ -11,8 +11,10 @@ using Civil3DToolbox.Models;
 using Civil3DUtils.Utils;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Windows.Forms;
 
 namespace Civil3DToolbox
@@ -409,5 +411,88 @@ namespace Civil3DToolbox
 
             }
         }
+
+        [CommandMethod("PSV", "ExportTinXYZ", CommandFlags.Modal)]
+        public static void ExportTinXYZ()
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+            Editor ed = doc.Editor;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    // Select surface
+                    PromptEntityOptions peo = new PromptEntityOptions("\nSelect TIN Surface: ");
+                    peo.SetRejectMessage("TIN surfaces allowed only");
+                    peo.AddAllowedClass(typeof(TinSurface), true);
+                    PromptEntityResult per = ed.GetEntity(peo);
+                    if (per.Status != PromptStatus.OK) return;
+
+                    TinSurface surface = tr.GetObject(per.ObjectId, OpenMode.ForRead) as TinSurface;
+
+                    if(surface == null)
+                    {
+                        ed.WriteMessage("\nSelected entity is not a TIN Surface.");
+                        return;
+                    }
+
+                    // File path based on DWG folder + surface name
+                    string filePath = Path.Combine(
+                        Path.GetDirectoryName(doc.Name),
+                        surface.Name + ".txt"
+                    );
+
+                    // Large buffer (1 MB)
+                    const int bufferSize = 1024 * 1024;
+
+                    // Batch size (number of lines before flushing)
+                    const int batchSize = 10000;
+
+                    using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8, bufferSize))
+                    {
+                        StringBuilder sb = new StringBuilder(batchSize * 40);
+                        int counter = 0;
+
+                        var culture = CultureInfo.InvariantCulture;
+
+                        foreach (TinSurfaceVertex v in surface.Vertices)
+                        {
+                            var p = v.Location;
+
+                            sb.Append(p.X.ToString("F3", culture));
+                            sb.Append(',');
+                            sb.Append(p.Y.ToString("F3", culture));
+                            sb.Append(',');
+                            sb.Append(p.Z.ToString("F3", culture));
+                            sb.Append('\n');
+
+                            counter++;
+
+                            // Flush batch to disk
+                            if (counter >= batchSize)
+                            {
+                                sw.Write(sb.ToString());
+                                sb.Clear();
+                                counter = 0;
+                            }
+                        }
+
+                        // Write remaining data
+                        if (sb.Length > 0)
+                            sw.Write(sb.ToString());
+                    }
+
+                    ed.WriteMessage($"\nSurface exported:\n{filePath}");
+                    tr.Commit();
+                }
+                catch (System.Exception ex)
+                {
+                    ed.WriteMessage($"\nError: {ex.Message}");
+                }
+            }
+        }
+
     }
 }
