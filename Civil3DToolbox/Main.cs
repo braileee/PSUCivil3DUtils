@@ -441,7 +441,7 @@ namespace Civil3DToolbox
                     // File path based on DWG folder + surface name
                     string filePath = Path.Combine(
                         Path.GetDirectoryName(doc.Name),
-                        surface.Name + ".txt"
+                        surface.Name + ".xyz"
                     );
 
                     // Large buffer (1 MB)
@@ -450,7 +450,7 @@ namespace Civil3DToolbox
                     // Batch size (number of lines before flushing)
                     const int batchSize = 10000;
 
-                    using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.UTF8, bufferSize))
+                    using (StreamWriter sw = new StreamWriter(filePath, false, Encoding.ASCII, bufferSize))
                     {
                         StringBuilder sb = new StringBuilder(batchSize * 40);
                         int counter = 0;
