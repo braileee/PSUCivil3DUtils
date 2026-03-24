@@ -432,7 +432,7 @@ namespace Civil3DToolbox
 
                     TinSurface surface = tr.GetObject(per.ObjectId, OpenMode.ForRead) as TinSurface;
 
-                    if(surface == null)
+                    if (surface == null)
                     {
                         ed.WriteMessage("\nSelected entity is not a TIN Surface.");
                         return;
@@ -494,5 +494,84 @@ namespace Civil3DToolbox
             }
         }
 
+        [CommandMethod("PSV", "CogoPointsStationToAlignment", CommandFlags.Modal)]
+
+        public static void CogoPointsStationToAlignment()
+        {
+            CivilDocument civDoc = CivilDocument.GetCivilDocument(AutocadDocumentService.Database);
+
+            try
+            {
+                // --- Select Alignment ---
+                PromptEntityOptions peo = new PromptEntityOptions("\nSelect alignment: ");
+                peo.SetRejectMessage("\nMust be an alignment.");
+                peo.AddAllowedClass(typeof(Alignment), exactMatch: false);
+
+                PromptEntityResult per = AutocadDocumentService.Editor.GetEntity(peo);
+                if (per.Status != PromptStatus.OK) return;
+
+                ObjectId alignmentId = per.ObjectId;
+
+                // --- Select COGO Points ---
+                PromptSelectionOptions pso = new PromptSelectionOptions();
+                pso.MessageForAdding = "\nSelect COGO points: ";
+
+                SelectionFilter filter = new SelectionFilter(
+                    new TypedValue[] { new TypedValue(0, "AECC_COGO_POINT") }
+                );
+
+                PromptSelectionResult psr = AutocadDocumentService.Editor.GetSelection(pso, filter);
+                if (psr.Status != PromptStatus.OK) return;
+
+                // --- Ask for output TXT file path ---
+                PromptSaveFileOptions fileOptions = new PromptSaveFileOptions("\nSave output TXT file: ");
+                fileOptions.Filter = "Text File (*.txt)|*.txt";
+
+                PromptFileNameResult fileResult = AutocadDocumentService.Editor.GetFileNameForSave(fileOptions);
+                if (fileResult.Status != PromptStatus.OK) return;
+
+                string filepath = fileResult.StringResult;
+
+                using (Transaction tr = AutocadDocumentService.Database.TransactionManager.StartTransaction())
+                using (StreamWriter sw = new StreamWriter(filepath))
+                {
+                    Alignment alignment = tr.GetObject(alignmentId, OpenMode.ForRead) as Alignment;
+
+                    // Header line (optional)
+                    sw.WriteLine("PointNumber;Description;X;Y;AlignmentStation");
+
+                    foreach (SelectedObject selObj in psr.Value)
+                    {
+                        CogoPoint pt = tr.GetObject(selObj.ObjectId, OpenMode.ForRead) as CogoPoint;
+
+                        if (pt != null)
+                        {
+                            double station = 0;
+                            double offset = 0;
+                            // Compute closest station
+                            alignment.StationOffset(pt.Location.X, pt.Location.Y, ref station, ref offset);
+
+                            string line = string.Format(
+                                "{0};{1};{2:F3};{3:F3};{4:F3}",
+                                pt.PointNumber,
+                                pt.RawDescription,
+                                pt.Easting,
+                                pt.Northing,
+                                station
+                            );
+
+                            sw.WriteLine(line);
+                        }
+                    }
+
+                    tr.Commit();
+                    AutocadDocumentService.Editor.WriteMessage($"\nExport complete: {filepath}");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                AutocadDocumentService.Editor.WriteMessage("\nError: " + ex.Message);
+            }
+        }
     }
 }
