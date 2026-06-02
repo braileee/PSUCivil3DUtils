@@ -9,6 +9,7 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Civil3DToolbox.Models;
 using Civil3DUtils.Utils;
+using ControlzEx.Standard;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -503,14 +504,44 @@ namespace Civil3DToolbox
             try
             {
                 // --- Select Alignment ---
-                PromptEntityOptions peo = new PromptEntityOptions("\nSelect alignment: ");
-                peo.SetRejectMessage("\nMust be an alignment.");
-                peo.AddAllowedClass(typeof(Alignment), exactMatch: false);
+                PromptEntityOptions promptAlignment = new PromptEntityOptions("\nSelect alignment: ");
+                promptAlignment.SetRejectMessage("\nMust be an alignment.");
+                promptAlignment.AddAllowedClass(typeof(Alignment), exactMatch: false);
 
-                PromptEntityResult per = AutocadDocumentService.Editor.GetEntity(peo);
-                if (per.Status != PromptStatus.OK) return;
+                PromptEntityResult resultAlignment = AutocadDocumentService.Editor.GetEntity(promptAlignment);
+                if (resultAlignment.Status != PromptStatus.OK) return;
 
-                ObjectId alignmentId = per.ObjectId;
+                ObjectId alignmentId = resultAlignment.ObjectId;
+
+                // Reverse offset sign
+                PromptKeywordOptions promptReverseSign = new PromptKeywordOptions("\nReverse offset sign?");
+                promptReverseSign.Keywords.Add("Yes");
+                promptReverseSign.Keywords.Add("No");
+
+                // Optional: set default value
+                promptReverseSign.Keywords.Default = "No";
+                promptReverseSign.AllowNone = true;
+
+                // Display options like [Yes/No]
+                promptReverseSign.AppendKeywordsToMessage = true;
+
+                PromptResult resultReverseSign = AutocadDocumentService.Editor.GetKeywords(promptReverseSign);
+
+                if (resultReverseSign.Status != PromptStatus.OK)
+                    return;
+
+                bool reverseSign = resultReverseSign.StringResult == "Yes";
+
+                switch (resultReverseSign.StringResult)
+                {
+                    case "Yes":
+                        AutocadDocumentService.Editor.WriteMessage("\nOffset sign will be reversed.");
+                        break;
+
+                    case "No":
+                        AutocadDocumentService.Editor.WriteMessage("\nOffset won't change.");
+                        break;
+                }
 
                 // --- Select COGO Points ---
                 PromptSelectionOptions pso = new PromptSelectionOptions();
@@ -550,6 +581,8 @@ namespace Civil3DToolbox
                             double offset = 0;
                             // Compute closest station
                             alignment.StationOffset(pt.Location.X, pt.Location.Y, ref station, ref offset);
+
+                            offset = reverseSign ? -offset : offset;
 
                             string line = string.Format(
                                 "{0};{1};{2:F3};{3:F3};{4:F3};{5:F3}",
