@@ -538,7 +538,7 @@ namespace Civil3DToolbox
                     Alignment alignment = tr.GetObject(alignmentId, OpenMode.ForRead) as Alignment;
 
                     // Header line (optional)
-                    sw.WriteLine("PointNumber;Description;X;Y;AlignmentStation");
+                    sw.WriteLine("PointNumber;Description;X;Y;AlignmentStation;Offset");
 
                     foreach (SelectedObject selObj in psr.Value)
                     {
@@ -552,12 +552,13 @@ namespace Civil3DToolbox
                             alignment.StationOffset(pt.Location.X, pt.Location.Y, ref station, ref offset);
 
                             string line = string.Format(
-                                "{0};{1};{2:F3};{3:F3};{4:F3}",
+                                "{0};{1};{2:F3};{3:F3};{4:F3};{5:F3}",
                                 pt.PointNumber,
                                 pt.RawDescription,
                                 pt.Easting,
                                 pt.Northing,
-                                station
+                                station,
+                                offset
                             );
 
                             sw.WriteLine(line);
