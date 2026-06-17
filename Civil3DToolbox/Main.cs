@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
+using Autodesk.Civil.DatabaseServices.Styles;
 using Civil3DToolbox.Models;
 using Civil3DUtils.Utils;
 using ControlzEx.Standard;
@@ -606,6 +607,205 @@ namespace Civil3DToolbox
             {
                 AutocadDocumentService.Editor.WriteMessage("\nError: " + ex.Message);
             }
+        }
+
+        [CommandMethod("PSV", "BermHeightReport", CommandFlags.Modal)]
+        public static void BermHeightReport()
+        {
+            try
+            {
+                Document doc = AutocadDocumentService.ActiveDocument;
+                Editor ed = doc.Editor;
+
+
+                TinSurface mainSurface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead, "\nSelect MAIN TIN Surface: ");
+                if (mainSurface == null) return;
+
+                // 🔷 Select Comparison Surface
+                TinSurface compSurface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead, "\nSelect COMPARISON TIN Surface: ");
+                if (compSurface == null) return;
+
+                ed.WriteMessage($"\nMain Surface: {mainSurface.Name}");
+                ed.WriteMessage($"\nComparison Surface: {compSurface.Name}");
+
+                // Selection prompt
+                PromptSelectionOptions pso = new PromptSelectionOptions
+                {
+                    MessageForAdding = "\nSelect COGO Points: ",
+                    AllowDuplicates = false
+                };
+
+                // Filter for COGO points
+                TypedValue[] filterValues = new TypedValue[]
+                {
+        new TypedValue((int)DxfCode.Start, "AECC_COGO_POINT")
+                };
+
+                SelectionFilter filter = new SelectionFilter(filterValues);
+
+                // Get selection
+                PromptSelectionResult psr = ed.GetSelection(pso, filter);
+
+                if (psr.Status != PromptStatus.OK)
+                    return;
+
+                List<CogoPoint> points = new List<CogoPoint>();
+
+                using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
+                {
+                    foreach (SelectedObject selObj in psr.Value)
+                    {
+                        if (selObj == null) continue;
+
+                        CogoPoint point = tr.GetObject(selObj.ObjectId, OpenMode.ForRead) as CogoPoint;
+
+                        var styleId = point.StyleId;
+
+                        PointStyle style = null;
+
+                        if (styleId.IsNull)
+                        {
+                            PointGroup pointGroup = tr.GetObject(point.PrimaryPointGroupId, OpenMode.ForRead) as PointGroup;
+                            styleId = pointGroup.PointStyleId;
+                        }
+
+                        // Get point style
+                        style = tr.GetObject(styleId, OpenMode.ForRead) as PointStyle;
+
+                        // Get marker style block name
+                        string blockName = style.MarkerSymbolName;
+
+                        if (string.IsNullOrEmpty(style.MarkerSymbolName))
+                        {
+                            ed.WriteMessage("\nMarker does not use a block.");
+                            return;
+                        }
+
+                        // Open block table
+                        BlockTable bt = tr.GetObject(AutocadDocumentService.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
+
+                        if (!bt.Has(blockName))
+                        {
+                            ed.WriteMessage("\nBlock not found.");
+                            return;
+                        }
+
+                        BlockTableRecord btr = tr.GetObject(bt[blockName], OpenMode.ForRead) as BlockTableRecord;
+
+                        ed.WriteMessage($"\nInspecting block: {blockName}");
+
+                        TinSurfaceTriangleCollection triangles = mainSurface.GetTriangles(false);
+
+                        // Loop through entities in block
+                        foreach (ObjectId entId in btr)
+                        {
+                            Autodesk.AutoCAD.DatabaseServices.Entity ent = tr.GetObject(entId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Entity;
+
+                            if (ent is Polyline pl)
+                            {
+
+                                if (pl.Closed)
+                                {
+                                    ed.WriteMessage("\nFound closed polyline.");
+
+                                    Polyline newPl = pl.Clone() as Polyline;
+
+                                    Point3d location = point.Location;
+
+                                    double rotation = point.MarkerRotation;
+
+                                    Matrix3d transform =
+                                        Matrix3d.Scaling(1, Point3d.Origin) *
+                                        Matrix3d.Rotation(rotation, Vector3d.ZAxis, point.Location) *
+                                        Matrix3d.Displacement(location - Point3d.Origin);
+
+                                    newPl.TransformBy(transform);
+
+                                    BlockTableRecord modelSpace = tr.GetObject(
+                                        bt[BlockTableRecord.ModelSpace],
+                                        OpenMode.ForWrite) as BlockTableRecord;
+
+                                    modelSpace.AppendEntity(newPl);
+                                    tr.AddNewlyCreatedDBObject(newPl, true);
+
+                                    List<Point3d> pointsInside = new List<Point3d>();
+
+                                    Dictionary<string, string> addedPoints = new Dictionary<string, string>();
+
+                                    foreach (TinSurfaceTriangle tri in triangles)
+                                    {
+                                        // Check each vertex of triangle
+                                        Point3d[] pts = new Point3d[]
+                                        {
+                                        tri.Vertex1.Location,
+                                        tri.Vertex2.Location,
+                                        tri.Vertex3.Location
+                                        };
+
+                                        foreach (Point3d pt in pts)
+                                        {
+                                            string pointInfo = pt.AsString(tolerance: 2);
+
+                                            if (addedPoints.ContainsKey(pointInfo))
+                                            {
+                                                continue;
+                                            }
+
+                                            if (IsPointInsidePolyline(newPl, pt))
+                                            {
+                                                pointsInside.Add(pt);
+
+                                                var insidePoint = CogoPointUtils.CreateCogoPoint(pt);
+                                                insidePoint.RawDescription = "Inside point";
+
+                                                if (!addedPoints.ContainsKey(pointInfo))
+                                                {
+                                                    addedPoints.Add(pointInfo, pointInfo);
+                                                    continue;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+
+                            points.Add(point);
+                        }
+
+                        tr.Commit();
+                    }
+                }
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Unexpected error");
+            }
+        }
+
+
+        private static bool IsPointInsidePolyline(Polyline poly, Point3d point)
+        {
+            // Convert to 2D
+            Point2d pt = new Point2d(point.X, point.Y);
+
+            int num = poly.NumberOfVertices;
+            bool inside = false;
+
+            for (int i = 0, j = num - 1; i < num; j = i++)
+            {
+                Point2d pi = poly.GetPoint2dAt(i);
+                Point2d pj = poly.GetPoint2dAt(j);
+
+                // Check if point is within Y range of edge
+                bool intersect = ((pi.Y > pt.Y) != (pj.Y > pt.Y)) &&
+                                 (pt.X < (pj.X - pi.X) * (pt.Y - pi.Y) / (pj.Y - pi.Y + 1e-12) + pi.X);
+
+                if (intersect)
+                    inside = !inside;
+            }
+
+            return inside;
         }
     }
 }
