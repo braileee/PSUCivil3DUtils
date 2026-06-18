@@ -9,8 +9,11 @@ using Autodesk.Civil.ApplicationServices;
 using Autodesk.Civil.DatabaseServices;
 using Autodesk.Civil.DatabaseServices.Styles;
 using Civil3DToolbox.Models;
+using Civil3DUtils;
 using Civil3DUtils.Utils;
 using ControlzEx.Standard;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -612,194 +615,295 @@ namespace Civil3DToolbox
         [CommandMethod("PSV", "BermHeightReport", CommandFlags.Modal)]
         public static void BermHeightReport()
         {
+            Log log = null;
+
             try
             {
                 Document doc = AutocadDocumentService.ActiveDocument;
                 Editor ed = doc.Editor;
 
+                string drawingPath = doc.Name;
+                string drawingFolder = Path.GetDirectoryName(drawingPath);
+
+                log = new Log(drawingFolder, "BermHeightReport");
+                log.Information("Command started.");
 
                 TinSurface mainSurface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead, "\nSelect MAIN TIN Surface: ");
-                if (mainSurface == null) return;
-
-                // 🔷 Select Comparison Surface
-                TinSurface compSurface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead, "\nSelect COMPARISON TIN Surface: ");
-                if (compSurface == null) return;
-
-                ed.WriteMessage($"\nMain Surface: {mainSurface.Name}");
-                ed.WriteMessage($"\nComparison Surface: {compSurface.Name}");
-
-                // Selection prompt
-                PromptSelectionOptions pso = new PromptSelectionOptions
+                if (mainSurface == null)
                 {
-                    MessageForAdding = "\nSelect COGO Points: ",
-                    AllowDuplicates = false
-                };
-
-                // Filter for COGO points
-                TypedValue[] filterValues = new TypedValue[]
-                {
-        new TypedValue((int)DxfCode.Start, "AECC_COGO_POINT")
-                };
-
-                SelectionFilter filter = new SelectionFilter(filterValues);
-
-                // Get selection
-                PromptSelectionResult psr = ed.GetSelection(pso, filter);
-
-                if (psr.Status != PromptStatus.OK)
+                    log.Warning("Main surface not selected.");
                     return;
+                }
+                ed.WriteMessage($"\nMain Surface: {mainSurface.Name}");
 
-                List<CogoPoint> points = new List<CogoPoint>();
+                TinSurface comparisonSurface = SurfaceUtils.PromptTinSurface(OpenMode.ForRead, "\nSelect COMPARISON TIN Surface: ");
+                if (comparisonSurface == null)
+                {
+                    log.Warning("Comparison surface not selected.");
+                    return;
+                }
+                ed.WriteMessage($"\nComparison Surface: {comparisonSurface.Name}");
+
+                Alignment alignment = AlignmentUtils.GetAlignment("\nSelect alignment");
+                if (comparisonSurface == null)
+                {
+                    log.Warning("Alignment not selected.");
+                    return;
+                }
+
+                log.Information($"Alignment: {mainSurface.Name}");
+
+                List<CogoPoint> points = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForRead);
+                log.Information($"Selected COGO points: {points?.Count ?? 0}");
+
+                List<BoxArea> boxAreas = new List<BoxArea>();
 
                 using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
                 {
-                    foreach (SelectedObject selObj in psr.Value)
+                    log.Information("Transaction started.");
+
+                    TinSurfaceTriangleCollection triangles = mainSurface.GetTriangles(false);
+                    log.Information($"Triangles count: {triangles.Count}");
+
+                    int i = 0;
+
+                    foreach (CogoPoint point in points)
                     {
-                        if (selObj == null) continue;
+                        log.Information($"Processing COGO point #{i + 1} (Handle: {point.Handle})");
 
-                        CogoPoint point = tr.GetObject(selObj.ObjectId, OpenMode.ForRead) as CogoPoint;
+                        BlockTableRecord btr = point.GetMarkerBlockTableReceord(tr);
+                        var blockEntities = btr.GetEntitiesInside(tr);
 
-                        var styleId = point.StyleId;
+                        Polyline closedPolyline = blockEntities
+                            .OfType<Polyline>()
+                            .FirstOrDefault(p => p.Closed);
 
-                        PointStyle style = null;
-
-                        if (styleId.IsNull)
+                        if (closedPolyline == null)
                         {
-                            PointGroup pointGroup = tr.GetObject(point.PrimaryPointGroupId, OpenMode.ForRead) as PointGroup;
-                            styleId = pointGroup.PointStyleId;
+                            log.Warning("No closed polyline found for point.");
+                            continue;
                         }
 
-                        // Get point style
-                        style = tr.GetObject(styleId, OpenMode.ForRead) as PointStyle;
+                        Polyline newPl = point.TransformEntityToCogoPointLocation(closedPolyline) as Polyline;
 
-                        // Get marker style block name
-                        string blockName = style.MarkerSymbolName;
+                        Extents3d ext = newPl.GeometricExtents;
 
-                        if (string.IsNullOrEmpty(style.MarkerSymbolName))
+                        var polyPts = new Point2d[newPl.NumberOfVertices];
+                        for (int k = 0; k < polyPts.Length; k++)
+                            polyPts[k] = newPl.GetPoint2dAt(k);
+
+                        var uniquePoints = new HashSet<Point3d>(new Point3dComparer(0.01));
+
+                        int trianglesChecked = 0;
+                        int pointsInside = 0;
+
+                        foreach (TinSurfaceTriangle tri in triangles)
                         {
-                            ed.WriteMessage("\nMarker does not use a block.");
-                            return;
-                        }
+                            trianglesChecked++;
 
-                        // Open block table
-                        BlockTable bt = tr.GetObject(AutocadDocumentService.Database.BlockTableId, OpenMode.ForRead) as BlockTable;
+                            if (TriangleOutsideExtents(tri, ext))
+                                continue;
 
-                        if (!bt.Has(blockName))
-                        {
-                            ed.WriteMessage("\nBlock not found.");
-                            return;
-                        }
-
-                        BlockTableRecord btr = tr.GetObject(bt[blockName], OpenMode.ForRead) as BlockTableRecord;
-
-                        ed.WriteMessage($"\nInspecting block: {blockName}");
-
-                        TinSurfaceTriangleCollection triangles = mainSurface.GetTriangles(false);
-
-                        // Loop through entities in block
-                        foreach (ObjectId entId in btr)
-                        {
-                            Autodesk.AutoCAD.DatabaseServices.Entity ent = tr.GetObject(entId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Entity;
-
-                            if (ent is Polyline pl)
+                            Point3d[] triPts =
                             {
+                        tri.Vertex1.Location,
+                        tri.Vertex2.Location,
+                        tri.Vertex3.Location
+                    };
 
-                                if (pl.Closed)
+                            foreach (Point3d pt in triPts)
+                            {
+                                if (uniquePoints.Contains(pt))
+                                    continue;
+
+                                if (IsPointInsidePolyline(polyPts, new Point2d(pt.X, pt.Y)))
                                 {
-                                    ed.WriteMessage("\nFound closed polyline.");
-
-                                    Polyline newPl = pl.Clone() as Polyline;
-
-                                    Point3d location = point.Location;
-
-                                    double rotation = point.MarkerRotation;
-
-                                    Matrix3d transform =
-                                        Matrix3d.Scaling(1, Point3d.Origin) *
-                                        Matrix3d.Rotation(rotation, Vector3d.ZAxis, point.Location) *
-                                        Matrix3d.Displacement(location - Point3d.Origin);
-
-                                    newPl.TransformBy(transform);
-
-                                    BlockTableRecord modelSpace = tr.GetObject(
-                                        bt[BlockTableRecord.ModelSpace],
-                                        OpenMode.ForWrite) as BlockTableRecord;
-
-                                    modelSpace.AppendEntity(newPl);
-                                    tr.AddNewlyCreatedDBObject(newPl, true);
-
-                                    List<Point3d> pointsInside = new List<Point3d>();
-
-                                    Dictionary<string, string> addedPoints = new Dictionary<string, string>();
-
-                                    foreach (TinSurfaceTriangle tri in triangles)
-                                    {
-                                        // Check each vertex of triangle
-                                        Point3d[] pts = new Point3d[]
-                                        {
-                                        tri.Vertex1.Location,
-                                        tri.Vertex2.Location,
-                                        tri.Vertex3.Location
-                                        };
-
-                                        foreach (Point3d pt in pts)
-                                        {
-                                            string pointInfo = pt.AsString(tolerance: 2);
-
-                                            if (addedPoints.ContainsKey(pointInfo))
-                                            {
-                                                continue;
-                                            }
-
-                                            if (IsPointInsidePolyline(newPl, pt))
-                                            {
-                                                pointsInside.Add(pt);
-
-                                                var insidePoint = CogoPointUtils.CreateCogoPoint(pt);
-                                                insidePoint.RawDescription = "Inside point";
-
-                                                if (!addedPoints.ContainsKey(pointInfo))
-                                                {
-                                                    addedPoints.Add(pointInfo, pointInfo);
-                                                    continue;
-                                                }
-                                            }
-                                        }
-                                    }
+                                    uniquePoints.Add(pt);
+                                    pointsInside++;
                                 }
                             }
-
-
-                            points.Add(point);
                         }
 
-                        tr.Commit();
+                        log.Information($"Triangles checked: {trianglesChecked}, Points inside: {pointsInside}");
+
+                        List<MainComparisonPointPair> pairs = new List<MainComparisonPointPair>();
+
+                        foreach (Point3d p in uniquePoints)
+                        {
+                            double compZ = comparisonSurface.FindElevationAtXY(p.X, p.Y);
+
+                            pairs.Add(new MainComparisonPointPair
+                            {
+                                MainPoint = p,
+                                ComparisonPoint = new Point3d(p.X, p.Y, compZ)
+                            });
+                        }
+
+                        log.Information($"Pairs created: {pairs.Count}");
+
+                        double station = 0;
+                        double offset = 0;
+                        alignment.StationOffset(point.Location.X, point.Location.Y, ref station, ref offset);
+
+                        boxAreas.Add(new BoxArea
+                        {
+                            Id = ++i,
+                            MainCogoPoint = point,
+                            MainComparisonPointPairs = pairs,
+                            StationBoxCenter = station,
+                        });
                     }
+
+                    List<BoxAreaReportRow> boxAreaReportRows = new List<BoxAreaReportRow>();
+
+                    foreach (BoxArea boxArea in boxAreas)
+                    {
+                        boxAreaReportRows.Add(new BoxAreaReportRow
+                        {
+                            Id = boxArea.Id,
+                            Description = boxArea.Description,
+                            BoxCenterX = boxArea.MainCogoPoint.Location.X,
+                            BoxCenterY = boxArea.MainCogoPoint.Location.Y,
+                            Count = boxArea.MainComparisonPointPairs.Count,
+                            StationCenter = boxArea.StationBoxCenter,
+                            ElevationDifferenceSum = boxArea.MainComparisonPointPairs.Sum(item => item.ElevationDifference),
+                            ElevationDifferenceAverage = boxArea.MainComparisonPointPairs.Average(item => item.ElevationDifference),
+                            ElevationDifferenceMax = boxArea.MainComparisonPointPairs.Max(item => item.ElevationDifference),
+                            ElevationDifferenceMin = boxArea.MainComparisonPointPairs.Min(item => item.ElevationDifference),
+                            Length = 0,
+                            StationMax = 0,
+                            StationMin = 0
+                        });
+                    }
+
+                    ExportBoxAreasToExcel(boxAreaReportRows, drawingFolder, log);
+
+                    tr.Commit();
+                    log.Information("Transaction committed.");
                 }
+
+                log.Information($"Finished. Total BoxAreas: {boxAreas.Count}");
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                log?.LogError("Unexpected error occurred.", ex);
                 MessageBox.Show("Unexpected error");
             }
         }
 
 
-        private static bool IsPointInsidePolyline(Polyline poly, Point3d point)
+        private static void ExportBoxAreasToExcel(List<BoxAreaReportRow> rows, string defaultFolder, Log log)
         {
-            // Convert to 2D
-            Point2d pt = new Point2d(point.X, point.Y);
+            try
+            {
+                string timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss");
+                string defaultFileName = $"BermHeightReport_{timestamp}.xlsx";
 
-            int num = poly.NumberOfVertices;
+                // Show save dialog
+
+                SaveFileDialog dialog = new SaveFileDialog
+                {
+                    Title = "Save Berm Height Report",
+                    FileName = defaultFileName,
+                    Filter = "Excel Files (*.xlsx)|*.xlsx",
+                    InitialDirectory = defaultFolder
+                };
+
+
+                if (dialog.ShowDialog() != System.Windows.Forms.DialogResult.OK)
+                {
+                    log?.Warning("User canceled file save dialog.");
+                    return;
+                }
+
+                string filePath = dialog.FileName;
+
+                IWorkbook workbook = new XSSFWorkbook();
+                ISheet sheet = workbook.CreateSheet("Berm Heights");
+
+                int rowIndex = 0;
+
+                // Header
+                IRow header = sheet.CreateRow(rowIndex++);
+                string[] headers =
+                {
+            "Id", "StationCenter", "StationMin", "StationMax",
+            "Description", "Length", "Count",
+            "Sum", "Average", "Min", "Max",
+            "X(center)", "Y(center)"
+        };
+
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    header.CreateCell(i).SetCellValue(headers[i]);
+                }
+
+                // Data
+                foreach (var row in rows)
+                {
+                    IRow excelRow = sheet.CreateRow(rowIndex++);
+
+                    excelRow.CreateCell(0).SetCellValue(row.Id);
+                    excelRow.CreateCell(1).SetCellValue(row.StationCenter);
+                    excelRow.CreateCell(2).SetCellValue(row.StationMin);
+                    excelRow.CreateCell(3).SetCellValue(row.StationMax);
+                    excelRow.CreateCell(4).SetCellValue(row.Description ?? "");
+                    excelRow.CreateCell(5).SetCellValue(row.Length);
+                    excelRow.CreateCell(6).SetCellValue(row.Count);
+                    excelRow.CreateCell(7).SetCellValue(row.ElevationDifferenceSum);
+                    excelRow.CreateCell(8).SetCellValue(row.ElevationDifferenceAverage);
+                    excelRow.CreateCell(9).SetCellValue(row.ElevationDifferenceMin);
+                    excelRow.CreateCell(10).SetCellValue(row.ElevationDifferenceMax);
+                    excelRow.CreateCell(11).SetCellValue(row.BoxCenterX);
+                    excelRow.CreateCell(12).SetCellValue(row.BoxCenterY);
+                }
+
+                // Auto-size columns
+                for (int i = 0; i < headers.Length; i++)
+                {
+                    sheet.AutoSizeColumn(i);
+                }
+
+                using (FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
+                {
+                    workbook.Write(fs);
+                }
+
+                workbook.Close();
+
+                log?.Information($"Excel exported: {filePath}");
+            }
+            catch (System.Exception ex)
+            {
+                log?.LogError("Failed to export Excel.", ex);
+            }
+        }
+
+
+        private static bool TriangleOutsideExtents(TinSurfaceTriangle tri, Extents3d ext)
+        {
+            return
+                (tri.Vertex1.Location.X < ext.MinPoint.X && tri.Vertex2.Location.X < ext.MinPoint.X && tri.Vertex3.Location.X < ext.MinPoint.X) ||
+                (tri.Vertex1.Location.X > ext.MaxPoint.X && tri.Vertex2.Location.X > ext.MaxPoint.X && tri.Vertex3.Location.X > ext.MaxPoint.X) ||
+                (tri.Vertex1.Location.Y < ext.MinPoint.Y && tri.Vertex2.Location.Y < ext.MinPoint.Y && tri.Vertex3.Location.Y < ext.MinPoint.Y) ||
+                (tri.Vertex1.Location.Y > ext.MaxPoint.Y && tri.Vertex2.Location.Y > ext.MaxPoint.Y && tri.Vertex3.Location.Y > ext.MaxPoint.Y);
+        }
+
+
+
+        private static bool IsPointInsidePolyline(Point2d[] polyPts, Point2d pt)
+        {
+            int num = polyPts.Length;
             bool inside = false;
 
             for (int i = 0, j = num - 1; i < num; j = i++)
             {
-                Point2d pi = poly.GetPoint2dAt(i);
-                Point2d pj = poly.GetPoint2dAt(j);
+                var pi = polyPts[i];
+                var pj = polyPts[j];
 
-                // Check if point is within Y range of edge
                 bool intersect = ((pi.Y > pt.Y) != (pj.Y > pt.Y)) &&
-                                 (pt.X < (pj.X - pi.X) * (pt.Y - pi.Y) / (pj.Y - pi.Y + 1e-12) + pi.X);
+                                 (pt.X < (pj.X - pi.X) *
+                                 (pt.Y - pi.Y) / (pj.Y - pi.Y + 1e-12) + pi.X);
 
                 if (intersect)
                     inside = !inside;

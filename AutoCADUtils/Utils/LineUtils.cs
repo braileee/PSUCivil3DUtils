@@ -26,7 +26,7 @@ namespace AutoCADUtils.Utils
                                                 OpenMode.ForRead) as BlockTable;
 
                 // Open the Block table record Model space for write
-                BlockTableRecord acBlkTblRec;
+                BlockTableRecord acBlkTblRec; 
                 acBlkTblRec = acTrans.GetObject(acBlkTbl[BlockTableRecord.ModelSpace],
                                                 OpenMode.ForWrite, true, true) as BlockTableRecord;
 

@@ -1,18 +1,19 @@
-﻿using Autodesk.AutoCAD.ApplicationServices;
-using Autocad = Autodesk.AutoCAD.DatabaseServices;
+﻿using AutoCADUtils;
+using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.Civil.ApplicationServices;
-using Civil = Autodesk.Civil.DatabaseServices;
+using Autodesk.Civil.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.DatabaseServices;
-using AutoCADUtils;
-using Autodesk.AutoCAD.Runtime;
-using Autodesk.Civil.DatabaseServices;
+using System.Windows.Controls;
+using Autocad = Autodesk.AutoCAD.DatabaseServices;
+using Civil = Autodesk.Civil.DatabaseServices;
 
 namespace Civil3DUtils.Utils
 {
@@ -96,38 +97,44 @@ namespace Civil3DUtils.Utils
 
         public static List<CogoPoint> PromptMultipleCogoPoints(OpenMode openMode, string messageForAdding = "Select COGO points")
         {
+            // Selection prompt
+            PromptSelectionOptions pso = new PromptSelectionOptions
+            {
+                MessageForAdding = "\nSelect COGO Points: ",
+                AllowDuplicates = false
+            };
+
+            // Filter for COGO points
+            TypedValue[] filterValues = new TypedValue[]
+            {
+                    new TypedValue((int)DxfCode.Start, "AECC_COGO_POINT")
+            };
+
+            SelectionFilter filter = new SelectionFilter(filterValues);
+
+            // Get selection
+            PromptSelectionResult psr = AutocadDocumentService.Editor.GetSelection(pso, filter);
+
+            if (psr.Status != PromptStatus.OK)
+                return new List<CogoPoint>();
+
             List<CogoPoint> points = new List<CogoPoint>();
-            PromptSelectionOptions opt = new PromptSelectionOptions();
-            opt.MessageForAdding = messageForAdding;
-            PromptSelectionResult promptResult = AutocadDocumentService.Editor.GetSelection(opt);
 
-            // If the prompt status is OK, objects were selected
-            if (promptResult.Status != PromptStatus.OK)
+            using (Transaction tr = AutocadDocumentService.Database.TransactionManager.StartTransaction())
             {
-                return points;
-            }
-
-            SelectionSet selectionSet = promptResult.Value;
-
-            using (AutocadDocumentService.LockActiveDocument())
-            {
-                // Step through the objects in the selection set
-                using (Transaction ts = AutocadDocumentService.TransactionManager.StartTransaction())
+                foreach (SelectedObject selObj in psr.Value)
                 {
-                    foreach (SelectedObject selectedObject in selectionSet)
+                    if (selObj == null)
                     {
-                        if (selectedObject.ObjectId.ObjectClass.Name == RXClass.GetClass(typeof(CogoPoint)).Name)
-                        {
-                            // Check to make sure a valid SelectedObject object was returned
-                            if (selectedObject != null)
-                            {
-                                CogoPoint point = ts.GetObject(selectedObject.ObjectId, openMode, false, true) as CogoPoint;
-                                points.Add(point);
-                            }
-                        }
+                        continue;
                     }
-                    ts.Commit();
+
+                    CogoPoint point = tr.GetObject(selObj.ObjectId, openMode, false, true) as CogoPoint;
+
+                    points.Add(point);
                 }
+
+                tr.Commit();
             }
 
             return points;

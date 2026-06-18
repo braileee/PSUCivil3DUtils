@@ -2,6 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.Civil.ApplicationServices;
+using Autodesk.Civil.DatabaseServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,5 +35,29 @@ namespace Civil3DUtils.Utils
 
             return oAlignmentList.OrderBy(item => item.Name).ToList();
         }
+
+
+        public static Alignment GetAlignment(string message)
+        {
+            Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Editor ed = doc.Editor;
+
+            PromptEntityOptions peo = new PromptEntityOptions($"\n{message}");
+            peo.SetRejectMessage("\nPlease select a valid Alignment.");
+            peo.AddAllowedClass(typeof(Alignment), exactMatch: true);
+
+            PromptEntityResult result = ed.GetEntity(peo);
+
+            if (result.Status != PromptStatus.OK)
+                return null;
+
+            using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
+            {
+                Alignment alignment = tr.GetObject(result.ObjectId, OpenMode.ForRead) as Alignment;
+                tr.Commit();
+                return alignment;
+            }
+        }
+
     }
 }
