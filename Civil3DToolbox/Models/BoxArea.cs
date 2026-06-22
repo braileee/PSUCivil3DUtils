@@ -10,12 +10,72 @@ namespace Civil3DToolbox.Models
 {
     public class BoxArea
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
         public string Description
         {
             get
             {
                 return MainCogoPoint?.RawDescription;
+            }
+        }
+
+        public string ElementName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description))
+                {
+                    return string.Empty;
+                }
+
+                string[] parts = Description.Split('-');
+
+                if (parts.Length > 0)
+                {
+                    return parts[0];
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string SegmentName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description))
+                {
+                    return string.Empty;
+                }
+
+                string[] parts = Description.Split('-');
+
+                if (parts.Length > 1)
+                {
+                    return parts[1];
+                }
+
+                return string.Empty;
+            }
+        }
+
+        public string DivisionName
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description))
+                {
+                    return string.Empty;
+                }
+
+                string[] parts = Description.Split('-');
+
+                if (parts.Length > 2)
+                {
+                    return parts[2];
+                }
+
+                return string.Empty;
             }
         }
 

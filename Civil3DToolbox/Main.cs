@@ -673,7 +673,7 @@ namespace Civil3DToolbox
 
                     foreach (CogoPoint point in points)
                     {
-                        log.Information($"Detect extents for COGO point #{i + 1} (Handle: {point.Handle})");
+                        log.Information($"Detect extents for COGO point (Handle: {point.Handle})");
 
                         BlockTableRecord btr = point.GetMarkerBlockTableReceord(tr);
                         var blockEntities = btr.GetEntitiesInside(tr);
@@ -722,9 +722,20 @@ namespace Civil3DToolbox
 
                 Extents3d totalExtent = new Extents3d(new Point3d(minX, minY, 0), new Point3d(maxX, maxY, 0));
 
-                List<TinSurfaceTriangle> filteredTriangles = triangles.Where(triangle => !TriangleOutsideExtents(triangle, totalExtent)).ToList();
+                List<TriangleData> filteredTriangles = triangles
+                    .Cast<TinSurfaceTriangle>()
+                    .Select(triangle => TriangleData.ToTriangleData(triangle))
+                    .Where(triangle => !TriangleData.TriangleOutsideExtents(triangle, totalExtent))
+                    .ToList();
 
                 log.Information($"Triangles have been filtered, initial amount: {triangles.Count}, filtered amount: {filteredTriangles.Count}");
+
+                double averageBoxSize = GetAverageBoxSize(cogoPointGeometries);
+                double cellSize = Math.Max(averageBoxSize, 1.0);
+
+                TriangleSpatialIndex triangleIndex = new TriangleSpatialIndex(filteredTriangles, cellSize);
+
+                log.Information($"Triangles indexed: {filteredTriangles.Count}, Cell size: {cellSize}");
 
                 using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
                 {
@@ -741,19 +752,21 @@ namespace Civil3DToolbox
                         int trianglesChecked = 0;
                         int pointsInside = 0;
 
-                        foreach (TinSurfaceTriangle triangle in filteredTriangles)
+                        IEnumerable<TriangleData> candidateTriangles = triangleIndex.Query(pointGeometry.PolylineExtent);
+
+                        foreach (TriangleData triangle in candidateTriangles)
                         {
                             trianglesChecked++;
 
-                            if (TriangleOutsideExtents(triangle, pointGeometry.PolylineExtent))
+                            if (TriangleData.TriangleOutsideExtents(triangle, pointGeometry.PolylineExtent))
                                 continue;
 
                             Point3d[] triPts =
                             {
-                                triangle.Vertex1.Location,
-                                triangle.Vertex2.Location,
-                                triangle.Vertex3.Location
-                            };
+                                    triangle.P1,
+                                    triangle.P2,
+                                    triangle.P3
+                                };
 
                             foreach (Point3d pt in triPts)
                             {
@@ -785,16 +798,28 @@ namespace Civil3DToolbox
 
                         log.Information($"Pairs created: {pairs.Count}");
 
-                        double station = 0;
-                        double offset = 0;
-                        alignment.StationOffset(pointGeometry.CogoPoint.Location.X, pointGeometry.CogoPoint.Location.Y, ref station, ref offset);
+                        double stationCenter = 0;
+                        double offsetCenter = 0;
+                        alignment.StationOffset(pointGeometry.CogoPoint.Location.X, pointGeometry.CogoPoint.Location.Y, ref stationCenter, ref offsetCenter);
+
+                        double offsetMin = 0;
+                        double stationMin = 0;
+                        Point2d boxPointMinByX = pointGeometry.PolylinePoints.MinBy(item => item.X);
+                        alignment.StationOffset(boxPointMinByX.X, boxPointMinByX.Y, ref stationMin, ref offsetMin);
+
+                        double offsetMax = 0;
+                        double stationMax = 0;
+                        Point2d boxPointMaxByX = pointGeometry.PolylinePoints.MaxBy(item => item.X);
+                        alignment.StationOffset(boxPointMaxByX.X, boxPointMaxByX.Y, ref stationMax, ref offsetMax);
 
                         boxAreas.Add(new BoxArea
                         {
-                            Id = ++i,
+                            Id = pointGeometry.CogoPoint.PointNumber,
                             MainCogoPoint = pointGeometry.CogoPoint,
                             MainComparisonPointPairs = pairs,
-                            StationBoxCenter = station,
+                            StationBoxCenter = stationCenter,
+                            StationBoxMin = stationMin < stationMax ? stationMin : stationMax,
+                            StationBoxMax = stationMax > stationMin ? stationMax : stationMin
                         });
                     }
 
@@ -806,6 +831,9 @@ namespace Civil3DToolbox
                         {
                             Id = boxArea.Id,
                             Description = boxArea.Description,
+                            ElementName = boxArea.ElementName,
+                            SegmentName = boxArea.SegmentName,
+                            DivisionName = boxArea.DivisionName,
                             BoxCenterX = boxArea.MainCogoPoint.Location.X,
                             BoxCenterY = boxArea.MainCogoPoint.Location.Y,
                             Count = boxArea.MainComparisonPointPairs.Count,
@@ -814,9 +842,9 @@ namespace Civil3DToolbox
                             ElevationDifferenceAverage = boxArea.MainComparisonPointPairs.Average(item => item.ElevationDifference),
                             ElevationDifferenceMax = boxArea.MainComparisonPointPairs.Max(item => item.ElevationDifference),
                             ElevationDifferenceMin = boxArea.MainComparisonPointPairs.Min(item => item.ElevationDifference),
-                            Length = 0,
-                            StationMax = 0,
-                            StationMin = 0
+                            Length = Math.Abs(boxArea.StationBoxMax - boxArea.StationBoxMin),
+                            StationMax = boxArea.StationBoxMax,
+                            StationMin = boxArea.StationBoxMin
                         });
                     }
 
@@ -833,6 +861,129 @@ namespace Civil3DToolbox
                 log?.LogError("Unexpected error occurred.", ex);
                 MessageBox.Show("Unexpected error");
             }
+        }
+
+        [CommandMethod("PSV", "CogoPointDescriptionIndexPerStation", CommandFlags.Modal)]
+        public void CogoPointDescriptionIndexPerStation()
+        {
+            // 1️⃣ Select COGO points
+            PromptSelectionOptions selOpts = new PromptSelectionOptions();
+            selOpts.MessageForAdding = "\nSelect COGO points: ";
+
+            TypedValue[] filter = new TypedValue[]
+            {
+                new TypedValue((int)DxfCode.Start, "AECC_COGO_POINT")
+            };
+
+            SelectionFilter selFilter = new SelectionFilter(filter);
+            PromptSelectionResult selRes = AutocadDocumentService.Editor.GetSelection(selOpts, selFilter);
+
+            if (selRes.Status != PromptStatus.OK) return;
+
+            // 2️⃣ Select alignment
+            PromptEntityOptions alignOpts = new PromptEntityOptions("\nSelect alignment: ");
+            alignOpts.SetRejectMessage("\nMust be an alignment.");
+            alignOpts.AddAllowedClass(typeof(Alignment), true);
+
+            PromptEntityResult alignRes = AutocadDocumentService.Editor.GetEntity(alignOpts);
+            if (alignRes.Status != PromptStatus.OK) return;
+
+            // 3️⃣ Description prefix
+            PromptStringOptions prefixOpts = new PromptStringOptions("\nEnter description prefix: ");
+            prefixOpts.AllowSpaces = false;
+
+            var prefixRes = AutocadDocumentService.Editor.GetString(prefixOpts);
+            if (prefixRes.Status != PromptStatus.OK) return;
+            string prefix = prefixRes.StringResult;
+
+            // 4️⃣ Starting index
+            PromptIntegerOptions startOpts = new PromptIntegerOptions("\nEnter starting index: ");
+            startOpts.DefaultValue = 0;
+
+            var startRes = AutocadDocumentService.Editor.GetInteger(startOpts);
+            if (startRes.Status != PromptStatus.OK) return;
+
+            int currentIndex = startRes.Value;
+
+            // 5️⃣ Ascending / Descending
+            PromptKeywordOptions orderOpts = new PromptKeywordOptions("\nIndex order [Ascending/Descending]: ", "Ascending Descending");
+            orderOpts.AllowNone = false;
+
+            var orderRes = AutocadDocumentService.Editor.GetKeywords(orderOpts);
+            if (orderRes.Status != PromptStatus.OK) return;
+
+            bool ascending = orderRes.StringResult == "Ascending";
+
+            using (Transaction tr = AutocadDocumentService.Database.TransactionManager.StartTransaction())
+            {
+                Alignment alignment = tr.GetObject(alignRes.ObjectId, OpenMode.ForRead) as Alignment;
+
+                var stationGroups = new Dictionary<double, List<CogoPoint>>();
+
+                // 6️⃣ Collect stations
+                foreach (SelectedObject selObj in selRes.Value)
+                {
+                    if (selObj == null) continue;
+
+                    CogoPoint pt = tr.GetObject(selObj.ObjectId, OpenMode.ForWrite) as CogoPoint;
+                    if (pt == null) continue;
+
+                    double station = 0, offset = 0;
+
+                    try
+                    {
+                        alignment.StationOffset(pt.Easting, pt.Northing, ref station, ref offset);
+                    }
+                    catch
+                    {
+                        continue; // Skip if fails
+                    }
+
+                    double roundedStation = Math.Round(station, 2);
+
+                    if (!stationGroups.ContainsKey(roundedStation))
+                        stationGroups[roundedStation] = new List<CogoPoint>();
+
+                    stationGroups[roundedStation].Add(pt);
+                }
+
+                // 7️⃣ Sort groups by station
+                var sortedGroups = ascending
+                    ? stationGroups.OrderBy(g => g.Key)
+                    : stationGroups.OrderByDescending(g => g.Key);
+
+                // 8️⃣ Assign descriptions
+                foreach (var group in sortedGroups)
+                {
+                    AutocadDocumentService.Editor.WriteMessage($"\nProcess point group, station {group.Key}, points count: {group.Value.Count}.");
+                    // Optional: sort inside group (e.g. by offset or point number)
+                    foreach (var pt in group.Value)
+                    {
+                        pt.RawDescription = prefix + currentIndex.ToString();
+                    }
+
+                    if (ascending)
+                        currentIndex++;
+                    else
+                        currentIndex--;
+                }
+
+                tr.Commit();
+            }
+
+            AutocadDocumentService.Editor.WriteMessage("\nCOGO points renamed successfully.");
+        }
+
+
+        private static double GetAverageBoxSize(List<CogoPointGeometry> geometries)
+        {
+            if (geometries == null || geometries.Count == 0)
+                return 10.0;
+
+            double avgWidth = geometries.Average(g => g.PolylineExtent.MaxPoint.X - g.PolylineExtent.MinPoint.X);
+            double avgHeight = geometries.Average(g => g.PolylineExtent.MaxPoint.Y - g.PolylineExtent.MinPoint.Y);
+
+            return Math.Max((avgWidth + avgHeight) * 0.5, 1.0);
         }
 
 
@@ -872,7 +1023,7 @@ namespace Civil3DToolbox
                 string[] headers =
                 {
             "Id", "StationCenter", "StationMin", "StationMax",
-            "Description", "Length", "Count",
+            "Full Name", "ElementName", "SegmentName", "DivisionName", "Length", "Count",
             "Sum", "Average", "Min", "Max",
             "X(center)", "Y(center)"
         };
@@ -892,15 +1043,20 @@ namespace Civil3DToolbox
                     excelRow.CreateCell(2).SetCellValue(row.StationMin);
                     excelRow.CreateCell(3).SetCellValue(row.StationMax);
                     excelRow.CreateCell(4).SetCellValue(row.Description ?? "");
-                    excelRow.CreateCell(5).SetCellValue(row.Length);
-                    excelRow.CreateCell(6).SetCellValue(row.Count);
-                    excelRow.CreateCell(7).SetCellValue(row.ElevationDifferenceSum);
-                    excelRow.CreateCell(8).SetCellValue(row.ElevationDifferenceAverage);
-                    excelRow.CreateCell(9).SetCellValue(row.ElevationDifferenceMin);
-                    excelRow.CreateCell(10).SetCellValue(row.ElevationDifferenceMax);
-                    excelRow.CreateCell(11).SetCellValue(row.BoxCenterX);
-                    excelRow.CreateCell(12).SetCellValue(row.BoxCenterY);
+                    excelRow.CreateCell(5).SetCellValue(row.ElementName ?? "");
+                    excelRow.CreateCell(6).SetCellValue(row.SegmentName ?? "");
+                    excelRow.CreateCell(7).SetCellValue(row.DivisionName ?? "");
+                    excelRow.CreateCell(8).SetCellValue(Math.Round(row.Length, 6));
+                    excelRow.CreateCell(9).SetCellValue(row.Count);
+                    excelRow.CreateCell(10).SetCellValue(row.ElevationDifferenceSum);
+                    excelRow.CreateCell(11).SetCellValue(row.ElevationDifferenceAverage);
+                    excelRow.CreateCell(12).SetCellValue(row.ElevationDifferenceMin);
+                    excelRow.CreateCell(13).SetCellValue(row.ElevationDifferenceMax);
+                    excelRow.CreateCell(14).SetCellValue(row.BoxCenterX);
+                    excelRow.CreateCell(15).SetCellValue(row.BoxCenterY);
                 }
+
+                sheet.SetAutoFilter(new NPOI.SS.Util.CellRangeAddress(0, rowIndex - 1, 0, headers.Length - 1));
 
                 // Auto-size columns
                 for (int i = 0; i < headers.Length; i++)

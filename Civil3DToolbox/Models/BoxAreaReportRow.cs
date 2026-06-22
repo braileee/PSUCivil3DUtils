@@ -8,7 +8,7 @@ namespace Civil3DToolbox.Models
 {
     public class BoxAreaReportRow
     {
-        public int Id { get; set; }
+        public uint Id { get; set; }
 
         public double StationCenter { get; set; }
         public double StationMax { get; set; }
@@ -24,5 +24,8 @@ namespace Civil3DToolbox.Models
         public double BoxCenterX { get; set; }
         public double BoxCenterY { get; set; }
         public double ElevationDifferenceSum { get; internal set; }
+        public string ElementName { get; internal set; }
+        public string DivisionName { get; internal set; }
+        public string SegmentName { get; internal set; }
     }
 }
