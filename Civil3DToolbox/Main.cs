@@ -645,31 +645,35 @@ namespace Civil3DToolbox
                 ed.WriteMessage($"\nComparison Surface: {comparisonSurface.Name}");
 
                 Alignment alignment = AlignmentUtils.GetAlignment("\nSelect alignment");
+
                 if (comparisonSurface == null)
                 {
                     log.Warning("Alignment not selected.");
                     return;
                 }
 
-                log.Information($"Alignment: {mainSurface.Name}");
+                log.Information($"Alignment: {alignment.Name}");
 
                 List<CogoPoint> points = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForRead);
                 log.Information($"Selected COGO points: {points?.Count ?? 0}");
 
                 List<BoxArea> boxAreas = new List<BoxArea>();
 
+                List<CogoPointGeometry> cogoPointGeometries = new List<CogoPointGeometry>();
+
+                TinSurfaceTriangleCollection triangles = mainSurface.GetTriangles(false);
+
                 using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
                 {
                     log.Information("Transaction started.");
 
-                    TinSurfaceTriangleCollection triangles = mainSurface.GetTriangles(false);
                     log.Information($"Triangles count: {triangles.Count}");
 
                     int i = 0;
 
                     foreach (CogoPoint point in points)
                     {
-                        log.Information($"Processing COGO point #{i + 1} (Handle: {point.Handle})");
+                        log.Information($"Detect extents for COGO point #{i + 1} (Handle: {point.Handle})");
 
                         BlockTableRecord btr = point.GetMarkerBlockTableReceord(tr);
                         var blockEntities = btr.GetEntitiesInside(tr);
@@ -688,35 +692,75 @@ namespace Civil3DToolbox
 
                         Extents3d ext = newPl.GeometricExtents;
 
-                        var polyPts = new Point2d[newPl.NumberOfVertices];
-                        for (int k = 0; k < polyPts.Length; k++)
-                            polyPts[k] = newPl.GetPoint2dAt(k);
+                        Point2d[] polylinePoints = new Point2d[newPl.NumberOfVertices];
+                        for (int k = 0; k < polylinePoints.Length; k++)
+                            polylinePoints[k] = newPl.GetPoint2dAt(k);
+
+                        cogoPointGeometries.Add(new CogoPointGeometry
+                        {
+                            CogoPoint = point,
+                            PolylineExtent = ext,
+                            PolylinePoints = polylinePoints
+                        });
+                    }
+
+                    tr.Commit();
+                    log.Information("Transaction committed.");
+                }
+
+                log.Information($"Filter triangles per total cogo points extents");
+
+                List<Point3d> extentPoints = new List<Point3d>();
+                extentPoints.AddRange(cogoPointGeometries.Select(item => item.PolylineExtent.MinPoint));
+                extentPoints.AddRange(cogoPointGeometries.Select(item => item.PolylineExtent.MaxPoint));
+
+                double minX = extentPoints.MinBy(item => item.X).X;
+                double maxX = extentPoints.MaxBy(item => item.X).X;
+
+                double minY = extentPoints.MinBy(item => item.Y).Y;
+                double maxY = extentPoints.MaxBy(item => item.Y).Y;
+
+                Extents3d totalExtent = new Extents3d(new Point3d(minX, minY, 0), new Point3d(maxX, maxY, 0));
+
+                List<TinSurfaceTriangle> filteredTriangles = triangles.Where(triangle => !TriangleOutsideExtents(triangle, totalExtent)).ToList();
+
+                log.Information($"Triangles have been filtered, initial amount: {triangles.Count}, filtered amount: {filteredTriangles.Count}");
+
+                using (Transaction tr = doc.Database.TransactionManager.StartTransaction())
+                {
+                    log.Information("Transaction started.");
+
+                    int i = 0;
+
+                    foreach (CogoPointGeometry pointGeometry in cogoPointGeometries)
+                    {
+                        log.Information($"Detect MAIN surface points inside cogo point extents #{i + 1} (Handle: {pointGeometry.CogoPoint.Handle})");
 
                         var uniquePoints = new HashSet<Point3d>(new Point3dComparer(0.01));
 
                         int trianglesChecked = 0;
                         int pointsInside = 0;
 
-                        foreach (TinSurfaceTriangle tri in triangles)
+                        foreach (TinSurfaceTriangle triangle in filteredTriangles)
                         {
                             trianglesChecked++;
 
-                            if (TriangleOutsideExtents(tri, ext))
+                            if (TriangleOutsideExtents(triangle, pointGeometry.PolylineExtent))
                                 continue;
 
                             Point3d[] triPts =
                             {
-                        tri.Vertex1.Location,
-                        tri.Vertex2.Location,
-                        tri.Vertex3.Location
-                    };
+                                triangle.Vertex1.Location,
+                                triangle.Vertex2.Location,
+                                triangle.Vertex3.Location
+                            };
 
                             foreach (Point3d pt in triPts)
                             {
                                 if (uniquePoints.Contains(pt))
                                     continue;
 
-                                if (IsPointInsidePolyline(polyPts, new Point2d(pt.X, pt.Y)))
+                                if (IsPointInsidePolyline(pointGeometry.PolylinePoints, new Point2d(pt.X, pt.Y)))
                                 {
                                     uniquePoints.Add(pt);
                                     pointsInside++;
@@ -743,12 +787,12 @@ namespace Civil3DToolbox
 
                         double station = 0;
                         double offset = 0;
-                        alignment.StationOffset(point.Location.X, point.Location.Y, ref station, ref offset);
+                        alignment.StationOffset(pointGeometry.CogoPoint.Location.X, pointGeometry.CogoPoint.Location.Y, ref station, ref offset);
 
                         boxAreas.Add(new BoxArea
                         {
                             Id = ++i,
-                            MainCogoPoint = point,
+                            MainCogoPoint = pointGeometry.CogoPoint,
                             MainComparisonPointPairs = pairs,
                             StationBoxCenter = station,
                         });
