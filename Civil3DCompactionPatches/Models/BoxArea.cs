@@ -1,12 +1,14 @@
-﻿using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using Autodesk.Civil.DatabaseServices;
+using Civil3DCompactionPatches.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DToolbox.Models
+namespace Civil3DCompactionPatches.Models
 {
     public class BoxArea
     {
@@ -86,6 +88,7 @@ namespace Civil3DToolbox.Models
         public double StationBoxCenter { get; set; }
         public double StationBoxMin { get; set; }
         public double StationBoxMax { get; set; }
+        public Polyline Polyline { get; internal set; }
 
         public double GetAverage()
         {

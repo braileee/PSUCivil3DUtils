@@ -182,6 +182,25 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+					AppDescription="Civil3DCompactionPatches"
+					ModuleName="./2019/Contents/Civil3DCompactionPatches.dll"
+					LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+						 Global="Civil3DCompactionPatchesHeatmap"
+						 Description="Civil3DCompactionPatchesHeatmap" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2019/Contents/MahApps.Metro.dll"
@@ -364,7 +383,26 @@
 						 Description="Civil3DCorridorReport" />
 			</Commands>
 		</ComponentEntry>
-		
+
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2020/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2020/Contents/MahApps.Metro.dll"
@@ -547,7 +585,26 @@
 						 Description="Civil3DCorridorReport" />
 			</Commands>
 		</ComponentEntry>
-		
+
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2021/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2021/Contents/MahApps.Metro.dll"
@@ -729,6 +786,25 @@
 				<Command Local="Civil3DCorridorReport"
 						 Global="Civil3DCorridorReport"
 						 Description="Civil3DCorridorReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2022/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
 			</Commands>
 		</ComponentEntry>
 
@@ -916,6 +992,25 @@
 			</Commands>
 		</ComponentEntry>
 
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2023/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
+			</Commands>
+		</ComponentEntry>
+
 		<ComponentEntry AppName="MahApps.Metro"
 				AppDescription="MahApps.Metro"
 				ModuleName="./2023/Contents/MahApps.Metro.dll"
@@ -1097,6 +1192,25 @@
 				<Command Local="Civil3DCorridorReport"
 						 Global="Civil3DCorridorReport"
 						 Description="Civil3DCorridorReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2024/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
 			</Commands>
 		</ComponentEntry>
 
@@ -1284,6 +1398,25 @@
 				<Command Local="Civil3DCorridorReport"
 						 Global="Civil3DCorridorReport"
 						 Description="Civil3DCorridorReport" />
+			</Commands>
+		</ComponentEntry>
+
+		<ComponentEntry AppName="Civil3DCompactionPatches"
+			AppDescription="Civil3DCompactionPatches"
+			ModuleName="./2025/Contents/Civil3DCompactionPatches.dll"
+			LoadOnCommandInvocation ="True" LoadOnRequest="True">
+			<Commands GroupName="PSV">
+				<Command Local="Civil3DCompactionPatchesReport"
+						 Global="Civil3DCompactionPatchesReport"
+						 Description="Civil3DCompactionPatchesReport" />
+
+				<Command Local="Civil3DCompactionPatchesIndexPerStation"
+						 Global="Civil3DCompactionPatchesIndexPerStation"
+						 Description="Civil3DCompactionPatchesIndexPerStation" />
+
+				<Command Local="Civil3DCompactionPatchesHeatmap"
+					 Global="Civil3DCompactionPatchesHeatmap"
+					 Description="Civil3DCompactionPatchesHeatmap" />
 			</Commands>
 		</ComponentEntry>
 

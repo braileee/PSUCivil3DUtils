@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DToolbox.Models
+namespace Civil3DCompactionPatches.Models
 {
     public class Point3dComparer : IEqualityComparer<Point3d>
     {

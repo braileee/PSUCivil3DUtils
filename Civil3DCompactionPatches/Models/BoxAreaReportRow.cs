@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Civil3DToolbox.Models
+namespace Civil3DCompactionPatches.Models
 {
     public class BoxAreaReportRow
     {
@@ -27,5 +27,6 @@ namespace Civil3DToolbox.Models
         public string ElementName { get; internal set; }
         public string DivisionName { get; internal set; }
         public string SegmentName { get; internal set; }
+        public BoxArea Model { get; internal set; }
     }
 }
