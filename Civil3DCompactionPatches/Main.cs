@@ -275,7 +275,14 @@ namespace Civil3DCompactionPatches
 
                     if (doGenerateHeatmap)
                     {
-                        GenerateHeatmap(boxAreaReportRows, log);
+                        List<HeightRange> heightRanges = GenerateHeatmap(boxAreaReportRows, log);
+
+                        Point3d? legendPoint = PromptUtils.PromptPoint();
+
+                        if (legendPoint.HasValue)
+                        {
+                            HeightRangeGenerator.DrawLegend(heightRanges, legendPoint.Value);
+                        }
                     }
 
                     tr.Commit();
@@ -402,11 +409,13 @@ namespace Civil3DCompactionPatches
             AutocadDocumentService.Editor.WriteMessage("\nCOGO points renamed successfully.");
         }
 
-        public void GenerateHeatmap(List<BoxAreaReportRow> boxAreaReportRows, Log log)
+        public List<HeightRange> GenerateHeatmap(List<BoxAreaReportRow> boxAreaReportRows, Log log)
         {
+            List<HeightRange> heightRanges = new List<HeightRange>();
+
             if (boxAreaReportRows.Count == 0)
             {
-                return;
+                return heightRanges;
             }
 
             log.Information("Heatmap generation started.");
@@ -429,10 +438,10 @@ namespace Civil3DCompactionPatches
 
                 BlockTableRecord blockTableRecord = (BlockTableRecord)tr.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
 
-                double heightMin = boxAreaReportRows.MinBy(row => row.ElevationDifferenceMin).ElevationDifferenceMin;
-                double heightMax = boxAreaReportRows.MaxBy(row => row.ElevationDifferenceMax).ElevationDifferenceMax;
+                double heightMin = boxAreaReportRows.MinBy(row => row.ElevationDifferenceAverage).ElevationDifferenceAverage;
+                double heightMax = boxAreaReportRows.MaxBy(row => row.ElevationDifferenceAverage).ElevationDifferenceAverage;
 
-                List<HeightRange> heightRanges = HeightRangeGenerator.Generate(heightMin, heightMax, step: 0.1);
+                heightRanges = HeightRangeGenerator.Generate(heightMin, heightMax, step: 0.1);
 
                 foreach (BoxAreaReportRow row in boxAreaReportRows)
                 {
@@ -447,11 +456,13 @@ namespace Civil3DCompactionPatches
 
                     HeightRange currentRange = HeightRangeGenerator.FindRange(row.ElevationDifferenceAverage, heightRanges);
 
-                    hatch.ColorIndex = currentRange.ColorIndex;
+                    hatch.Color = currentRange.Color;
                 }
 
                 tr.Commit();
             }
+
+            return heightRanges;
         }
 
         private static double GetAverageBoxSize(List<CogoPointGeometry> geometries)
