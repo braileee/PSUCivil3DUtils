@@ -24,27 +24,6 @@ namespace Civil3DCompactionPatches.Models
     (160,   0, 255)  // Purple
 };
 
-        private static readonly Color[] DistinctPalette =
-      {
-    Color.FromRgb(0, 0, 255),
-    Color.FromRgb(0, 120, 255),
-    Color.FromRgb(0, 200, 255),
-    Color.FromRgb(0, 200, 120),
-    Color.FromRgb(0, 180, 0),
-    Color.FromRgb(120, 220, 0),
-    Color.FromRgb(200, 255, 0),
-    Color.FromRgb(255, 255, 0),
-    Color.FromRgb(255, 200, 0),
-    Color.FromRgb(255, 150, 0),
-    Color.FromRgb(255, 80, 0),
-    Color.FromRgb(255, 0, 0),
-    Color.FromRgb(255, 0, 120),
-    Color.FromRgb(255, 0, 200),
-    Color.FromRgb(200, 0, 255),
-    Color.FromRgb(160, 0, 255)
-};
-
-
         public static List<HeightRange> Generate(
      double min,
      double max,
@@ -201,15 +180,6 @@ namespace Civil3DCompactionPatches.Models
             }
         }
 
-        private static double ColorDistance((byte r, byte g, byte b) c1, (byte r, byte g, byte b) c2)
-        {
-            int dr = c1.r - c2.r;
-            int dg = c1.g - c2.g;
-            int db = c1.b - c2.b;
-
-            return Math.Sqrt(dr * dr + dg * dg + db * db);
-        }
-
         private static Color GetGradientColor(int index, int total)
         {
             // ✅ safety fallback
@@ -249,29 +219,6 @@ namespace Civil3DCompactionPatches.Models
 
             return Color.FromRgb(r, g, b);
         }
-
-        private static Color HsvToRgb(double h, double s, double v)
-        {
-            double c = v * s;
-            double x = c * (1 - Math.Abs((h / 60.0 % 2) - 1));
-            double m = v - c;
-
-            double r = 0, g = 0, b = 0;
-
-            if (h < 60) { r = c; g = x; b = 0; }
-            else if (h < 120) { r = x; g = c; b = 0; }
-            else if (h < 180) { r = 0; g = c; b = x; }
-            else if (h < 240) { r = 0; g = x; b = c; }
-            else if (h < 300) { r = x; g = 0; b = c; }
-            else { r = c; g = 0; b = x; }
-
-            byte R = (byte)((r + m) * 255);
-            byte G = (byte)((g + m) * 255);
-            byte B = (byte)((b + m) * 255);
-
-            return Color.FromRgb(R, G, B);
-        }
-
 
         private static string FormatRange(HeightRange range)
         {
