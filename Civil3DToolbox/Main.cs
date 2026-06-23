@@ -299,6 +299,73 @@ namespace Civil3DToolbox
             }
         }
 
+        [CommandMethod("PSV", "CreateCOGOPointsFromBlocks", CommandFlags.Modal)]
+        public static void CreateCOGOPointsFromBlocks()
+        {
+            try
+            {
+                List<BlockReference> blockReferences =
+                    SelectionUtils.GetElements<BlockReference>("Select blocks");
+
+                string description =
+                    PromptUtils.PromptString("Input raw description:");
+
+                if (string.IsNullOrWhiteSpace(description))
+                    return;
+
+                PromptKeywordOptions promptRotation = new PromptKeywordOptions("\nApply block reference rotation to cogo points [Yes/No]: ", "Yes No")
+                {
+                    AllowNone = false
+                };
+
+                var rotationResult = AutocadDocumentService.Editor.GetKeywords(promptRotation);
+                if (rotationResult.Status != PromptStatus.OK) return;
+
+                bool applyRotation = rotationResult.StringResult == "Yes";
+
+                List<Point3d> points = new List<Point3d>();
+                List<double> rotations = new List<double>();
+
+                using (Transaction transaction =
+                       AutocadDocumentService.TransactionManager.StartTransaction())
+                {
+                    foreach (BlockReference blockReference in blockReferences)
+                    {
+                        points.Add(blockReference.Position);
+
+                        if (applyRotation)
+                        {
+                            // Store rotation (in radians)
+                            rotations.Add(blockReference.Rotation);
+                        }
+                        else
+                        {
+                            rotations.Add(0.0);
+                        }
+                    }
+
+                    List<CogoPoint> cogoPoints =
+                        CogoPointUtils.CreateCogoPoints(points, description);
+
+                    // ✅ Apply rotation to created COGO points
+                    if (applyRotation && cogoPoints != null)
+                    {
+                        for (int i = 0; i < cogoPoints.Count; i++)
+                        {
+                            cogoPoints[i].LabelRotation = rotations[i];
+                            cogoPoints[i].MarkerRotation = rotations[i];
+                        }
+                    }
+
+                    transaction.Commit();
+                }
+            }
+            catch (System.Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+        }
+
         [CommandMethod("PSV", "SetMinMaxElevationsSectionViews", CommandFlags.Modal)]
         public static void SetMinMaxElevationsSectionViews()
         {
