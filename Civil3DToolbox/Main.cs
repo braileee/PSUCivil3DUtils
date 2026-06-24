@@ -563,7 +563,6 @@ namespace Civil3DToolbox
         }
 
         [CommandMethod("PSV", "CogoPointsStationToAlignment", CommandFlags.Modal)]
-
         public static void CogoPointsStationToAlignment()
         {
             CivilDocument civDoc = CivilDocument.GetCivilDocument(AutocadDocumentService.Database);
@@ -675,6 +674,54 @@ namespace Civil3DToolbox
             }
         }
 
-        
+        [CommandMethod("PSV", "RenameCogoPointRawDescription", CommandFlags.Modal)]
+        public static void RenameCogoPointRawDescription()
+        {
+            List<CogoPoint> cogoPoints = CogoPointUtils.PromptMultipleCogoPoints(OpenMode.ForWrite);
+
+            using (Transaction tr = AutocadDocumentService.TransactionManager.StartTransaction())
+            {
+                foreach (CogoPoint cogoPoint in cogoPoints)
+                {
+                    if (cogoPoint == null)
+                        continue;
+
+                    string rawDesc = cogoPoint.RawDescription;
+
+                    if (string.IsNullOrEmpty(rawDesc))
+                        continue;
+
+                    string newDesc = PadLastNumber(rawDesc);
+
+                    if (newDesc != rawDesc)
+                    {
+                        cogoPoint.RawDescription = newDesc;
+                        AutocadDocumentService.Editor.WriteMessage($"\nUpdated: {rawDesc} → {newDesc}");
+                    }
+                }
+
+                tr.Commit();
+            }
+        }
+
+        private static string PadLastNumber(string input)
+        {
+            string[] parts = input.Split('-');
+
+            if (parts.Length < 1)
+                return input;
+
+            int lastIndex = parts.Length - 1;
+
+            if (int.TryParse(parts[lastIndex], out int number))
+            {
+                // Format to 2 digits
+                parts[lastIndex] = number.ToString("00");
+                return string.Join("-", parts);
+            }
+
+            return input;
+        }
+
     }
 }

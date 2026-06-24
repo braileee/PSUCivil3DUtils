@@ -16,7 +16,7 @@ namespace Civil3DCompactionPatches.Models
         {
             get
             {
-                return MainPoint.Z - ComparisonPoint.Z;
+                return ComparisonPoint.Z - MainPoint.Z;
             }
         }
     }

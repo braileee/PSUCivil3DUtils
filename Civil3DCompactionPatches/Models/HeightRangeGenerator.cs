@@ -12,65 +12,30 @@ namespace Civil3DCompactionPatches.Models
     public static class HeightRangeGenerator
     {
 
-        private static readonly (byte r, byte g, byte b)[] GradientAnchors =
+        public static List<HeightRange> Generate()
         {
- (0,   0, 255),   // Blue
-    (0, 255, 255),   // Cyan
-    (0, 255,   0),   // Green
-    (255, 255, 0),   // Yellow
-    (255, 150, 0),   // Orange
-    (255,   0,   0), // Red
-    (255,   0, 200), // Magenta
-    (160,   0, 255)  // Purple
-};
+            return new List<HeightRange>
+    {
+        new HeightRange { From = double.MinValue, To = 0.4, Color = Color.FromRgb(0, 0, 255) },
 
-        public static List<HeightRange> Generate(
-     double min,
-     double max,
-     double step = 0.1)
-        {
-            var ranges = new List<HeightRange>();
+        new HeightRange { From = 0.4, To = 0.5, Color = Color.FromRgb(0, 180, 255) },
+        new HeightRange { From = 0.5, To = 0.6, Color = Color.FromRgb(150, 220, 220) },
+        new HeightRange { From = 0.6, To = 0.7, Color = Color.FromRgb(0, 255, 0) },
+        new HeightRange { From = 0.7, To = 0.8, Color = Color.FromRgb(140, 220, 140) },
+        new HeightRange { From = 0.8, To = 0.9, Color = Color.FromRgb(0, 170, 0) },
 
-            double roundedMin = Math.Floor(min / step) * step;
-            double roundedMax = Math.Ceiling(max / step) * step;
+        new HeightRange { From = 0.9, To = 1.0, Color = Color.FromRgb(230, 230, 120) },
+        new HeightRange { From = 1.0, To = 1.1, Color = Color.FromRgb(255, 255, 0) },
+        new HeightRange { From = 1.1, To = 1.2, Color = Color.FromRgb(255, 200, 0) },
+        new HeightRange { From = 1.2, To = 1.3, Color = Color.FromRgb(255, 150, 0) },
+        new HeightRange { From = 1.3, To = 1.4, Color = Color.FromRgb(255, 100, 0) },
 
-            int stepsCount = (int)Math.Ceiling((roundedMax - roundedMin) / step);
+        new HeightRange { From = 1.4, To = 1.5, Color = Color.FromRgb(255, 0, 0) },
+        new HeightRange { From = 1.5, To = 1.6, Color = Color.FromRgb(200, 0, 0) },
+        new HeightRange { From = 1.6, To = 1.85, Color = Color.FromRgb(255, 0, 200) },
 
-            // UNDERFLOW
-            ranges.Add(new HeightRange
-            {
-                From = double.MinValue,
-                To = roundedMin,
-                Color = Color.FromRgb(0, 0, 150) // dark blue
-            });
-
-            int index = 0;
-
-            for (double start = roundedMin; start < roundedMax; start += step)
-            {
-                double end = Math.Round(start + step, 10);
-
-                Color color = GetGradientColor(index, stepsCount);
-
-                ranges.Add(new HeightRange
-                {
-                    From = Math.Round(start, 10),
-                    To = end,
-                    Color = color
-                });
-
-                index++;
-            }
-
-            // OVERFLOW
-            ranges.Add(new HeightRange
-            {
-                From = roundedMax,
-                To = double.MaxValue,
-                Color = Color.FromRgb(120, 0, 120) // purple
-            });
-
-            return ranges;
+        new HeightRange { From = 1.85, To = double.MaxValue, Color = Color.FromRgb(150, 0, 200) }
+    };
         }
 
         public static HeightRange FindRange(double value, List<HeightRange> ranges)
@@ -180,55 +145,15 @@ namespace Civil3DCompactionPatches.Models
             }
         }
 
-        private static Color GetGradientColor(int index, int total)
-        {
-            // ✅ safety fallback
-            if (GradientAnchors == null || GradientAnchors.Length < 2)
-                return Color.FromRgb(255, 0, 0);
-
-            if (total <= 1)
-                return Color.FromRgb(
-                    GradientAnchors[0].r,
-                    GradientAnchors[0].g,
-                    GradientAnchors[0].b);
-
-            int segmentCount = GradientAnchors.Length - 1;
-
-            // normalize
-            double t = (double)index / (total - 1);
-
-            // clamp properly
-            t = Math.Max(0.0, Math.Min(1.0, t));
-
-            double scaled = t * segmentCount;
-
-            int segIndex = (int)Math.Floor(scaled);
-
-            // ✅ critical fix: clamp index safely
-            if (segIndex >= segmentCount)
-                segIndex = segmentCount - 1;
-
-            double localT = scaled - segIndex;
-
-            var c1 = GradientAnchors[segIndex];
-            var c2 = GradientAnchors[segIndex + 1];
-
-            byte r = (byte)(c1.r + (c2.r - c1.r) * localT);
-            byte g = (byte)(c1.g + (c2.g - c1.g) * localT);
-            byte b = (byte)(c1.b + (c2.b - c1.b) * localT);
-
-            return Color.FromRgb(r, g, b);
-        }
-
         private static string FormatRange(HeightRange range)
         {
             if (range.From == double.MinValue)
-                return $"< {range.To:F3}";
+                return $"<{range.To:0.##}";
 
             if (range.To == double.MaxValue)
-                return $"> {range.From:F3}";
+                return $">{range.From:0.##}";
 
-            return $"{range.From:F3} - {range.To:F3}";
+            return $"{range.From:0.##}-{range.To:0.##}";
         }
     }
 }

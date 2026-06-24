@@ -441,7 +441,7 @@ namespace Civil3DCompactionPatches
                 double heightMin = boxAreaReportRows.MinBy(row => row.ElevationDifferenceAverage).ElevationDifferenceAverage;
                 double heightMax = boxAreaReportRows.MaxBy(row => row.ElevationDifferenceAverage).ElevationDifferenceAverage;
 
-                heightRanges = HeightRangeGenerator.Generate(heightMin, heightMax, step: 0.1);
+                heightRanges = HeightRangeGenerator.Generate();
 
                 foreach (BoxAreaReportRow row in boxAreaReportRows)
                 {
