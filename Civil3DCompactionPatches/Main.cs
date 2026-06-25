@@ -10,11 +10,13 @@ using Civil3DCompactionPatches.Models;
 using Civil3DUtils;
 using Civil3DUtils.Utils;
 using CoreUtils;
+using MahApps.Metro.Controls;
 using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -93,7 +95,7 @@ namespace Civil3DCompactionPatches
 
                     foreach (CogoPoint point in points)
                     {
-                        log.Information($"Detect extents for COGO point (Handle: {point.Handle})");
+                        log.Information($"Detect extents for COGO point, number: {point.PointNumber} (Handle: {point.Handle})");
 
                         BlockTableRecord btr = point.GetMarkerBlockTableReceord(tr);
                         var blockEntities = btr.GetEntitiesInside(tr);
@@ -247,10 +249,16 @@ namespace Civil3DCompactionPatches
 
                     List<BoxAreaReportRow> boxAreaReportRows = new List<BoxAreaReportRow>();
 
+                    int position = 1;
+
+                    boxAreas = boxAreas.OrderBy(item => item.ElementName).ThenByDescending(item => item.SegmentName).ThenBy(item => item.DivisionName).ThenBy(item => item.RowPosition).ToList();
+
                     foreach (BoxArea boxArea in boxAreas)
                     {
                         boxAreaReportRows.Add(new BoxAreaReportRow
                         {
+                            Position = position.ToString("D6"),
+                            RowPosition = boxArea.RowPosition,
                             Model = boxArea,
                             Id = boxArea.Id,
                             Description = boxArea.Description,
@@ -269,6 +277,8 @@ namespace Civil3DCompactionPatches
                             StationMax = boxArea.StationBoxMax,
                             StationMin = boxArea.StationBoxMin
                         });
+
+                        position++;
                     }
 
                     ExportBoxAreasToExcel(boxAreaReportRows, drawingFolder, log);
@@ -333,21 +343,13 @@ namespace Civil3DCompactionPatches
 
             // 4️⃣ Starting index
             PromptIntegerOptions startOpts = new PromptIntegerOptions("\nEnter starting index: ");
-            startOpts.DefaultValue = 0;
+            startOpts.DefaultValue = 1;
 
             var startRes = AutocadDocumentService.Editor.GetInteger(startOpts);
             if (startRes.Status != PromptStatus.OK) return;
 
-            int currentIndex = startRes.Value;
+            int stationIndex = startRes.Value;
 
-            // 5️⃣ Ascending / Descending
-            PromptKeywordOptions orderOpts = new PromptKeywordOptions("\nIndex order [Ascending/Descending]: ", "Ascending Descending");
-            orderOpts.AllowNone = false;
-
-            var orderRes = AutocadDocumentService.Editor.GetKeywords(orderOpts);
-            if (orderRes.Status != PromptStatus.OK) return;
-
-            bool ascending = orderRes.StringResult == "Ascending";
 
             using (Transaction tr = AutocadDocumentService.Database.TransactionManager.StartTransaction())
             {
@@ -383,24 +385,25 @@ namespace Civil3DCompactionPatches
                 }
 
                 // 7️⃣ Sort groups by station
-                var sortedGroups = ascending
-                    ? stationGroups.OrderBy(g => g.Key)
-                    : stationGroups.OrderByDescending(g => g.Key);
+                var sortedGroups = stationGroups.OrderBy(g => g.Key);
 
-                // 8️⃣ Assign descriptions
+                // Assign index along the stations
                 foreach (var group in sortedGroups)
                 {
+                    int columnIndex = 0;
+
                     AutocadDocumentService.Editor.WriteMessage($"\nProcess point group, station {group.Key}, points count: {group.Value.Count}.");
                     // Optional: sort inside group (e.g. by offset or point number)
-                    foreach (var pt in group.Value)
+
+                    List<CogoPoint> points = group.Value.OrderBy(item => item.Location.X).ToList();
+
+                    foreach (var pt in points)
                     {
-                        pt.RawDescription = prefix + currentIndex.ToString();
+                        columnIndex++;
+                        pt.RawDescription = prefix + stationIndex.ToString("00") + "-" + columnIndex.ToString("00");
                     }
 
-                    if (ascending)
-                        currentIndex++;
-                    else
-                        currentIndex--;
+                        stationIndex++;
                 }
 
                 tr.Commit();
@@ -511,8 +514,8 @@ namespace Civil3DCompactionPatches
                 IRow header = sheet.CreateRow(rowIndex++);
                 string[] headers =
                 {
-            "Id", "StationCenter", "StationMin", "StationMax",
-            "Full Name", "ElementName", "SegmentName", "DivisionName", "Length", "Count",
+            "Position", "Id", "StationCenter", "StationMin", "StationMax",
+            "Full Name", "ElementName", "SegmentName", "DivisionName", "Row", "Length", "Count",
             "Sum", "Average", "Min", "Max",
             "X(center)", "Y(center)"
         };
@@ -527,22 +530,24 @@ namespace Civil3DCompactionPatches
                 {
                     IRow excelRow = sheet.CreateRow(rowIndex++);
 
-                    excelRow.CreateCell(0).SetCellValue(row.Id);
-                    excelRow.CreateCell(1).SetCellValue(row.StationCenter);
-                    excelRow.CreateCell(2).SetCellValue(row.StationMin);
-                    excelRow.CreateCell(3).SetCellValue(row.StationMax);
-                    excelRow.CreateCell(4).SetCellValue(row.Description ?? "");
-                    excelRow.CreateCell(5).SetCellValue(row.ElementName ?? "");
-                    excelRow.CreateCell(6).SetCellValue(row.SegmentName ?? "");
-                    excelRow.CreateCell(7).SetCellValue(row.DivisionName ?? "");
-                    excelRow.CreateCell(8).SetCellValue(Math.Round(row.Length, 6));
-                    excelRow.CreateCell(9).SetCellValue(row.Count);
-                    excelRow.CreateCell(10).SetCellValue(row.ElevationDifferenceSum);
-                    excelRow.CreateCell(11).SetCellValue(row.ElevationDifferenceAverage);
-                    excelRow.CreateCell(12).SetCellValue(row.ElevationDifferenceMin);
-                    excelRow.CreateCell(13).SetCellValue(row.ElevationDifferenceMax);
-                    excelRow.CreateCell(14).SetCellValue(row.BoxCenterX);
-                    excelRow.CreateCell(15).SetCellValue(row.BoxCenterY);
+                    excelRow.CreateCell(0).SetCellValue(row.Position);
+                    excelRow.CreateCell(1).SetCellValue(row.Id);
+                    excelRow.CreateCell(2).SetCellValue(row.StationCenter);
+                    excelRow.CreateCell(3).SetCellValue(row.StationMin);
+                    excelRow.CreateCell(4).SetCellValue(row.StationMax);
+                    excelRow.CreateCell(5).SetCellValue(row.Description ?? "");
+                    excelRow.CreateCell(6).SetCellValue(row.ElementName ?? "");
+                    excelRow.CreateCell(7).SetCellValue(row.SegmentName ?? "");
+                    excelRow.CreateCell(8).SetCellValue(row.DivisionName ?? "");
+                    excelRow.CreateCell(9).SetCellValue(row.RowPosition ?? "");
+                    excelRow.CreateCell(10).SetCellValue(Math.Round(row.Length, 6));
+                    excelRow.CreateCell(11).SetCellValue(row.Count);
+                    excelRow.CreateCell(12).SetCellValue(row.ElevationDifferenceSum);
+                    excelRow.CreateCell(13).SetCellValue(row.ElevationDifferenceAverage);
+                    excelRow.CreateCell(14).SetCellValue(row.ElevationDifferenceMin);
+                    excelRow.CreateCell(15).SetCellValue(row.ElevationDifferenceMax);
+                    excelRow.CreateCell(16).SetCellValue(row.BoxCenterX);
+                    excelRow.CreateCell(17).SetCellValue(row.BoxCenterY);
                 }
 
                 sheet.SetAutoFilter(new NPOI.SS.Util.CellRangeAddress(0, rowIndex - 1, 0, headers.Length - 1));

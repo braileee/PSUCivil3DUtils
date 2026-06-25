@@ -81,6 +81,26 @@ namespace Civil3DCompactionPatches.Models
             }
         }
 
+        public string RowPosition
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(Description))
+                {
+                    return string.Empty;
+                }
+
+                string[] parts = Description.Split('-');
+
+                if (parts.Length > 3)
+                {
+                    return parts[3];
+                }
+
+                return string.Empty;
+            }
+        }
+
         public CogoPoint MainCogoPoint { get; set; }
 
         public List<MainComparisonPointPair> MainComparisonPointPairs { get; set; } = new List<MainComparisonPointPair>();

@@ -19,12 +19,12 @@ namespace Civil3DCompactionPatches.Models
         new HeightRange { From = double.MinValue, To = 0.4, Color = Color.FromRgb(0, 0, 255) },
 
         new HeightRange { From = 0.4, To = 0.5, Color = Color.FromRgb(0, 180, 255) },
-        new HeightRange { From = 0.5, To = 0.6, Color = Color.FromRgb(150, 220, 220) },
+        new HeightRange { From = 0.5, To = 0.6, Color = Color.FromRgb(127, 255, 255) },
         new HeightRange { From = 0.6, To = 0.7, Color = Color.FromRgb(0, 255, 0) },
         new HeightRange { From = 0.7, To = 0.8, Color = Color.FromRgb(140, 220, 140) },
         new HeightRange { From = 0.8, To = 0.9, Color = Color.FromRgb(0, 170, 0) },
 
-        new HeightRange { From = 0.9, To = 1.0, Color = Color.FromRgb(230, 230, 120) },
+        new HeightRange { From = 0.9, To = 1.0, Color = Color.FromRgb(253, 255, 172) },
         new HeightRange { From = 1.0, To = 1.1, Color = Color.FromRgb(255, 255, 0) },
         new HeightRange { From = 1.1, To = 1.2, Color = Color.FromRgb(255, 200, 0) },
         new HeightRange { From = 1.2, To = 1.3, Color = Color.FromRgb(255, 150, 0) },
@@ -148,12 +148,12 @@ namespace Civil3DCompactionPatches.Models
         private static string FormatRange(HeightRange range)
         {
             if (range.From == double.MinValue)
-                return $"<{range.To:0.##}";
+                return $"<{range.To:0.0#}";
 
             if (range.To == double.MaxValue)
-                return $">{range.From:0.##}";
+                return $">{range.From:0.0#}";
 
-            return $"{range.From:0.##}-{range.To:0.##}";
+            return $"{range.From:0.0#}-{range.To:0.0#}";
         }
     }
 }

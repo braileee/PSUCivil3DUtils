@@ -28,5 +28,7 @@ namespace Civil3DCompactionPatches.Models
         public string DivisionName { get; internal set; }
         public string SegmentName { get; internal set; }
         public BoxArea Model { get; internal set; }
+        public string Position { get; internal set; }
+        public string RowPosition { get; internal set; }
     }
 }
