@@ -704,6 +704,168 @@ namespace Civil3DToolbox
             }
         }
 
+        [CommandMethod("PSV", "ExportImportSurfaceRangeDetails", CommandFlags.Modal)]
+        public static void ExportImportSurfaceRangeDetails()
+        {
+            try
+            {
+
+            
+            PromptKeywordOptions pko =
+                new PromptKeywordOptions(
+                    "\nChoose operation [Export/Import] ",
+                    "Export Import");
+
+            pko.AllowNone = false;
+
+            PromptResult pr =
+                AutocadDocumentService.Editor.GetKeywords(pko);
+
+            if (pr.Status != PromptStatus.OK)
+                return;
+
+            PromptEntityOptions peo =
+                new PromptEntityOptions("\nSelect a TIN Surface: ");
+
+            peo.SetRejectMessage("\nObject must be a TIN Surface.");
+            peo.AddAllowedClass(typeof(TinSurface), false);
+            peo.AddAllowedClass(typeof(TinVolumeSurface), false);
+
+            PromptEntityResult per =
+                AutocadDocumentService.Editor.GetEntity(peo);
+
+            if (per.Status != PromptStatus.OK)
+                return;
+
+            using (Transaction tr =
+                AutocadDocumentService.TransactionManager.StartTransaction())
+            {
+                Autodesk.Civil.DatabaseServices.Surface surface =
+    tr.GetObject(
+        per.ObjectId,
+        pr.StringResult == "Import"
+            ? OpenMode.ForWrite
+            : OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Surface;
+
+                if (surface == null)
+                    return;
+
+                SurfaceAnalysisElevationData[] ranges;
+
+                if (surface is TinSurface tinSurface)
+                {
+                    ranges = tinSurface.Analysis.GetElevationData();
+                }
+                else if (surface is TinVolumeSurface tinVolumeSurface)
+                {
+                    ranges = tinVolumeSurface.Analysis.GetElevationData();
+                }
+                else
+                {
+                    AutocadDocumentService.Editor.WriteMessage(
+                        "\nSelected surface type is not supported.");
+                    return;
+                }
+
+
+
+                string csvPath =
+                    Path.Combine(
+                        Environment.GetFolderPath(
+                            Environment.SpecialFolder.Desktop),
+                        $"{surface.Name}_ElevationRanges.csv");
+
+                if (pr.StringResult == "Export")
+                {
+                    ExportRanges(ranges, csvPath);
+
+                    AutocadDocumentService.Editor.WriteMessage(
+                        $"\nElevation ranges exported to:\n{csvPath}");
+                }
+                else
+                {
+                    if (!File.Exists(csvPath))
+                    {
+                        AutocadDocumentService.Editor.WriteMessage(
+                            $"\nCSV file not found:\n{csvPath}");
+                        return;
+                    }
+
+                    ImportRanges(surface, csvPath);
+
+                    AutocadDocumentService.Editor.WriteMessage(
+                        $"\nElevation ranges imported from:\n{csvPath}");
+                }
+
+                tr.Commit();
+            }
+
+            }
+            catch (System.Exception)
+            {
+                MessageBox.Show("Error");
+            }
+        }
+
+        private static void ExportRanges(
+            SurfaceAnalysisElevationData[] ranges,
+            string csvPath)
+        {
+            using (StreamWriter sw = new StreamWriter(csvPath))
+            {
+                sw.WriteLine("MinElevation,MaxElevation,R,G,B");
+
+
+                foreach (SurfaceAnalysisElevationData range in ranges)
+                {
+                    sw.WriteLine(
+                        $"{range.MinimumElevation}," +
+                        $"{range.MaximumElevation}," +
+                        $"{range.Scheme.Red}," +
+                        $"{range.Scheme.Green}," +
+                        $"{range.Scheme.Blue}");
+                }
+            }
+        }
+
+        private static void ImportRanges(
+            Autodesk.Civil.DatabaseServices.Surface surface,
+            string csvPath)
+        {
+            List<SurfaceAnalysisElevationData> ranges =
+                new List<SurfaceAnalysisElevationData>();
+
+            string[] lines = File.ReadAllLines(csvPath);
+
+            foreach (string line in lines.Skip(1))
+            {
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                string[] values = line.Split(',');
+
+                double minElevation =
+                    double.Parse(values[0], CultureInfo.InvariantCulture);
+
+                double maxElevation =
+                    double.Parse(values[1], CultureInfo.InvariantCulture);
+
+                byte r = byte.Parse(values[2]);
+                byte g = byte.Parse(values[3]);
+                byte b = byte.Parse(values[4]);
+
+                var color = Autodesk.AutoCAD.Colors.Color.FromRgb(r, g, b);
+
+                ranges.Add(
+                    new SurfaceAnalysisElevationData(
+                        minElevation,
+                        maxElevation,
+                        color));
+            }
+
+            surface.Analysis.SetElevationData(ranges.ToArray());
+        }
+
         private static string PadLastNumber(string input)
         {
             string[] parts = input.Split('-');
