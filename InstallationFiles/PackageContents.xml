@@ -194,10 +194,6 @@
 				<Command Local="Civil3DCompactionPatchesIndexPerStation"
 						 Global="Civil3DCompactionPatchesIndexPerStation"
 						 Description="Civil3DCompactionPatchesIndexPerStation" />
-
-				<Command Local="Civil3DCompactionPatchesHeatmap"
-						 Global="Civil3DCompactionPatchesHeatmap"
-						 Description="Civil3DCompactionPatchesHeatmap" />
 			</Commands>
 		</ComponentEntry>
 
