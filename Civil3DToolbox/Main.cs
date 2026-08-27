@@ -10,6 +10,10 @@ using Autodesk.Civil.DatabaseServices;
 using Civil3DToolbox.Models;
 using Civil3DUtils.Utils;
 using CoreUtils;
+using ExcelUtils;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -562,117 +566,467 @@ namespace Civil3DToolbox
             }
         }
 
-        [CommandMethod("PSV", "CogoPointsStationToAlignment", CommandFlags.Modal)]
+        [CommandMethod(
+            "PSV",
+            "CogoPointsStationToAlignment",
+            CommandFlags.Modal)]
         public static void CogoPointsStationToAlignment()
         {
-            CivilDocument civDoc = CivilDocument.GetCivilDocument(AutocadDocumentService.Database);
+            Editor editor = AutocadDocumentService.Editor;
+            Database database = AutocadDocumentService.Database;
 
             try
             {
-                // --- Select Alignment ---
-                PromptEntityOptions promptAlignment = new PromptEntityOptions("\nSelect alignment: ");
-                promptAlignment.SetRejectMessage("\nMust be an alignment.");
-                promptAlignment.AddAllowedClass(typeof(Alignment), exactMatch: false);
+                // ------------------------------------------------------------
+                // Select alignment
+                // ------------------------------------------------------------
 
-                PromptEntityResult resultAlignment = AutocadDocumentService.Editor.GetEntity(promptAlignment);
-                if (resultAlignment.Status != PromptStatus.OK) return;
+                PromptEntityOptions promptAlignment =
+                    new PromptEntityOptions("\nSelect alignment: ");
 
-                ObjectId alignmentId = resultAlignment.ObjectId;
+                promptAlignment.SetRejectMessage(
+                    "\nSelected object must be an alignment.");
 
-                // Reverse offset sign
-                PromptKeywordOptions promptReverseSign = new PromptKeywordOptions("\nReverse offset sign?");
-                promptReverseSign.Keywords.Add("Yes");
-                promptReverseSign.Keywords.Add("No");
+                promptAlignment.AddAllowedClass(
+                    typeof(Alignment),
+                    exactMatch: false);
 
-                // Optional: set default value
-                promptReverseSign.Keywords.Default = "No";
-                promptReverseSign.AllowNone = true;
+                PromptEntityResult alignmentResult =
+                    editor.GetEntity(promptAlignment);
 
-                // Display options like [Yes/No]
-                promptReverseSign.AppendKeywordsToMessage = true;
-
-                PromptResult resultReverseSign = AutocadDocumentService.Editor.GetKeywords(promptReverseSign);
-
-                if (resultReverseSign.Status != PromptStatus.OK)
-                    return;
-
-                bool reverseSign = resultReverseSign.StringResult == "Yes";
-
-                switch (resultReverseSign.StringResult)
+                if (alignmentResult.Status != PromptStatus.OK)
                 {
-                    case "Yes":
-                        AutocadDocumentService.Editor.WriteMessage("\nOffset sign will be reversed.");
-                        break;
-
-                    case "No":
-                        AutocadDocumentService.Editor.WriteMessage("\nOffset won't change.");
-                        break;
+                    return;
                 }
 
-                // --- Select COGO Points ---
-                PromptSelectionOptions pso = new PromptSelectionOptions();
-                pso.MessageForAdding = "\nSelect COGO points: ";
+                ObjectId alignmentId = alignmentResult.ObjectId;
 
-                SelectionFilter filter = new SelectionFilter(
-                    new TypedValue[] { new TypedValue(0, "AECC_COGO_POINT") }
-                );
+                // ------------------------------------------------------------
+                // Ask whether the offset sign should be reversed
+                // ------------------------------------------------------------
 
-                PromptSelectionResult psr = AutocadDocumentService.Editor.GetSelection(pso, filter);
-                if (psr.Status != PromptStatus.OK) return;
+                PromptKeywordOptions promptReverseSign =
+                    new PromptKeywordOptions(
+                        "\nReverse offset sign? [Yes/No] <No>: ");
 
-                // --- Ask for output TXT file path ---
-                PromptSaveFileOptions fileOptions = new PromptSaveFileOptions("\nSave output TXT file: ");
-                fileOptions.Filter = "Text File (*.txt)|*.txt";
+                promptReverseSign.Keywords.Add("Yes");
+                promptReverseSign.Keywords.Add("No");
+                promptReverseSign.Keywords.Default = "No";
 
-                PromptFileNameResult fileResult = AutocadDocumentService.Editor.GetFileNameForSave(fileOptions);
-                if (fileResult.Status != PromptStatus.OK) return;
+                promptReverseSign.AllowNone = true;
+                promptReverseSign.AppendKeywordsToMessage = false;
 
-                string filepath = fileResult.StringResult;
+                PromptResult reverseSignResult =
+                    editor.GetKeywords(promptReverseSign);
 
-                using (Transaction tr = AutocadDocumentService.Database.TransactionManager.StartTransaction())
-                using (StreamWriter sw = new StreamWriter(filepath))
+                if (reverseSignResult.Status != PromptStatus.OK &&
+                    reverseSignResult.Status != PromptStatus.None)
                 {
-                    Alignment alignment = tr.GetObject(alignmentId, OpenMode.ForRead) as Alignment;
+                    return;
+                }
 
-                    // Header line (optional)
-                    sw.WriteLine("PointNumber;Description;X;Y;AlignmentStation;Offset");
+                bool reverseSign =
+                    reverseSignResult.Status == PromptStatus.OK &&
+                    string.Equals(
+                        reverseSignResult.StringResult,
+                        "Yes",
+                        StringComparison.OrdinalIgnoreCase);
 
-                    foreach (SelectedObject selObj in psr.Value)
-                    {
-                        CogoPoint pt = tr.GetObject(selObj.ObjectId, OpenMode.ForRead) as CogoPoint;
+                if (reverseSign)
+                {
+                    editor.WriteMessage(
+                        "\nOffset sign will be reversed.");
+                }
+                else
+                {
+                    editor.WriteMessage(
+                        "\nOffset sign will not be changed.");
+                }
 
-                        if (pt != null)
+                // ------------------------------------------------------------
+                // Select COGO points
+                // ------------------------------------------------------------
+
+                PromptSelectionOptions selectionOptions =
+                    new PromptSelectionOptions();
+
+                selectionOptions.MessageForAdding =
+                    "\nSelect COGO points: ";
+
+                SelectionFilter selectionFilter =
+                    new SelectionFilter(
+                        new[]
                         {
-                            double station = 0;
-                            double offset = 0;
-                            // Compute closest station
-                            alignment.StationOffset(pt.Location.X, pt.Location.Y, ref station, ref offset);
+                    new TypedValue(
+                        (int)DxfCode.Start,
+                        "AECC_COGO_POINT")
+                        });
 
-                            offset = reverseSign ? -offset : offset;
+                PromptSelectionResult selectionResult =
+                    editor.GetSelection(
+                        selectionOptions,
+                        selectionFilter);
 
-                            string line = string.Format(
-                                "{0};{1};{2:F3};{3:F3};{4:F3};{5:F3}",
-                                pt.PointNumber,
-                                pt.RawDescription,
-                                pt.Easting,
-                                pt.Northing,
-                                station,
-                                offset
-                            );
+                if (selectionResult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
 
-                            sw.WriteLine(line);
-                        }
+                if (selectionResult.Value == null ||
+                    selectionResult.Value.Count == 0)
+                {
+                    editor.WriteMessage(
+                        "\nNo COGO points were selected.");
+
+                    return;
+                }
+
+                // ------------------------------------------------------------
+                // Ask for XLSX output path
+                // ------------------------------------------------------------
+
+                PromptSaveFileOptions fileOptions =
+                    new PromptSaveFileOptions(
+                        "\nSave output Excel file: ");
+
+                fileOptions.Filter =
+                    "Excel Workbook (*.xlsx)|*.xlsx";
+
+                fileOptions.DialogCaption =
+                    "Export COGO Points to Excel";
+
+                PromptFileNameResult fileResult =
+                    editor.GetFileNameForSave(fileOptions);
+
+                if (fileResult.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                string filePath = fileResult.StringResult;
+
+                if (string.IsNullOrWhiteSpace(filePath))
+                {
+                    return;
+                }
+
+                if (!filePath.EndsWith(
+                        ".xlsx",
+                        StringComparison.OrdinalIgnoreCase))
+                {
+                    filePath += ".xlsx";
+                }
+
+                // ------------------------------------------------------------
+                // Create XLSX workbook
+                // ------------------------------------------------------------
+
+                IWorkbook workbook = new XSSFWorkbook();
+
+                try
+                {
+                    ISheet sheet =
+                        workbook.CreateSheet("COGO Points");
+
+                    // Freeze the header row.
+                    sheet.CreateFreezePane(0, 1);
+
+                    // --------------------------------------------------------
+                    // Create styles
+                    // --------------------------------------------------------
+
+                    ICellStyle headerStyle =
+                        workbook.CreateHeaderStyle();
+
+                    ICellStyle integerStyle =
+                        workbook.CreateIntegerStyle();
+
+                    ICellStyle decimalStyle =
+                        workbook.CreateDecimalStyle(
+                            "0.000");
+
+                    ICellStyle stationStyle =
+                        workbook.CreateDecimalStyle(
+                            "0.000");
+
+                    // --------------------------------------------------------
+                    // Create header
+                    // --------------------------------------------------------
+
+                    string[] headers =
+                    {
+                "Point Number",
+                "Description",
+                "Easting (X)",
+                "Northing (Y)",
+                "Elevation (Z)",
+                "Alignment Station",
+                "Offset"
+            };
+
+                    IRow headerRow =
+                        sheet.CreateRow(0);
+
+                    headerRow.HeightInPoints = 22;
+
+                    for (int columnIndex = 0;
+                         columnIndex < headers.Length;
+                         columnIndex++)
+                    {
+                        ICell headerCell =
+                            headerRow.CreateCell(columnIndex);
+
+                        headerCell.SetCellValue(
+                            headers[columnIndex]);
+
+                        headerCell.CellStyle =
+                            headerStyle;
                     }
 
-                    tr.Commit();
-                    AutocadDocumentService.Editor.WriteMessage($"\nExport complete: {filepath}");
+                    int rowIndex = 1;
+                    int exportedCount = 0;
+                    int skippedCount = 0;
+
+                    // --------------------------------------------------------
+                    // Read Civil 3D objects and populate the workbook
+                    // --------------------------------------------------------
+
+                    using (Transaction transaction =
+                           database.TransactionManager.StartTransaction())
+                    {
+                        Alignment alignment =
+                            transaction.GetObject(
+                                alignmentId,
+                                OpenMode.ForRead) as Alignment;
+
+                        if (alignment == null)
+                        {
+                            throw new InvalidOperationException(
+                                "The selected alignment could not be opened.");
+                        }
+
+                        foreach (SelectedObject selectedObject
+                                 in selectionResult.Value)
+                        {
+                            if (selectedObject == null)
+                            {
+                                continue;
+                            }
+
+                            CogoPoint cogoPoint =
+                                transaction.GetObject(
+                                    selectedObject.ObjectId,
+                                    OpenMode.ForRead) as CogoPoint;
+
+                            if (cogoPoint == null)
+                            {
+                                skippedCount++;
+                                continue;
+                            }
+
+                            try
+                            {
+                                double station = 0.0;
+                                double offset = 0.0;
+
+                                alignment.StationOffset(
+                                    cogoPoint.Location.X,
+                                    cogoPoint.Location.Y,
+                                    ref station,
+                                    ref offset);
+
+                                if (reverseSign)
+                                {
+                                    offset = -offset;
+                                }
+
+                                IRow dataRow =
+                                    sheet.CreateRow(rowIndex);
+
+                                // Point number
+                                ICell pointNumberCell =
+                                    dataRow.CreateCell(0);
+
+                                pointNumberCell.SetCellValue(
+                                    Convert.ToDouble(
+                                        cogoPoint.PointNumber));
+
+                                pointNumberCell.CellStyle =
+                                    integerStyle;
+
+                                // Description
+                                ICell descriptionCell =
+                                    dataRow.CreateCell(1);
+
+                                descriptionCell.SetCellValue(
+                                    cogoPoint.RawDescription ??
+                                    string.Empty);
+
+                                // Easting
+                                ICell eastingCell =
+                                    dataRow.CreateCell(2);
+
+                                eastingCell.SetCellValue(
+                                    cogoPoint.Easting);
+
+                                eastingCell.CellStyle =
+                                    decimalStyle;
+
+                                // Northing
+                                ICell northingCell =
+                                    dataRow.CreateCell(3);
+
+                                northingCell.SetCellValue(
+                                    cogoPoint.Northing);
+
+                                northingCell.CellStyle =
+                                    decimalStyle;
+
+                                // Elevation
+                                ICell elevationCell =
+                                    dataRow.CreateCell(4);
+
+                                elevationCell.SetCellValue(
+                                    cogoPoint.Elevation);
+
+                                elevationCell.CellStyle =
+                                    decimalStyle;
+
+                                // Alignment station
+                                ICell stationCell =
+                                    dataRow.CreateCell(5);
+
+                                stationCell.SetCellValue(
+                                    station);
+
+                                stationCell.CellStyle =
+                                    stationStyle;
+
+                                // Offset
+                                ICell offsetCell =
+                                    dataRow.CreateCell(6);
+
+                                offsetCell.SetCellValue(
+                                    offset);
+
+                                offsetCell.CellStyle =
+                                    decimalStyle;
+
+                                rowIndex++;
+                                exportedCount++;
+                            }
+                            catch (System.Exception pointException)
+                            {
+                                skippedCount++;
+
+                                editor.WriteMessage(
+                                    "\nPoint " +
+                                    cogoPoint.PointNumber +
+                                    " was skipped: " +
+                                    pointException.Message);
+                            }
+                        }
+
+                        transaction.Commit();
+                    }
+
+                    if (exportedCount == 0)
+                    {
+                        throw new InvalidOperationException(
+                            "No COGO points could be exported.");
+                    }
+
+                    // --------------------------------------------------------
+                    // Add Excel auto-filter
+                    // ------------------------------------------------------------
+
+                    CellRangeAddress filterRange =
+                        new CellRangeAddress(
+                            0,
+                            rowIndex - 1,
+                            0,
+                            headers.Length - 1);
+
+                    sheet.SetAutoFilter(filterRange);
+
+                    // --------------------------------------------------------
+                    // Auto-size the columns
+                    // ------------------------------------------------------------
+
+                    for (int columnIndex = 0;
+                         columnIndex < headers.Length;
+                         columnIndex++)
+                    {
+                        sheet.AutoSizeColumn(columnIndex);
+
+                        double currentWidth =
+                            sheet.GetColumnWidth(columnIndex);
+
+                        double paddedWidth =
+                            Math.Min(
+                                currentWidth + 512,
+                                255 * 256);
+
+                        sheet.SetColumnWidth(
+                            columnIndex,
+                            paddedWidth);
+                    }
+
+                    // Set a minimum width for the description column.
+                    int minimumDescriptionWidth = 30 * 256;
+
+                    if (sheet.GetColumnWidth(1) <
+                        minimumDescriptionWidth)
+                    {
+                        sheet.SetColumnWidth(
+                            1,
+                            minimumDescriptionWidth);
+                    }
+
+                    // --------------------------------------------------------
+                    // Save the XLSX file
+                    // ------------------------------------------------------------
+
+                    using (FileStream fileStream =
+                           new FileStream(
+                               filePath,
+                               FileMode.Create,
+                               FileAccess.Write,
+                               FileShare.None))
+                    {
+                        workbook.Write(fileStream);
+                    }
+
+                    editor.WriteMessage(
+                        "\nExport completed successfully.");
+
+                    editor.WriteMessage(
+                        "\nFile: " + filePath);
+
+                    editor.WriteMessage(
+                        "\nExported COGO points: " +
+                        exportedCount);
+
+                    if (skippedCount > 0)
+                    {
+                        editor.WriteMessage(
+                            "\nSkipped COGO points: " +
+                            skippedCount);
+                    }
+                }
+                finally
+                {
+                    workbook.Close();
                 }
             }
             catch (System.Exception ex)
             {
-                AutocadDocumentService.Editor.WriteMessage("\nError: " + ex.Message);
+                editor.WriteMessage(
+                    "\nError exporting COGO points to Excel: " +
+                    ex.Message);
             }
         }
+
 
         [CommandMethod("PSV", "RenameCogoPointRawDescription", CommandFlags.Modal)]
         public static void RenameCogoPointRawDescription()
@@ -710,95 +1064,95 @@ namespace Civil3DToolbox
             try
             {
 
-            
-            PromptKeywordOptions pko =
-                new PromptKeywordOptions(
-                    "\nChoose operation [Export/Import] ",
-                    "Export Import");
 
-            pko.AllowNone = false;
+                PromptKeywordOptions pko =
+                    new PromptKeywordOptions(
+                        "\nChoose operation [Export/Import] ",
+                        "Export Import");
 
-            PromptResult pr =
-                AutocadDocumentService.Editor.GetKeywords(pko);
+                pko.AllowNone = false;
 
-            if (pr.Status != PromptStatus.OK)
-                return;
+                PromptResult pr =
+                    AutocadDocumentService.Editor.GetKeywords(pko);
 
-            PromptEntityOptions peo =
-                new PromptEntityOptions("\nSelect a TIN Surface: ");
-
-            peo.SetRejectMessage("\nObject must be a TIN Surface.");
-            peo.AddAllowedClass(typeof(TinSurface), false);
-            peo.AddAllowedClass(typeof(TinVolumeSurface), false);
-
-            PromptEntityResult per =
-                AutocadDocumentService.Editor.GetEntity(peo);
-
-            if (per.Status != PromptStatus.OK)
-                return;
-
-            using (Transaction tr =
-                AutocadDocumentService.TransactionManager.StartTransaction())
-            {
-                Autodesk.Civil.DatabaseServices.Surface surface =
-    tr.GetObject(
-        per.ObjectId,
-        pr.StringResult == "Import"
-            ? OpenMode.ForWrite
-            : OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Surface;
-
-                if (surface == null)
+                if (pr.Status != PromptStatus.OK)
                     return;
 
-                SurfaceAnalysisElevationData[] ranges;
+                PromptEntityOptions peo =
+                    new PromptEntityOptions("\nSelect a TIN Surface: ");
 
-                if (surface is TinSurface tinSurface)
-                {
-                    ranges = tinSurface.Analysis.GetElevationData();
-                }
-                else if (surface is TinVolumeSurface tinVolumeSurface)
-                {
-                    ranges = tinVolumeSurface.Analysis.GetElevationData();
-                }
-                else
-                {
-                    AutocadDocumentService.Editor.WriteMessage(
-                        "\nSelected surface type is not supported.");
+                peo.SetRejectMessage("\nObject must be a TIN Surface.");
+                peo.AddAllowedClass(typeof(TinSurface), false);
+                peo.AddAllowedClass(typeof(TinVolumeSurface), false);
+
+                PromptEntityResult per =
+                    AutocadDocumentService.Editor.GetEntity(peo);
+
+                if (per.Status != PromptStatus.OK)
                     return;
-                }
 
-
-
-                string csvPath =
-                    Path.Combine(
-                        Environment.GetFolderPath(
-                            Environment.SpecialFolder.Desktop),
-                        $"{surface.Name}_ElevationRanges.csv");
-
-                if (pr.StringResult == "Export")
+                using (Transaction tr =
+                    AutocadDocumentService.TransactionManager.StartTransaction())
                 {
-                    ExportRanges(ranges, csvPath);
+                    Autodesk.Civil.DatabaseServices.Surface surface =
+        tr.GetObject(
+            per.ObjectId,
+            pr.StringResult == "Import"
+                ? OpenMode.ForWrite
+                : OpenMode.ForRead) as Autodesk.Civil.DatabaseServices.Surface;
 
-                    AutocadDocumentService.Editor.WriteMessage(
-                        $"\nElevation ranges exported to:\n{csvPath}");
-                }
-                else
-                {
-                    if (!File.Exists(csvPath))
+                    if (surface == null)
+                        return;
+
+                    SurfaceAnalysisElevationData[] ranges;
+
+                    if (surface is TinSurface tinSurface)
+                    {
+                        ranges = tinSurface.Analysis.GetElevationData();
+                    }
+                    else if (surface is TinVolumeSurface tinVolumeSurface)
+                    {
+                        ranges = tinVolumeSurface.Analysis.GetElevationData();
+                    }
+                    else
                     {
                         AutocadDocumentService.Editor.WriteMessage(
-                            $"\nCSV file not found:\n{csvPath}");
+                            "\nSelected surface type is not supported.");
                         return;
                     }
 
-                    ImportRanges(surface, csvPath);
 
-                    AutocadDocumentService.Editor.WriteMessage(
-                        $"\nElevation ranges imported from:\n{csvPath}");
+
+                    string csvPath =
+                        Path.Combine(
+                            Environment.GetFolderPath(
+                                Environment.SpecialFolder.Desktop),
+                            $"{surface.Name}_ElevationRanges.csv");
+
+                    if (pr.StringResult == "Export")
+                    {
+                        ExportRanges(ranges, csvPath);
+
+                        AutocadDocumentService.Editor.WriteMessage(
+                            $"\nElevation ranges exported to:\n{csvPath}");
+                    }
+                    else
+                    {
+                        if (!File.Exists(csvPath))
+                        {
+                            AutocadDocumentService.Editor.WriteMessage(
+                                $"\nCSV file not found:\n{csvPath}");
+                            return;
+                        }
+
+                        ImportRanges(surface, csvPath);
+
+                        AutocadDocumentService.Editor.WriteMessage(
+                            $"\nElevation ranges imported from:\n{csvPath}");
+                    }
+
+                    tr.Commit();
                 }
-
-                tr.Commit();
-            }
 
             }
             catch (System.Exception)

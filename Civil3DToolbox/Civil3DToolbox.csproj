@@ -223,6 +223,7 @@
 		<ProjectReference Include="..\AutoCADUtils\AutoCADUtils.csproj" />
 		<ProjectReference Include="..\Civil3DUtils\Civil3DUtils.csproj" />
 		<ProjectReference Include="..\CoreUtils\CoreUtils.csproj" />
+		<ProjectReference Include="..\ExcelUtils\ExcelUtils.csproj" />
 	</ItemGroup>
 	
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
